@@ -49,6 +49,5 @@ export function isAndroid(): boolean {
 }
 
 export function isIOS(): boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
-    return /ip(hone|od|ad)/.test(getUserAgent()) && !(window as any).MSStream;
+    return /ip(hone|od|ad)/.test(getUserAgent());
 }
