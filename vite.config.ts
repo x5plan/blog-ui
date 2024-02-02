@@ -24,10 +24,10 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                entryFileNames: "[name].[hash].js",
+                entryFileNames: "scripts/[name].[hash].js",
                 chunkFileNames: "scripts/[name].[hash].js",
                 assetFileNames: "assets/[name].[hash].[ext]",
             },
-        }
+        },
     },
 });
