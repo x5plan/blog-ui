@@ -34,6 +34,6 @@ export function getPreferLanguage() {
 }
 
 export async function loadLocaleAsync(lang: CE_Language) {
-    const module = await import(`../../assets/locale/${lang}.js`);
+    const module = await import(`../../assets/locales/strings.${lang}.js`);
     return module.default as ILocalizedStrings;
 }
