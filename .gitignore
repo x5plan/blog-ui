@@ -23,3 +23,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Localized string files
+src/Features/LocalizedString/locale.d.ts
+src/Features/LocalizedString/Strings.ts
+src/assets/locales/

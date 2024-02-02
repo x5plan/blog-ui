@@ -2,19 +2,21 @@
   "name": "@x5plan/blog-ui",
   "private": false,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
+    "build:scripts": "tsc -p scripts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{js,cjs,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,cjs,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,cjs,ts,tsx}\" --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "i18n": "node ./scripts/dist/localized-string.js && eslint  --fix src/Features/LocalizedString/{locale.d,Strings}.ts src/assets/locales/*.js"
   },
   "devDependencies": {
     "@fluentui/react-components": "^9.46.0",
     "@reduxjs/toolkit": "^2.1.0",
-    "@types/node": "^20.11.5",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.16",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -27,6 +29,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "js-yaml": "^4.1.0",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

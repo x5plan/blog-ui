@@ -22,7 +22,11 @@ jobs:
       with:
         node-version: '18.x'
     - name: Install dependencies
-      run: yarn
+      run: yarn install
+    - name: Build Scripts
+      run: yarn build:scripts
+    - name: Generate Localized Strings
+      run: yarn i18n
     - name: Lint
       run: yarn lint
     - name: Build
