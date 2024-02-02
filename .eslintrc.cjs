@@ -7,7 +7,7 @@ module.exports = {
         ecmaVersion: 12,
         project: "tsconfig.json",
     },
-    ignorePatterns: [".eslintrc.cjs", "vite.config.ts"],
+    ignorePatterns: [".eslintrc.cjs", "vite.config.ts", "scripts/*"],
     plugins: ["@typescript-eslint/eslint-plugin", "simple-import-sort", "react-hooks"],
     extends: [
         "plugin:@typescript-eslint/recommended",

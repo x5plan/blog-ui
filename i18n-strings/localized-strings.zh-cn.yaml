@@ -1,0 +1,14 @@
+- name: HOME_PAGE_TITLE
+  value: 首页
+  description: A title for home page
+  raw: Home
+
+- name: SIGN_IN_TITLE
+  value: 登录
+  description: A text for sign in page title and button
+  raw: Sign in
+
+- name: SIGN_UP_TITLE
+  value: 注册
+  description: A text for sign up page title and button
+  raw: Sign up

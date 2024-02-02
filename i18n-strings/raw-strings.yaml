@@ -1,0 +1,11 @@
+- name: HOME_PAGE_TITLE
+  value: Home
+  description: A title for home page
+
+- name: SIGN_IN_TITLE
+  value: Sign in
+  description: A text for sign in page title and button
+
+- name: SIGN_UP_TITLE
+  value: Sign up
+  description: A text for sign up page title and button
