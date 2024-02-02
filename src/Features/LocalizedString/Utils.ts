@@ -1,4 +1,5 @@
 import { CE_Language, defaultLanguage, rtlLanguages, supportedLanguages } from "./Locales";
+import { CE_Locale } from "./Strings";
 
 export function getIsRtlLanguage(lang: CE_Language) {
     return rtlLanguages.findIndex((l) => lang.startsWith(l)) >= 0;
@@ -36,4 +37,13 @@ export function getPreferLanguage() {
 export async function loadLocaleAsync(lang: CE_Language) {
     const module = await import(`../../assets/locales/strings.${lang}.js`);
     return module.default as ILocalizedStrings;
+}
+
+export function getLocalizedString(strings: ILocalizedStrings, id: CE_Locale) {
+    if (strings[id]) {
+        return strings[id];
+    } else {
+        // TODO: log error here
+        return "BAD STRING";
+    }
 }
