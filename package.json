@@ -2,15 +2,15 @@
   "name": "@x5plan/blog-ui",
   "private": false,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
+    "build:scripts": "tsc -p scripts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{js,cjs,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,cjs,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,cjs,ts,tsx}\" --fix",
     "preview": "vite preview",
-    "i18n": "ts-node-esm --experimentalSpecifierResolution node ./scripts/localized-string.ts && eslint  --fix src/Features/LocalizedString/locale.d.ts src/assets/locales/*.js"
+    "i18n": "node ./scripts/dist/localized-string.js && eslint  --fix src/Features/LocalizedString/locale.d.ts src/assets/locales/*.js"
   },
   "devDependencies": {
     "@fluentui/react-components": "^9.46.0",

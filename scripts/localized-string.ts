@@ -1,19 +1,16 @@
-import { resolve as pathResolve, dirname as pathDirname } from "path";
+import { resolve as pathResolve } from "path";
 import fs from "fs";
 import { load as yamlLoad, dump as yamlDump } from "js-yaml";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = pathDirname(__filename);
 
 const supportedLanguages = ["en", "zh-cn"];
 
 const defaultLanguage = "en";
 
-const localeDir = pathResolve(__dirname, "..", "i18n-strings");
-const staticDir = pathResolve(__dirname, "..", "src", "assets", "locales");
+const localeDir = pathResolve(__dirname, "..", "..", "i18n-strings");
+const staticDir = pathResolve(__dirname, "..", "..", "src", "assets", "locales");
 const typesFilePath = pathResolve(
     __dirname,
+    "..",
     "..",
     "src",
     "Features",
@@ -23,7 +20,7 @@ const typesFilePath = pathResolve(
 
 interface ILocalizedString {
     name: string;
-    value: string | null;
+    value: string;
     description: string;
     raw?: string;
 }
