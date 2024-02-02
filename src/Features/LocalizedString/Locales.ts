@@ -5,10 +5,7 @@ export const enum CE_Language {
 
 export const defaultLanguage = CE_Language.zh_cn;
 
-export const supportedLanguages: CE_Language[] = [
-    CE_Language.en,
-    CE_Language.zh_cn,
-];
+export const supportedLanguages: CE_Language[] = [CE_Language.en, CE_Language.zh_cn];
 
 export const rtlLanguages = [
     "ar", // Arabic
@@ -23,4 +20,3 @@ export const rtlLanguages = [
     "ug", // Uyghur
     "ur", // Urdu
 ];
-

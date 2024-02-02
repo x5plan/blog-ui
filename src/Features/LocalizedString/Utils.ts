@@ -1,5 +1,6 @@
-import { CE_Language, defaultLanguage, rtlLanguages, supportedLanguages } from "./Locales";
-import { CE_Locale } from "./Strings";
+import type { CE_Language } from "./Locales";
+import { defaultLanguage, rtlLanguages, supportedLanguages } from "./Locales";
+import type { CE_Locale } from "./Strings";
 
 export function getIsRtlLanguage(lang: CE_Language) {
     return rtlLanguages.findIndex((l) => lang.startsWith(l)) >= 0;
