@@ -47,7 +47,7 @@ function generateTypes(localizedStrings: ILocalizedString[], idMap: IStringIdMap
     let content = "";
 
     // Generate locale enum, map localized string name to id
-    content += "export const enum CE_Locale {\n";
+    content += "declear const enum CE_Locale {\n";
     for (const localizedString of localizedStrings) {
         const id = idMap[localizedString.name];
         content += `/**  
@@ -59,7 +59,7 @@ function generateTypes(localizedStrings: ILocalizedString[], idMap: IStringIdMap
     content += "}\n\n";
 
     // Generate localized string interface, map id to value
-    content += "export interface ILocalizedStrings {\n";
+    content += "declear interface ILocalizedStrings {\n";
     for (const localizedString of localizedStrings) {
         const id = idMap[localizedString.name];
         content += `[CE_Locale.${localizedString.name}]: ${JSON.stringify(localizedString.value ?? "BAD STRING")}; // ${id.toString(16)}\n`;
