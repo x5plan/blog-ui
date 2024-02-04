@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 
 import { GlobalErrorBoundary } from "./Common/Components/GlobalErrorBoundary";
 import { initEnvAction } from "./Features/Environment/Actions";
+import { initLocalizedStringAction } from "./Features/LocalizedString/Actions";
 import { store } from "./Features/Store/Store";
 
 const AppLazy = React.lazy(() => import("./App"));
@@ -24,7 +25,9 @@ function render() {
 
 function launch() {
     store.dispatch(initEnvAction);
-    render();
+    store.dispatch(initLocalizedStringAction).then(() => {
+        render();
+    });
 }
 
 launch();
