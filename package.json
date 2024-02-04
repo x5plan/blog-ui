@@ -10,7 +10,7 @@
     "lint": "eslint \"src/**/*.{js,cjs,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,cjs,ts,tsx}\" --fix",
     "preview": "vite preview",
-    "i18n": "node ./scripts/dist/localized-string.js && eslint  --fix src/Features/LocalizedString/{locale.d,Strings}.ts src/assets/locales/*.js"
+    "i18n": "node dist-scripts/localized-string.js && eslint --fix src/Features/LocalizedString/locale.{d,strings}.ts"
   },
   "devDependencies": {
     "@fluentui/react-components": "^9.46.0",
