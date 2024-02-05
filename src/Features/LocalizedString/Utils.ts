@@ -1,6 +1,6 @@
 import type { CE_Language } from "./Locales";
 import { defaultLanguage, rtlLanguages, supportedLanguages } from "./Locales";
-import type { CE_Locale } from "./Types";
+import type { CE_Strings } from "./Types";
 
 export function getIsRtlLanguage(lang: CE_Language) {
     return rtlLanguages.findIndex((l) => lang.startsWith(l)) >= 0;
@@ -40,7 +40,7 @@ export async function loadLocaleAsync(lang: CE_Language) {
     return module.default as ILocalizedStrings;
 }
 
-export function getLocalizedString<T extends CE_Locale>(
+export function getLocalizedString<T extends CE_Strings>(
     strings: ILocalizedStrings,
     id: T,
 ): ILocalizedStrings[T] {
