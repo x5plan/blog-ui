@@ -2,8 +2,8 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { GlobalErrorBoundary } from "./Common/Components/GlobalErrorBoundary";
 import { initEnvAction } from "./Features/Environment/Actions";
+import { GlobalErrorBoundary } from "./Features/Error/GlobalErrorBoundary";
 import { initLocalizedStringAction } from "./Features/LocalizedString/Actions";
 import { store } from "./Features/Store/Store";
 
