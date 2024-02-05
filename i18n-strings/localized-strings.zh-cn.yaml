@@ -5,10 +5,15 @@
 
 - name: SIGN_IN_TITLE
   value: 登录
-  description: A text for sign in page title and button
+  description: A text for sign in page title and button.
   raw: Sign in
 
 - name: SIGN_UP_TITLE
   value: 注册
-  description: A text for sign up page title and button
+  description: A text for sign up page title and button.
   raw: Sign up
+
+- name: INVALID_URL_MSG
+  value: null
+  description: A error message for 404 not found page.
+  raw: Invalid URL.
