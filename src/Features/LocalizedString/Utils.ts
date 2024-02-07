@@ -44,7 +44,7 @@ export function getLocalizedString<T extends CE_Strings>(
     strings: ILocalizedStrings,
     id: T,
 ): ILocalizedStrings[T] {
-    if (strings[id]) {
+    if (id in strings) {
         return strings[id];
     } else {
         // TODO: log error here

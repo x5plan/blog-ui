@@ -24,10 +24,6 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { message, description, links = [], showBackButton = false } = props;
 
-    React.useEffect(() => {
-        console.log(message);
-    }, [message]);
-
     // TODO: Implement error page
     return (
         <div>
