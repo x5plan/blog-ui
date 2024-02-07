@@ -41,7 +41,7 @@ export const AppSideBarNavi: React.FC = () => {
                     </DrawerHeaderTitle>
                 </DrawerHeader>
                 <DrawerBody>
-                    <AppNavi isInSidebar={true} />
+                    <AppNavi isInSidebar={true} onItemClicked={() => setIsOpen(false)} />
                 </DrawerBody>
             </Drawer>
             <Tooltip content={c_navigationSectionTitleString} relationship="label">

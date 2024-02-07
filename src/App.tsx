@@ -18,8 +18,8 @@ export const App: React.FC = () => {
             theme={themeMap[theme]}
             dir={isRtl ? "rtl" : "ltr"}
             style={{
-                height: "100% !important",
-                width: "100% !important",
+                height: "100%",
+                width: "100%",
             }}
         >
             <AppRouter>

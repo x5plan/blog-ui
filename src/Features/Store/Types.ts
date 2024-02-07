@@ -1,10 +1,12 @@
 import type { IEnvState } from "../Environment/Types";
 import type { ILocaleState } from "../LocalizedString/Types";
+import type { IPageState } from "../Page/Types";
 import type { store } from "./Store";
 
 export interface IStaticReducerMap {
     env: IEnvState;
     locale: ILocaleState;
+    page: IPageState;
 }
 
 export interface IDynamicReducerMap {}
