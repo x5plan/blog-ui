@@ -1,3 +1,8 @@
+- name: COMMON_CLOSE_BUTTON
+  value: null
+  description: A string for the aria label of close button.
+  raw: Close
+
 - name: HOME_PAGE_TITLE
   value: 首页
   description: A title for home page
@@ -17,3 +22,13 @@
   value: null
   description: A error message for 404 not found page.
   raw: Invalid URL.
+
+- name: ARTICLE_PAGE_TITLE
+  value: null
+  description: A title of the page, which is list all of the articles.
+  raw: Articles
+
+- name: NAVIGATION_SECTION_TITLE
+  value: null
+  description: A string for navigation tabs section
+  raw: Navigation

@@ -1,3 +1,7 @@
+- name: COMMON_CLOSE_BUTTON
+  value: Close
+  description: A string for the aria label of close button. 
+
 - name: HOME_PAGE_TITLE
   value: Home
   description: A title for home page
@@ -13,3 +17,11 @@
 - name: INVALID_URL_MSG
   value: Invalid URL.
   description: A error message for 404 not found page.
+
+- name: ARTICLE_PAGE_TITLE
+  value: Articles
+  description: A title of the page, which is list all of the articles.
+
+- name: NAVIGATION_SECTION_TITLE
+  value: Navigation
+  description: A string for navigation tabs section
