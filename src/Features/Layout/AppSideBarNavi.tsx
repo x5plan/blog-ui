@@ -4,11 +4,10 @@ import {
     DrawerBody,
     DrawerHeader,
     DrawerHeaderTitle,
+    Tooltip,
 } from "@fluentui/react-components";
 import { Dismiss24Regular, Navigation24Regular } from "@fluentui/react-icons";
 import * as React from "react";
-
-import { Tooltip } from "@/Common/Components/Tooltip";
 
 import { useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
