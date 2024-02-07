@@ -4,9 +4,13 @@ export const useAppNaviStyles = makeStyles({
     root: {
         height: "100%",
     },
-    inSideBarRoot: {},
+    inSideBarRoot: {
+        width: "100%",
+    },
     tabList: {
         height: "100%",
     },
-    inSideBarItem: {},
+    inSideBarItem: {
+        height: "40px",
+    },
 });

@@ -70,6 +70,7 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
                             navigation.navigate(navItem.path);
                             onItemClicked?.();
                         }}
+                        className={mergeClasses(isInSidebar && styles.inSideBarItem)}
                     >
                         {navItem.label}
                     </Tab>
