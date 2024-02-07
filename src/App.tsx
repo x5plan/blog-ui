@@ -14,7 +14,14 @@ export const App: React.FC = () => {
     const isRtl = useIsRtl();
 
     return (
-        <FluentProvider theme={themeMap[theme]} dir={isRtl ? "rtl" : "ltr"}>
+        <FluentProvider
+            theme={themeMap[theme]}
+            dir={isRtl ? "rtl" : "ltr"}
+            style={{
+                height: "100% !important",
+                width: "100% !important",
+            }}
+        >
             <AppRouter>
                 <AppLayout>
                     <AppView />
