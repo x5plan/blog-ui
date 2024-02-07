@@ -1,5 +1,9 @@
-import { mount } from "navi";
+import { lazy as naviLazy, mount } from "navi";
+
+import { loadArticleRoutes } from "@/Pages/Article/DynimicImports";
+import { loadHomeRoutes } from "@/Pages/Home/DynimicImports";
 
 export const routes = mount({
-    // TODO: Add routes here
+    "/article": naviLazy(loadArticleRoutes),
+    "/": naviLazy(loadHomeRoutes),
 });
