@@ -10,16 +10,14 @@ import { store } from "./Features/Store/Store";
 const AppLazy = React.lazy(() => import("./App"));
 
 function render() {
-    createRoot(document.getElementById("root")).render(
-        <React.StrictMode>
-            <GlobalErrorBoundary>
-                <Provider store={store}>
-                    <React.Suspense fallback={null}>
-                        <AppLazy />
-                    </React.Suspense>
-                </Provider>
-            </GlobalErrorBoundary>
-        </React.StrictMode>,
+    createRoot(document.getElementById("root")!).render(
+        <GlobalErrorBoundary>
+            <Provider store={store}>
+                <React.Suspense fallback={null}>
+                    <AppLazy />
+                </React.Suspense>
+            </Provider>
+        </GlobalErrorBoundary>,
     );
 }
 
