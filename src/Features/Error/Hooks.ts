@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { useLocalizedString, useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
+import { CE_PageBaseRoute } from "../Page/Types";
 import { CE_ErrorCode } from "./ErrorCode";
 import type { IErrorPageLink } from "./ErrorPage";
 
@@ -35,10 +36,26 @@ export const useErrorCustomLocalizedDescription = (code: CE_ErrorCode) => {
 };
 
 export const useErrorPageLinks = (code: CE_ErrorCode) => {
+    const strings = useLocalizedStrings(CE_Strings.SIGN_IN_TITLE, CE_Strings.SIGN_UP_TITLE);
+
     return React.useMemo<IErrorPageLink[]>(() => {
+        const [c_signInTitle, c_signUpTitle] = strings;
+
         switch (code) {
+            case CE_ErrorCode.AuthRequired:
+                return [
+                    {
+                        title: c_signInTitle,
+                        href: CE_PageBaseRoute.SignIn,
+                    },
+                    {
+                        title: c_signUpTitle,
+                        href: CE_PageBaseRoute.SignUp,
+                    },
+                ];
+
             default:
                 return [];
         }
-    }, [code]);
+    }, [code, strings]);
 };
