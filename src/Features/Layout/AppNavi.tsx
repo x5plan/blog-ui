@@ -1,4 +1,5 @@
 import { mergeClasses, Tab, TabList } from "@fluentui/react-components";
+import { DocumentBulletList20Regular, Home20Filled } from "@fluentui/react-icons";
 import * as React from "react";
 import { useNavigation } from "react-navi";
 
@@ -15,7 +16,7 @@ export interface IAppNaviProps {
 
 interface INavItem {
     label: string;
-    icon: unknown;
+    icon: JSX.Element;
     type: CE_PageType;
     path: string;
 }
@@ -38,13 +39,13 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
         () => [
             {
                 label: c_homePageString,
-                icon: "Home",
+                icon: <Home20Filled />,
                 type: CE_PageType.Home,
                 path: "/",
             },
             {
                 label: c_articlePageString,
-                icon: "Article",
+                icon: <DocumentBulletList20Regular />,
                 type: CE_PageType.Article,
                 path: "/article",
             },
@@ -70,6 +71,7 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
                             navigation.navigate(navItem.path);
                             onItemClicked?.();
                         }}
+                        icon={navItem.icon}
                         className={mergeClasses(isInSidebar && styles.inSideBarItem)}
                     >
                         {navItem.label}

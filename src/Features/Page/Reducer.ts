@@ -2,10 +2,9 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import { setPage } from "./Actions";
 import type { IPageState } from "./Types";
-import { CE_PageType } from "./Types";
 
 const pageInitialState: IPageState = {
-    pageType: CE_PageType.Home,
+    pageType: null,
     pageTitle: "",
 };
 
