@@ -2,10 +2,12 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { initEnvAction } from "./Features/Environment/Actions";
-import { GlobalErrorBoundary } from "./Features/Error/GlobalErrorBoundary";
-import { initLocalizedStringAction } from "./Features/LocalizedString/Actions";
-import { store } from "./Features/Store/Store";
+import { initAuthAction } from "@/Features/Auth/InitAuthAction";
+import { initEnvAction } from "@/Features/Environment/Actions";
+import { GlobalErrorBoundary } from "@/Features/Error/GlobalErrorBoundary";
+import { showErrorPage } from "@/Features/Error/Utils";
+import { initLocalizedStringAction } from "@/Features/LocalizedString/Actions";
+import { store } from "@/Features/Store/Store";
 
 const AppLazy = React.lazy(() => import("./App"));
 
@@ -21,11 +23,14 @@ function render() {
     );
 }
 
-function launch() {
+async function launchAsync() {
     store.dispatch(initEnvAction);
-    store.dispatch(initLocalizedStringAction).then(() => {
-        render();
-    });
+    await store.dispatch(initAuthAction);
+    await store.dispatch(initLocalizedStringAction);
+
+    render();
 }
 
-launch();
+launchAsync().catch((error) => {
+    showErrorPage(error);
+});
