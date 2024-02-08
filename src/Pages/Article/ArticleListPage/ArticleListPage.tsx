@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { useSetPageType } from "@/Common/Hooks/SetPageType";
+import { useSetPageType } from "@/Features/Page/Hooks";
 import { CE_PageType } from "@/Features/Page/Types";
 
 export const ArticleListPage: React.FC = () => {

@@ -9,7 +9,7 @@ export const setPage = createAction(UPDATE_PAGE, (props: Partial<IPageState>) =>
     payload: props,
 }));
 
-export const updatePageTypeAction = (pageType: CE_PageType) => (dispatch: IAppDispatch) => {
+export const updatePageTypeAction = (pageType: CE_PageType | null) => (dispatch: IAppDispatch) => {
     dispatch(setPage({ pageType }));
 };
 

@@ -1,6 +1,7 @@
 import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 
 import { flex } from "@/Common/Styles/Flex";
+import { MAX_MIDDLE_SCREEN_WIDTH } from "@/Features/Environment/Settings/Screen";
 
 const headerHeight = "50px";
 
@@ -21,8 +22,8 @@ export const useAppLayoutStyles = makeStyles({
         backgroundColor: tokens.colorNeutralBackground1,
         ...shorthands.padding("0", "40px"),
     },
-    headerSmallScreen: {
-        ...shorthands.padding("0", "20px"),
+    headerMiddleScreen: {
+        ...shorthands.padding("0", "10px", "0", "40px"),
     },
     headerMiniScreen: {
         ...shorthands.padding("0", "10px"),
@@ -45,7 +46,7 @@ export const useAppLayoutStyles = makeStyles({
         ...shorthands.padding("20px", "10px"),
     },
     container: {
-        maxWidth: "1024px",
+        maxWidth: `${MAX_MIDDLE_SCREEN_WIDTH}px`,
         width: "100%",
         height: "100%",
     },

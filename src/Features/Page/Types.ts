@@ -4,7 +4,7 @@ export const enum CE_PageType {
 }
 
 export interface IPageState {
-    pageType: CE_PageType;
+    pageType: CE_PageType | null;
     pageTitle: string;
 }
 
