@@ -1,7 +1,12 @@
 - name: COMMON_CLOSE_BUTTON
   value: Close
-  description: A string for the aria label of close button.
+  description: A string for the label of close button.
   raw: Close
+
+- name: COMMON_BACK_BUTTON
+  value: Back
+  description: A string for the label of back button.
+  raw: Back
 
 - name: HOME_PAGE_TITLE
   value: Home
@@ -18,11 +23,6 @@
   description: A text for sign up page title and button.
   raw: Sign up
 
-- name: INVALID_URL_MSG
-  value: Invalid URL.
-  description: A error message for 404 not found page.
-  raw: Invalid URL.
-
 - name: ARTICLE_PAGE_TITLE
   value: Articles
   description: A title of the page, which is list all of the articles.
@@ -30,5 +30,25 @@
 
 - name: NAVIGATION_SECTION_TITLE
   value: Navigation
-  description: A string for navigation tabs section
+  description: A string for navigation tabs section.
   raw: Navigation
+
+- name: APP_ERROR_COMMON_UNKNOWN
+  value: Unknown error.
+  description: A error title for unknown error.
+  raw: Unknown error.
+
+- name: APP_ERROR_COMMON_INVALID_URL
+  value: Invalid URL.
+  description: A error title for 404 not found page.
+  raw: Invalid URL.
+
+- name: APP_ERROR_COMMON_AUTH_ERROR_TITLE
+  value: Authentication failed.
+  description: A error title for auth error.
+  raw: Authentication failed.
+
+- name: APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION
+  value: Please sign in again.
+  description: A error description for auth error.
+  raw: Please sign in again.

@@ -6,7 +6,7 @@ import { useLocalizedString } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 
 export const AppView: React.FC = () => {
-    const notFoundErrorMessage = useLocalizedString(CE_Strings.INVALID_URL_MSG);
+    const notFoundErrorMessage = useLocalizedString(CE_Strings.APP_ERROR_COMMON_INVALID_URL);
 
     return (
         <React.Suspense fallback={null}>

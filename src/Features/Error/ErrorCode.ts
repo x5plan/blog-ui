@@ -1,0 +1,27 @@
+// Attention!
+// Should be consistent with the ErrorCode in the backend
+export const enum CE_ErrorCode {
+    Unknown = -1,
+
+    // Native HTTP Code
+    AuthRequired = 401,
+    PermissionDenied = 403,
+    NotFound = 404,
+    TooManyRequests = 429,
+    ServerError = 500,
+
+    // Global Error Code (1000 ~ 1199)
+    ValidationError = 1000,
+    RecaptchaError = 1001,
+
+    // Auth Module Error Code (1200 ~ 1299)
+    Auth_NoSuchUser = 1200,
+    Auth_WrongPassword = 1201,
+    Auth_DuplicateUsername = 1202,
+    Auth_DuplicateEmail = 1203,
+    Auth_InvalidEmailVerificationCode = 1204,
+    Auth_InvalidateRegistrationCode = 1205,
+    Auth_EmailVerificationCodeRateLimited = 1206,
+
+    // User Module Error Code (1300 ~ 1399)
+}
