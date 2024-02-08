@@ -18,9 +18,65 @@
       * {
         box-sizing: border-box;
       }
+
+      #error-box {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        z-index: 1000;
+        gap: 30px;
+      }
+
+      #error-box h2 {
+        margin: 2px;
+      }
+
+      #error-box-title {
+        color: red;
+      }
+
+      #error-box-msg {
+        color: #666;
+      }
+
+      #error-box-title,
+      #error-box-description,
+      #error-box-msg {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
     </style>
   </head>
   <body>
+    <div id="error-box" style="display: none;">
+      <div id="error-box-title">
+        <h2>ERROR</h2>
+        <h2>ERREUR</h2>
+        <h2>ОШИБКА</h2>
+        <h2>错误</h2>
+        <h2>エラー</h2>
+        <h2>오류</h2>
+      </div>
+      <div id="error-box-description">
+        <div>Something went wrong. Please check your network.</div>
+        <div>Un problème s'est produit. Veuillez vérifier votre réseau.</div>
+        <div>Что-то пошло не так. Проверьте свою сеть.</div>
+        <div>出现了一些问题。请检查您的网络。</div>
+        <div>問題が発生しました。ネットワークを確認してください。</div>
+        <div>문제가 발생했습니다. 네트워크를 확인하세요.</div>
+      </div>
+      <div id="error-box-msg"></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
