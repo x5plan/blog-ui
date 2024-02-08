@@ -7,6 +7,7 @@ interface IAppEnv {
     readonly X5PLAN_CND_URL: string;
     readonly X5PLAN_ICON_URL: string;
     readonly X5PLAN_API_URL: string;
+    readonly X5PLAN_DEV_API_URL: string;
 }
 
 const appEnv = loadEnv("", process.cwd(), "X5PLAN_") as unknown as IAppEnv;
@@ -36,6 +37,16 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        host: "0.0.0.0",
+        port: 5055,
+        proxy: {
+            "/api": {
+                target: appEnv.X5PLAN_DEV_API_URL,
+                changeOrigin: true,
+            },
+        }
+    },
     build: {
         rollupOptions: {
             output: {
