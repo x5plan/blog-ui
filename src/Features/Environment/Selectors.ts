@@ -2,7 +2,6 @@ import type { IRootState } from "@/Features/Store/Types";
 
 export const getEnv = (state: IRootState) => state.env;
 
-export const getApiBearerToken = (state: IRootState) => state.env.apiBearerToken;
 export const getApiEndPoint = (state: IRootState) => state.env.apiEndPoint;
 
 export const getTheme = (state: IRootState) => state.env.theme;

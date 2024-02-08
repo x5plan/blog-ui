@@ -1,7 +1,8 @@
 import axios, { HttpStatusCode } from "axios";
 
 import type { XOR } from "@/Common/Types/XOR";
-import { getApiBearerToken, getApiEndPoint } from "@/Features/Environment/Selectors";
+import { getBearerToken } from "@/Features/Auth/Selectors";
+import { getApiEndPoint } from "@/Features/Environment/Selectors";
 import { AppError } from "@/Features/Error/AppError";
 import { CE_ErrorCode } from "@/Features/Error/ErrorCode";
 import { getState } from "@/Features/Store/Store";
@@ -21,12 +22,12 @@ export interface IResponseError {
 
 export type IResponseData<T> = XOR<{ data: T }, { error: IResponseError }>;
 
-export async function requestAsync<TResponse, TQuery = undefined, TBody = undefined>(
+export async function apiRequestAsync<TResponse, TQuery = undefined, TBody = undefined>(
     options: IRequestOptions<TQuery, TBody>,
-    filteredErrors: CE_ErrorCode[] = [],
+    errCodesShouldBeFiltered: CE_ErrorCode[] = [],
 ): Promise<IResponseData<TResponse>> {
     const appState = getState();
-    const apiBearerToken = getApiBearerToken(appState);
+    const bearerToken = getBearerToken(appState);
     const apiEndPoint = getApiEndPoint(appState);
 
     const response = await axios.request({
@@ -36,28 +37,24 @@ export async function requestAsync<TResponse, TQuery = undefined, TBody = undefi
         data: options.body && JSON.stringify(options.body),
         headers: {
             "Content-Type": "application/json",
-            Authorization: apiBearerToken && `Bearer ${apiBearerToken}`,
+            Authorization: bearerToken && `Bearer ${bearerToken}`,
             ...(options.recaptchaToken && { "X-Recaptcha-Token": options.recaptchaToken }),
         },
         validateStatus: () => true,
     });
 
-    let error: IResponseError;
     const data =
         response.headers["content-type"]?.includes("application/json") &&
         typeof response.data === "string"
             ? JSON.parse(response.data)
             : response.data;
 
+    let error: IResponseError;
+
     switch (response.status) {
-        case HttpStatusCode.Accepted:
+        case HttpStatusCode.Ok:
         case HttpStatusCode.Created:
-            if ("errCode" in data) {
-                error = data as unknown as IResponseError;
-            } else {
-                return { data };
-            }
-            break;
+            return { data };
 
         case HttpStatusCode.Unauthorized:
             error = { errCode: CE_ErrorCode.AuthRequired };
@@ -66,14 +63,14 @@ export async function requestAsync<TResponse, TQuery = undefined, TBody = undefi
         case HttpStatusCode.InternalServerError:
             error = {
                 errCode: CE_ErrorCode.ServerError,
-                msg: typeof data === "string" ? data : data.msg,
+                msg: typeof data === "string" ? data : data?.msg,
             };
             break;
 
         default:
             if (typeof data === "string") {
                 error = { errCode: CE_ErrorCode.Unknown, msg: data };
-            } else if ("errCode" in data) {
+            } else if (data && "errCode" in data) {
                 error = data as unknown as IResponseError;
             } else {
                 error = { errCode: CE_ErrorCode.Unknown };
@@ -81,9 +78,9 @@ export async function requestAsync<TResponse, TQuery = undefined, TBody = undefi
             break;
     }
 
-    if (!filteredErrors.includes(error.errCode)) {
-        throw new AppError(error.errCode, error.msg);
+    if (errCodesShouldBeFiltered.includes(error.errCode)) {
+        return { error };
     }
 
-    return { error };
+    throw new AppError(error.errCode, error.msg);
 }

@@ -14,7 +14,6 @@ export function createRouteWithErrorHandler(
             try {
                 return await getViewAsync(req, ctx);
             } catch (error) {
-                // TODO: handle error
                 if (error instanceof AppError) {
                     return <AppErrorPage error={error} showBackButton={true} />;
                 } else if (error instanceof Error) {

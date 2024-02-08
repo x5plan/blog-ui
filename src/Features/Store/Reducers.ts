@@ -1,5 +1,6 @@
 import type { ReducersMapObject } from "redux";
 
+import { authReducer } from "../Auth/Reducer";
 import { envReducer } from "../Environment/Reducer";
 import { localeReducers } from "../LocalizedString/Reducer";
 import { pageReducer } from "../Page/Reducer";
@@ -9,6 +10,7 @@ export const staticReducers: ReducersMapObject<IStaticReducerMap> = {
     env: envReducer,
     locale: localeReducers,
     page: pageReducer,
+    auth: authReducer,
 };
 
 export const reducers: ReducersMapObject<IReducerMap> =

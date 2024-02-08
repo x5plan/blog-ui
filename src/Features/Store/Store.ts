@@ -11,4 +11,4 @@ export const store = configureStore({
 export const useAppDispatch: () => IAppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<IRootState> = useSelector;
 
-export const getState = store.getState;
+export const getState = () => store.getState();

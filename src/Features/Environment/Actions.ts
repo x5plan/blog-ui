@@ -1,10 +1,8 @@
 import { createAction } from "@reduxjs/toolkit";
 
-import { CE_StroageKeys } from "@/Common/Enums/StorageKeys";
-import { getLocalStorage } from "@/Common/Utilities/SafeStorage";
-
 import type { IAppDispatch } from "../Store/Types";
 import { initThemeAction } from "../Theme/Actions";
+import { getApiEndPoint } from "./Settings/ApiEndPoint";
 import { isMiddleScreen, isMiniScreen, isMobileView, isSmallScreen } from "./Settings/Screen";
 import {
     isAndroid,
@@ -40,8 +38,7 @@ export const initEnvAction = (dispatch: IAppDispatch) => {
             isFirefox: isFireFox(),
             isSafari: isSafari(),
 
-            apiEndPoint: import.meta.env.X5PLAN_API_URL,
-            apiBearerToken: getLocalStorage().getItem(CE_StroageKeys.ApiBearerToken) || "",
+            apiEndPoint: getApiEndPoint(),
         }),
     );
     dispatch(initThemeAction);
@@ -61,8 +58,3 @@ function bindWindowListenerAction(dispatch: IAppDispatch) {
         ),
     );
 }
-
-export const updateApiBearerToken = (apiBearerToken: string) => (dispatch: IAppDispatch) => {
-    dispatch(setEnvAction({ apiBearerToken }));
-    getLocalStorage().setItem(CE_StroageKeys.ApiBearerToken, apiBearerToken);
-};
