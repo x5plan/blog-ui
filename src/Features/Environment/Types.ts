@@ -1,7 +1,6 @@
 import type { CE_Theme } from "../Theme/Types";
 
 export interface IEnvState {
-    apiBearerToken: string;
     apiEndPoint: string;
 
     theme: CE_Theme;
