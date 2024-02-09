@@ -13,4 +13,6 @@ export const enum CE_PageBaseRoute {
     Article = "/article",
     SignIn = "/signin",
     SignUp = "/signup",
+    Invite = "/invite",
+    User = "/user",
 }
