@@ -2,7 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { initAuthAction } from "@/Features/Auth/InitAuthAction";
+import { initAuthAction } from "@/Features/Auth/RequestActions";
 import { initEnvAction } from "@/Features/Environment/Actions";
 import { GlobalErrorBoundary } from "@/Features/Error/GlobalErrorBoundary";
 import { showErrorPage } from "@/Features/Error/Utils";
