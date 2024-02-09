@@ -9,3 +9,10 @@ export async function getAccessTokenRequestAsync(token: string) {
         query: { token },
     });
 }
+
+export async function postSignOutUserRequestAsync() {
+    return await apiRequestAsync<void>({
+        method: "POST",
+        path: "auth/logout",
+    });
+}

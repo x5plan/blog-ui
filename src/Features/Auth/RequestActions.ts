@@ -17,7 +17,7 @@ import { getLocalStorage } from "@/Common/Utilities/SafeStorage";
 
 import type { IAppDispatch } from "../Store/Types";
 import { setAuthAction, updateBearerToken } from "./Actions";
-import { getAccessTokenRequestAsync } from "./Request";
+import { getAccessTokenRequestAsync, postSignOutUserRequestAsync } from "./Request";
 
 export const initAuthAction = async (dispatch: IAppDispatch) => {
     const token = getLocalStorage().getItem(CE_StroageKeys.ApiBearerToken);
@@ -35,4 +35,10 @@ export const initAuthAction = async (dispatch: IAppDispatch) => {
             currentUser: data.userBaseDetail,
         }),
     );
+};
+
+export const signOutUserRequestAction = async (dispatch: IAppDispatch) => {
+    await postSignOutUserRequestAsync();
+    dispatch(updateBearerToken(""));
+    dispatch(setAuthAction({ currentUser: null }));
 };

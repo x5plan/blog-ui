@@ -6,7 +6,7 @@ import { useNavigation } from "react-navi";
 import { parseUrlIfSameOrigin, parseUrlToNavigate } from "../Utilities/SameOrigin";
 
 export const RouterLink: React.FC<LinkProps & { as?: "a" }> = (props) => {
-    const { href } = props;
+    const { href, onClick } = props;
     const navigation = useNavigation();
     const url = parseUrlIfSameOrigin(href);
 
@@ -19,8 +19,9 @@ export const RouterLink: React.FC<LinkProps & { as?: "a" }> = (props) => {
                     ? (e) => {
                           e.preventDefault();
                           navigation.navigate(parseUrlToNavigate(url));
+                          onClick?.(e);
                       }
-                    : undefined
+                    : onClick
             }
         />
     );

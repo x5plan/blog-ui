@@ -6,6 +6,7 @@ export const useAppNaviStyles = makeStyles({
     },
     inSideBarRoot: {
         width: "100%",
+        height: "unset",
     },
     tabList: {
         height: "100%",

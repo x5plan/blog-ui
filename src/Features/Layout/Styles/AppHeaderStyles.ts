@@ -26,6 +26,7 @@ export const useAppHeaderStyles = makeStyles({
             alignItems: "center",
         }),
         height: "100%",
+        ...shorthands.gap("10px"),
     },
     title: {
         ...flex({
@@ -37,5 +38,6 @@ export const useAppHeaderStyles = makeStyles({
         fontSize: "20px",
         fontWeight: "600",
         ...shorthands.padding("0", "10px"),
+        whiteSpace: "nowrap",
     },
 });

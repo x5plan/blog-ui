@@ -41,3 +41,29 @@
 - name: APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION
   value: Please sign in again.
   description: A error description for auth error.
+
+- name: USER_MENU_ARIA_LABEL
+  value: Open user menu.
+  description: A text for user menu aria label.
+
+- name: USER_MENU_ITEM_PROFILE
+  value: My Profile
+  description: Menu item title.
+
+- name: USER_MENU_ITEM_EDIT_PROFILE
+  value: Edit profile
+  description: Menu item title.
+
+- name: USER_MENU_ITEM_SETTING
+  value: Settings
+  description: Menu item title.
+
+- name: USER_MENU_ITEM_INVITE
+  value: Invite new users
+  description: Menu item title.
+
+- name: USER_MENU_ITEM_SIGN_OUT
+  value: Sign out
+  description: Menu item title.
+
+

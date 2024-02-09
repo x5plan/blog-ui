@@ -2,10 +2,6 @@ function getUserAgent(): string {
     return navigator.userAgent.toLocaleLowerCase();
 }
 
-export function getWindowWidth(): number {
-    return window.innerWidth;
-}
-
 export function isMobile(): boolean {
     const userAgent = getUserAgent();
 

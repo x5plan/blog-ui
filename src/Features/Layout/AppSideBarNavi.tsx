@@ -12,8 +12,15 @@ import * as React from "react";
 import { useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 import { AppNavi } from "./AppNavi";
+import { SignInLinks } from "./SignInButtons";
 
-export const AppSideBarNavi: React.FC = () => {
+export interface IAppSideBarNaviProps {
+    showSignInLinks: boolean;
+}
+
+export const AppSideBarNavi: React.FC<IAppSideBarNaviProps> = (props) => {
+    const { showSignInLinks } = props;
+
     const [isOpen, setIsOpen] = React.useState(false);
 
     const [c_closeButtonString, c_navigationSectionTitleString] = useLocalizedStrings(
@@ -42,6 +49,7 @@ export const AppSideBarNavi: React.FC = () => {
                 </DrawerHeader>
                 <DrawerBody>
                     <AppNavi isInSidebar={true} onItemClicked={() => setIsOpen(false)} />
+                    {showSignInLinks && <SignInLinks onLinkClicked={() => setIsOpen(false)} />}
                 </DrawerBody>
             </Drawer>
             <Tooltip content={c_navigationSectionTitleString} relationship="label">

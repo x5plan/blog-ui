@@ -4,7 +4,7 @@ export const enum CE_PageType {
 }
 
 export interface IPageState {
-    pageType: CE_PageType;
+    pageType: CE_PageType | null;
     pageTitle: string;
 }
 
@@ -13,4 +13,6 @@ export const enum CE_PageBaseRoute {
     Article = "/article",
     SignIn = "/signin",
     SignUp = "/signup",
+    Invite = "/invite",
+    User = "/user",
 }

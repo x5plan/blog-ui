@@ -1,8 +1,8 @@
 import { isMobile } from "./UserAgent";
 
-const MAX_MINI_SCREEN_WIDTH = 480;
-const MAX_SMALL_SCREEN_WIDTH = 640;
-const MAX_MIDDLE_SCREEN_WIDTH = 720;
+export const MAX_MINI_SCREEN_WIDTH = 480;
+export const MAX_SMALL_SCREEN_WIDTH = 720;
+export const MAX_MIDDLE_SCREEN_WIDTH = 1024;
 
 export function getWindowWidth(): number {
     return window.innerWidth;

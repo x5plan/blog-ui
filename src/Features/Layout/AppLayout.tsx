@@ -3,7 +3,7 @@ import "@/assets/styles/scrollbar.css";
 import { mergeClasses } from "@fluentui/react-components";
 import * as React from "react";
 
-import { useIsMiniScreen, useIsSmallScreen } from "../Environment/Hooks";
+import { useIsMiddleScreen, useIsMiniScreen, useIsSmallScreen } from "../Environment/Hooks";
 import { AppHeader } from "./AppHeader";
 import { useAppLayoutStyles } from "./Styles/AppLayoutStyles";
 
@@ -13,6 +13,7 @@ export interface IAppLayoutProps {
 
 export const AppLayout: React.FC<IAppLayoutProps> = (props) => {
     const styles = useAppLayoutStyles();
+    const isMiddleScreen = useIsMiddleScreen();
     const isSmallScreen = useIsSmallScreen();
     const isMiniScreen = useIsMiniScreen();
 
@@ -21,7 +22,7 @@ export const AppLayout: React.FC<IAppLayoutProps> = (props) => {
             <div
                 className={mergeClasses(
                     styles.header,
-                    isSmallScreen && styles.headerSmallScreen,
+                    isMiddleScreen && styles.headerMiddleScreen,
                     isMiniScreen && styles.headerMiniScreen,
                 )}
             >

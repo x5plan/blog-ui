@@ -52,3 +52,33 @@
   value: Please sign in again.
   description: A error description for auth error.
   raw: Please sign in again.
+
+- name: USER_MENU_ARIA_LABEL
+  value: Open user menu.
+  description: A text for user menu aria label.
+  raw: Open user menu.
+
+- name: USER_MENU_ITEM_PROFILE
+  value: My Profile
+  description: Menu item title.
+  raw: My Profile
+
+- name: USER_MENU_ITEM_EDIT_PROFILE
+  value: Edit profile
+  description: Menu item title.
+  raw: Edit profile
+
+- name: USER_MENU_ITEM_SETTING
+  value: Settings
+  description: Menu item title.
+  raw: Settings
+
+- name: USER_MENU_ITEM_INVITE
+  value: Invite new users
+  description: Menu item title.
+  raw: Invite new users
+
+- name: USER_MENU_ITEM_SIGN_OUT
+  value: Sign out
+  description: Menu item title.
+  raw: Sign out
