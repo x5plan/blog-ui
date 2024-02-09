@@ -1,11 +1,16 @@
+import { Button } from "@fluentui/react-components";
+import { Navigation24Regular } from "@fluentui/react-icons";
 import * as React from "react";
 
 import { useIsSignedIn } from "../Auth/Hooks";
 import { useIsMiddleScreen, useIsSmallScreen } from "../Environment/Hooks";
 import { AppNavi } from "./AppNavi";
-import { AppSideBarNavi } from "./AppSideBarNavi";
+import { loadAppSideBarNavi, loadUserMenu } from "./DynimicImports";
 import { SignInButtons } from "./SignInButtons";
 import { useAppHeaderStyles } from "./Styles/AppHeaderStyles";
+
+const AppSideBarNaviLazy = React.lazy(loadAppSideBarNavi);
+const UserMenuLazy = React.lazy(loadUserMenu);
 
 export const AppHeader: React.FC = () => {
     const isMiddleScreen = useIsMiddleScreen();
@@ -21,8 +26,25 @@ export const AppHeader: React.FC = () => {
                 {!isMiddleScreen && <AppNavi isInSidebar={false} />}
             </div>
             <div className={styles.right}>
+                {isSignedIn && (
+                    <React.Suspense fallback={null}>
+                        <UserMenuLazy />
+                    </React.Suspense>
+                )}
                 {!isSmallScreen && !isSignedIn && <SignInButtons />}
-                {isMiddleScreen && <AppSideBarNavi showSignInLinks={isSmallScreen} />}
+                {isMiddleScreen && (
+                    <React.Suspense
+                        fallback={
+                            <Button
+                                appearance="transparent"
+                                icon={<Navigation24Regular />}
+                                disabled={true}
+                            />
+                        }
+                    >
+                        <AppSideBarNaviLazy showSignInLinks={isSmallScreen} />
+                    </React.Suspense>
+                )}
             </div>
         </div>
     );
