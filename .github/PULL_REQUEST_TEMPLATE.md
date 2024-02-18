@@ -7,6 +7,7 @@ Thanks for submitting a pull request! Please provide enough information so that 
 
 <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
 - [ ] None (no code changes)
+- [ ] Localize (non-breaking change which updates i18n strings)
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
