@@ -30,16 +30,12 @@ export default defineConfig({
                 useShortDoctype: true,
                 minifyCSS: true,
             },
-            inject: {
-                data: {
-                    X5PLAN_ICON_URL: appEnv.X5PLAN_ICON_URL,
-                },
-            },
         }),
     ],
     server: {
         host: "0.0.0.0",
         port: 5055,
+        strictPort: true,
         proxy: {
             "/api": {
                 target: appEnv.X5PLAN_DEV_API_URL,
