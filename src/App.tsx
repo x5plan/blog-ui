@@ -7,6 +7,7 @@ import { useIsRtl } from "./Features/LocalizedString/Hooks";
 import { AppRouter } from "./Features/Router/Router";
 import { AppView } from "./Features/Router/View";
 import { useAppSelector } from "./Features/Store/Store";
+import { IconProvider } from "./Features/Theme/IconProvider";
 import { themeMap } from "./Features/Theme/Theme";
 
 export const App: React.FC = () => {
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
                 width: "100%",
             }}
         >
+            <IconProvider />
             <AppRouter>
                 <AppLayout>
                     <AppView />
