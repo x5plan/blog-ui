@@ -6,8 +6,10 @@ interface ImportMetaEnv {
     readonly X5PLAN_CND_URL: string;
     readonly X5PLAN_ICON_URL: string;
     readonly X5PLAN_API_URL: string;
-}
 
-interface ImportMeta {
-    readonly env: ImportMetaEnv;
+    /**
+     * Base URL has been set to `X5PLAN_CND_URL` in `vite.config.ts`.
+     * @deprecated Use `X5PLAN_CND_URL` instead.
+     */
+    BASE_URL: string;
 }
