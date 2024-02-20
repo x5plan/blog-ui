@@ -14,6 +14,22 @@
   value: Sign in
   description: A text for sign in page title and button.
 
+- name: SIGN_IN_USERNAME_PLACEHOLDER
+  value: Username
+  description: A label for username input.
+
+- name: SIGN_IN_USERNAME_ARIA_LABEL
+  value: Enter your username.
+  description: Aria label for username input.
+
+- name: SIGN_IN_PASSWORD_PLACEHOLDER
+  value: Password
+  description: A label for password input.
+
+- name: SIGN_IN_PASSWORD_ARIA_LABEL
+  value: Enter your password.
+  description: Aria label for password input.
+
 - name: SIGN_UP_TITLE
   value: Sign up
   description: A text for sign up page title and button.
@@ -65,5 +81,3 @@
 - name: USER_MENU_ITEM_SIGN_OUT
   value: Sign out
   description: Menu item title.
-
-

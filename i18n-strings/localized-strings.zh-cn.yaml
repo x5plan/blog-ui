@@ -18,6 +18,26 @@
   description: A text for sign in page title and button.
   raw: Sign in
 
+- name: SIGN_IN_USERNAME_PLACEHOLDER
+  value: null
+  description: A label for username input.
+  raw: Username
+
+- name: SIGN_IN_USERNAME_ARIA_LABEL
+  value: null
+  description: Aria label for username input.
+  raw: Enter your username.
+
+- name: SIGN_IN_PASSWORD_PLACEHOLDER
+  value: null
+  description: A label for password input.
+  raw: Password
+
+- name: SIGN_IN_PASSWORD_ARIA_LABEL
+  value: null
+  description: Aria label for password input.
+  raw: Enter your password.
+
 - name: SIGN_UP_TITLE
   value: 注册
   description: A text for sign up page title and button.
