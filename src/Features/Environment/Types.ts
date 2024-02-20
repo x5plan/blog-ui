@@ -2,6 +2,7 @@ import type { CE_Theme } from "../Theme/Types";
 
 export interface IEnvState {
     apiEndPoint: string;
+    cdnEndPoint: string;
 
     theme: CE_Theme;
 
@@ -21,4 +22,6 @@ export interface IEnvState {
     isMobileView: boolean;
 
     isRtl: boolean;
+
+    isProduction: boolean;
 }

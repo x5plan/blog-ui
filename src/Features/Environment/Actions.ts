@@ -2,7 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 
 import type { IAppDispatch } from "../Store/Types";
 import { initThemeAction } from "../Theme/Actions";
-import { getApiEndPoint } from "./Settings/ApiEndPoint";
+import { getApiUrl, getCdnUrl, getIsProd } from "./Settings/ImportEnv";
 import { isMiddleScreen, isMiniScreen, isMobileView, isSmallScreen } from "./Settings/Screen";
 import {
     isAndroid,
@@ -38,7 +38,10 @@ export const initEnvAction = (dispatch: IAppDispatch) => {
             isFirefox: isFireFox(),
             isSafari: isSafari(),
 
-            apiEndPoint: getApiEndPoint(),
+            isProduction: getIsProd(),
+
+            apiEndPoint: getApiUrl(),
+            cdnEndPoint: getCdnUrl(),
         }),
     );
     dispatch(initThemeAction);

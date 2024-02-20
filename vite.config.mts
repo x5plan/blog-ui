@@ -43,6 +43,9 @@ export default defineConfig({
             },
         }
     },
+    preview: {
+        port: 5056,
+    },
     build: {
         rollupOptions: {
             output: {
