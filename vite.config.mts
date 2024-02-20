@@ -4,7 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { createHtmlPlugin } from "vite-plugin-html";
 
 interface IAppEnv {
-    readonly X5PLAN_CND_URL: string;
+    readonly X5PLAN_CDN_URL: string;
     readonly X5PLAN_ICON_URL: string;
     readonly X5PLAN_API_URL: string;
     readonly X5PLAN_DEV_API_URL: string;
@@ -15,7 +15,7 @@ const appEnv = loadEnv("", process.cwd(), "X5PLAN_") as unknown as IAppEnv;
 // https://vitejs.dev/config/
 export default defineConfig({
     envPrefix: "X5PLAN_",
-    base: appEnv.X5PLAN_CND_URL,
+    base: appEnv.X5PLAN_CDN_URL,
     plugins: [
         react(),
         tsconfigPaths(),
@@ -42,6 +42,9 @@ export default defineConfig({
                 changeOrigin: true,
             },
         }
+    },
+    preview: {
+        port: 5056,
     },
     build: {
         rollupOptions: {

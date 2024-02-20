@@ -4,6 +4,7 @@ import * as React from "react";
 import { getTheme } from "./Features/Environment/Selectors";
 import { AppLayout } from "./Features/Layout/AppLayout";
 import { useIsRtl } from "./Features/LocalizedString/Hooks";
+import { PageTitleProvider } from "./Features/Page/PageTitleProvider";
 import { AppRouter } from "./Features/Router/Router";
 import { AppView } from "./Features/Router/View";
 import { useAppSelector } from "./Features/Store/Store";
@@ -23,6 +24,7 @@ export const App: React.FC = () => {
                 width: "100%",
             }}
         >
+            <PageTitleProvider />
             <IconProvider />
             <AppRouter>
                 <AppLayout>

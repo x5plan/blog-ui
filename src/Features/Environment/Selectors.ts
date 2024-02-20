@@ -3,6 +3,7 @@ import type { IRootState } from "@/Features/Store/Types";
 export const getEnv = (state: IRootState) => state.env;
 
 export const getApiEndPoint = (state: IRootState) => state.env.apiEndPoint;
+export const getCdnEndPoint = (state: IRootState) => state.env.cdnEndPoint;
 
 export const getTheme = (state: IRootState) => state.env.theme;
 
@@ -22,3 +23,5 @@ export const getIsMobile = (state: IRootState) => state.env.isMobile;
 export const getIsMobileView = (state: IRootState) => state.env.isMobileView;
 
 export const getIsRtl = (state: IRootState) => state.env.isRtl;
+
+export const getIsProduction = (state: IRootState) => state.env.isProduction;
