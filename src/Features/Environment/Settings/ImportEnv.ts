@@ -7,5 +7,5 @@ export function getApiUrl() {
 }
 
 export function getCdnUrl() {
-    return import.meta.env.X5PLAN_CND_URL;
+    return import.meta.env.X5PLAN_CDN_URL;
 }
