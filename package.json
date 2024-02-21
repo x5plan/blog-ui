@@ -6,9 +6,9 @@
     "start": "vite",
     "build": "tsc && vite build",
     "build:scripts": "tsc -p scripts",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,cjs,ts,tsx}\"",
-    "lint": "eslint \"src/**/*.{js,cjs,ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{js,cjs,ts,tsx}\" --fix",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,cjs,mjs,ts,mts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,cjs,mjs,ts,mts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,cjs,mjs,ts,mts,tsx}\" --fix",
     "preview": "vite preview",
     "i18n": "node dist-scripts/localized-string.js && eslint --fix src/Features/LocalizedString/locale.{d,strings}.ts"
   },
