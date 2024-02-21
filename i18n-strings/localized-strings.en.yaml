@@ -38,10 +38,40 @@
   description: Aria label for password input.
   raw: Enter your password.
 
+- name: SIGN_IN_NO_SUCH_USER_ERROR
+  value: User not found.
+  description: A error message for no such user.
+  raw: User not found.
+
+- name: SIGN_IN_WRONG_PASSWORD_ERROR
+  value: Wrong password.
+  description: A error message for wrong password.
+  raw: Wrong password.
+
+- name: SIGN_IN_EMPTY_USERNAME_ERROR
+  value: Username cannot be empty.
+  description: A error message for empty username.
+  raw: Username cannot be empty.
+
+- name: SIGN_IN_EMPTY_PASSWORD_ERROR
+  value: Password cannot be empty.
+  description: A error message for empty password.
+  raw: Password cannot be empty.
+
 - name: SIGN_UP_TITLE
   value: Sign up
   description: A text for sign up page title and button.
   raw: Sign up
+
+- name: FORGOT_PASSWORD_LINK
+  value: Forgot password?
+  description: A text for forgot password link.
+  raw: Forgot password?
+
+- name: RESET_PASSWORD_TITLE
+  value: Reset password
+  description: A text for reset password page title.
+  raw: Reset password
 
 - name: ARTICLE_PAGE_TITLE
   value: Articles
@@ -69,9 +99,9 @@
   raw: Authentication failed.
 
 - name: APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION
-  value: Please sign in again.
+  value: Please sign in first.
   description: A error description for auth error.
-  raw: Please sign in again.
+  raw: Please sign in first.
 
 - name: USER_MENU_ARIA_LABEL
   value: Open user menu.
