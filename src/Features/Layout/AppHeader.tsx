@@ -3,7 +3,9 @@ import { Navigation24Regular } from "@fluentui/react-icons";
 import * as React from "react";
 
 import { useIsSignedIn } from "../Auth/Hooks";
+import { getAppName } from "../Config/Selectors";
 import { useIsMiddleScreen, useIsSmallScreen } from "../Environment/Hooks";
+import { useAppSelector } from "../Store/Store";
 import { AppNavi } from "./AppNavi";
 import { loadAppSideBarNavi, loadUserMenu } from "./DynimicImports";
 import { SignInButtons } from "./SignInButtons";
@@ -19,10 +21,12 @@ export const AppHeader: React.FC = () => {
 
     const styles = useAppHeaderStyles();
 
+    const appName = useAppSelector(getAppName);
+
     return (
         <div className={styles.root}>
             <div className={styles.left}>
-                <div className={styles.title}>X5Plan Blog</div>
+                <div className={styles.title}>{appName}</div>
                 {!isMiddleScreen && <AppNavi isInSidebar={false} />}
             </div>
             <div className={styles.right}>

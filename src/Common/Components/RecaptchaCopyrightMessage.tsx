@@ -2,6 +2,7 @@ import { makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-co
 import DOMPurify from "dompurify";
 import * as React from "react";
 
+import { getRecaptchaEnabled } from "@/Features/Config/Selectors";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useAppSelector } from "@/Features/Store/Store";
@@ -35,7 +36,7 @@ const useStyles = makeStyles({
 export const RecaptchaCopyrightMessage: React.FC<IRecaptchaCopyrightMessageProps> = (props) => {
     const { className } = props;
 
-    const recaptchaEnabled = useAppSelector((state) => state.config.recaptchaEnabled);
+    const recaptchaEnabled = useAppSelector(getRecaptchaEnabled);
     const styles = useStyles();
 
     const [s_copyright, s_privacyPolicy, s_termsOfService] = useLocalizedStrings(
