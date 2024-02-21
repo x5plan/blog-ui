@@ -46,6 +46,10 @@
   value: Password cannot be empty.
   description: A error message for empty password.
 
+- name: SIGN_IN_WELCOME_MESSAGE
+  value: Hi {0}, welcome back!
+  description: A welcome message for sign in page. {0} is the nickname or username of the user.
+
 - name: SIGN_UP_TITLE
   value: Sign up
   description: A text for sign up page title and button.

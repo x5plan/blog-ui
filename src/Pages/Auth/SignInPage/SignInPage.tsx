@@ -1,9 +1,11 @@
-import { Button, Field, Input, Spinner } from "@fluentui/react-components";
+import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
 import { PasswordFilled, PersonFilled } from "@fluentui/react-icons";
 import * as React from "react";
 import { useNavigation } from "react-navi";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
+import { useAppToastController } from "@/Common/Hooks/AppToast";
+import { format } from "@/Common/Utilities/Format";
 import { isUsername } from "@/Common/Validators/Username";
 import { setAuthAction, updateBearerTokenAction } from "@/Features/Auth/Actions";
 import { CE_ErrorCode } from "@/Features/Error/ErrorCode";
@@ -27,6 +29,9 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
     const styles = useSignInPageStyles();
+    const { dispatchToast } = useAppToastController();
+
+    const passwordRef = React.useRef<HTMLInputElement>(null);
 
     const [
         c_usernamePlaceholder,
@@ -39,6 +44,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         c_wrongPasswordError,
         c_emptyUsernameError,
         c_emptyPasswordError,
+        c_welcomeMessage,
     ] = useLocalizedStrings(
         CE_Strings.SIGN_IN_USERNAME_PLACEHOLDER,
         CE_Strings.SIGN_IN_PASSWORD_PLACEHOLDER,
@@ -50,6 +56,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         CE_Strings.SIGN_IN_WRONG_PASSWORD_ERROR,
         CE_Strings.SIGN_IN_EMPTY_USERNAME_ERROR,
         CE_Strings.SIGN_IN_EMPTY_PASSWORD_ERROR,
+        CE_Strings.SIGN_IN_WELCOME_MESSAGE,
     );
 
     const [username, setUsername] = React.useState("");
@@ -97,19 +104,50 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                     } else if (error.errCode === CE_ErrorCode.Auth_WrongPassword) {
                         setPasswordError(c_wrongPasswordError);
                     }
-                } else {
-                    dispatch(updateBearerTokenAction(data.token));
-                    dispatch(setAuthAction({ currentUser: data.userBaseDetail }));
-                    navigation.navigate(props.redirectPath || CE_PageBaseRoute.Home);
+                    return;
                 }
+
+                const { token, userBaseDetail } = data;
+
+                dispatch(updateBearerTokenAction(token));
+                dispatch(setAuthAction({ currentUser: userBaseDetail }));
+                dispatchToast(
+                    <Toast>
+                        <ToastTitle>
+                            {format(
+                                c_welcomeMessage,
+                                userBaseDetail.nickname || userBaseDetail.username,
+                            )}
+                        </ToastTitle>
+                    </Toast>,
+                    {
+                        position: "top-end",
+                        intent: "success",
+                        timeout: 2000,
+                    },
+                );
+                navigation.navigate(props.redirectPath || CE_PageBaseRoute.Home);
+            })
+            .catch((error: Error) => {
+                dispatchToast(
+                    <Toast>
+                        <ToastTitle>{error.message}</ToastTitle>
+                    </Toast>,
+                    {
+                        position: "top-end",
+                        intent: "error",
+                    },
+                );
             })
             .finally(() => {
                 setLoading(false);
             });
     }, [
         c_noSuchUserError,
+        c_welcomeMessage,
         c_wrongPasswordError,
         dispatch,
+        dispatchToast,
         navigation,
         password,
         props.redirectPath,
@@ -131,6 +169,11 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                             disabled={loading}
                             value={username}
                             onChange={(e, { value }) => setUsername(value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    passwordRef.current.focus();
+                                }
+                            }}
                         />
                     </Field>
 
@@ -143,6 +186,12 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                             disabled={loading}
                             value={password}
                             onChange={(e, { value }) => setPassword(value)}
+                            ref={passwordRef}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    onSignInButtonClick();
+                                }
+                            }}
                         />
                     </Field>
 

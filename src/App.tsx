@@ -1,6 +1,7 @@
 import { FluentProvider } from "@fluentui/react-components";
 import * as React from "react";
 
+import { AppToastProvider } from "./Common/Components/AppToast";
 import { getTheme } from "./Features/Environment/Selectors";
 import { AppLayout } from "./Features/Layout/AppLayout";
 import { useIsRtl } from "./Features/LocalizedString/Hooks";
@@ -26,11 +27,13 @@ export const App: React.FC = () => {
         >
             <PageTitleProvider />
             <IconProvider />
-            <AppRouter>
-                <AppLayout>
-                    <AppView />
-                </AppLayout>
-            </AppRouter>
+            <AppToastProvider>
+                <AppRouter>
+                    <AppLayout>
+                        <AppView />
+                    </AppLayout>
+                </AppRouter>
+            </AppToastProvider>
         </FluentProvider>
     );
 };
