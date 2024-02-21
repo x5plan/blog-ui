@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
 
-import { getCdnEndPoint, getTheme } from "../Environment/Selectors";
-import { useAppSelector } from "../Store/Store";
-import { CE_Theme } from "./Types";
+import { getCdnEndPoint, getTheme } from "../../Features/Environment/Selectors";
+import { useAppSelector } from "../../Features/Store/Store";
+import { CE_Theme } from "../../Features/Theme/Types";
 
 const iconSizes = [16, 32, 48, 128, 192, 256];
 const iosIconSizes = [152, 167, 180];

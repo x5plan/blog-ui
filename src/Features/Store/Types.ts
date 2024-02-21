@@ -1,4 +1,5 @@
 import type { IAuthState } from "../Auth/Types";
+import type { IConfigState } from "../Config/Types";
 import type { IEnvState } from "../Environment/Types";
 import type { ILocaleState } from "../LocalizedString/Types";
 import type { IPageState } from "../Page/Types";
@@ -9,6 +10,7 @@ export interface IStaticReducerMap {
     locale: ILocaleState;
     page: IPageState;
     auth: IAuthState;
+    config: IConfigState;
 }
 
 export interface IDynamicReducerMap {}

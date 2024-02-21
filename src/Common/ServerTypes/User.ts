@@ -1,11 +1,11 @@
 export interface IUserBaseDetail {
-    id: string;
-    username: string;
-    email: string;
-    nickname: string;
-    isAdmin: boolean;
+    readonly id: string;
+    readonly username: string;
+    readonly email: string;
+    readonly nickname: string;
+    readonly isAdmin: boolean;
 }
 
 export interface IUserDetail extends IUserBaseDetail {
-    bio: string;
+    readonly bio: string;
 }

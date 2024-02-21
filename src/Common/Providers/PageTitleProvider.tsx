@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
 
-import { useAppSelector } from "../Store/Store";
-import { getPageTitle } from "./Selectors";
+import { getAppName } from "@/Features/Config/Selectors";
 
-const siteName = "X5Plan Blog";
+import { getPageTitle } from "../../Features/Page/Selectors";
+import { useAppSelector } from "../../Features/Store/Store";
 
 export const PageTitleProvider: React.FC = () => {
     const pageTitle = useAppSelector(getPageTitle);
+    const siteName = useAppSelector(getAppName);
 
     return (
         <Helmet>

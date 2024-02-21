@@ -5,6 +5,7 @@ import { useNavigation } from "react-navi";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
+import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import { format } from "@/Common/Utilities/Format";
 import { isUsername } from "@/Common/Validators/Username";
 import { setAuthAction, updateBearerTokenAction } from "@/Features/Auth/Actions";
@@ -30,6 +31,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     const navigation = useNavigation();
     const styles = useSignInPageStyles();
     const { dispatchToast } = useAppToastController();
+    const recaptchaAsync = useRecaptchaAsync();
 
     const passwordRef = React.useRef<HTMLInputElement>(null);
 
@@ -96,7 +98,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         setUsernameError(null);
         setPasswordError(null);
 
-        postSignInRequestAsync({ username, password }, "")
+        postSignInRequestAsync({ username, password }, recaptchaAsync)
             .then(({ data, error }) => {
                 if (error) {
                     if (error.errCode === CE_ErrorCode.Auth_NoSuchUser) {
@@ -143,14 +145,15 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                 setLoading(false);
             });
     }, [
-        s_noSuchUserError,
-        s_welcomeMessage,
-        s_wrongPasswordError,
         dispatch,
         dispatchToast,
         navigation,
         password,
         props.redirectPath,
+        recaptchaAsync,
+        s_noSuchUserError,
+        s_welcomeMessage,
+        s_wrongPasswordError,
         username,
         validateForm,
     ]);
@@ -166,6 +169,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                             placeholder={s_usernamePlaceholder}
                             aria-label={s_usernameAriaLabel}
                             type="text"
+                            autoComplete="username"
                             disabled={loading}
                             value={username}
                             onChange={(e, { value }) => setUsername(value)}
@@ -183,6 +187,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                             placeholder={s_passwordPlaceholder}
                             aria-label={s_passwordAriaLabel}
                             type="password"
+                            autoComplete="current-password"
                             disabled={loading}
                             value={password}
                             onChange={(e, { value }) => setPassword(value)}

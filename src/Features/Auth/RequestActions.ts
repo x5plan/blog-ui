@@ -15,6 +15,7 @@ This file <- ./Request.ts
 import { CE_StroageKeys } from "@/Common/Enums/StorageKeys";
 import { getLocalStorage } from "@/Common/Utilities/SafeStorage";
 
+import { setConfigAction } from "../Config/Actions";
 import type { IAppDispatch } from "../Store/Types";
 import { setAuthAction, updateBearerTokenAction } from "./Actions";
 import { getAccessTokenRequestAsync, postSignOutUserRequestAsync } from "./Request";
@@ -35,6 +36,7 @@ export const initAuthAction = async (dispatch: IAppDispatch) => {
             currentUser: data.userBaseDetail,
         }),
     );
+    dispatch(setConfigAction(data.config));
 };
 
 export const signOutUserRequestAction = async (dispatch: IAppDispatch) => {
