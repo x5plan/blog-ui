@@ -12,7 +12,7 @@ export const setAuthAction = createAction(UPDATE_AUTH, (props: Partial<IAuthStat
     payload: props,
 }));
 
-export const updateBearerToken = (token: string) => (dispatch: IAppDispatch) => {
+export const updateBearerTokenAction = (token: string) => (dispatch: IAppDispatch) => {
     dispatch(setAuthAction({ bearerToken: token }));
     getLocalStorage().setItem(CE_StroageKeys.ApiBearerToken, token);
 };

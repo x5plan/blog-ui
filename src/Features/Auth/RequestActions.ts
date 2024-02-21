@@ -16,7 +16,7 @@ import { CE_StroageKeys } from "@/Common/Enums/StorageKeys";
 import { getLocalStorage } from "@/Common/Utilities/SafeStorage";
 
 import type { IAppDispatch } from "../Store/Types";
-import { setAuthAction, updateBearerToken } from "./Actions";
+import { setAuthAction, updateBearerTokenAction } from "./Actions";
 import { getAccessTokenRequestAsync, postSignOutUserRequestAsync } from "./Request";
 
 export const initAuthAction = async (dispatch: IAppDispatch) => {
@@ -25,7 +25,7 @@ export const initAuthAction = async (dispatch: IAppDispatch) => {
     const { data } = await getAccessTokenRequestAsync(token);
 
     if (!data) {
-        dispatch(updateBearerToken(""));
+        dispatch(updateBearerTokenAction(""));
         return;
     }
 
@@ -39,6 +39,6 @@ export const initAuthAction = async (dispatch: IAppDispatch) => {
 
 export const signOutUserRequestAction = async (dispatch: IAppDispatch) => {
     await postSignOutUserRequestAsync();
-    dispatch(updateBearerToken(""));
+    dispatch(updateBearerTokenAction(""));
     dispatch(setAuthAction({ currentUser: null }));
 };
