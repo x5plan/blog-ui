@@ -1,5 +1,8 @@
 import * as React from "react";
 
+import { toQueryString } from "@/Common/Utilities/QueryString";
+import { parseUrlToNavigate } from "@/Common/Utilities/SameOrigin";
+
 import { useLocalizedString, useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 import { CE_PageBaseRoute } from "../Page/Types";
@@ -23,11 +26,11 @@ export const useErrorCustomLocalizedDescription = (code: CE_ErrorCode) => {
     const strings = useLocalizedStrings(CE_Strings.APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION);
 
     return React.useMemo<string>(() => {
-        const [c_authErrorDescription] = strings;
+        const [s_authErrorDescription] = strings;
 
         switch (code) {
             case CE_ErrorCode.AuthRequired:
-                return c_authErrorDescription;
+                return s_authErrorDescription;
 
             default:
                 return null;
@@ -39,18 +42,18 @@ export const useErrorPageLinks = (code: CE_ErrorCode) => {
     const strings = useLocalizedStrings(CE_Strings.SIGN_IN_TITLE, CE_Strings.SIGN_UP_TITLE);
 
     return React.useMemo<IErrorPageLink[]>(() => {
-        const [c_signInTitle, c_signUpTitle] = strings;
+        const [s_signInTitle, s_signUpTitle] = strings;
 
         switch (code) {
             case CE_ErrorCode.AuthRequired:
                 return [
                     {
-                        title: c_signInTitle,
-                        href: CE_PageBaseRoute.SignIn,
+                        title: s_signInTitle,
+                        href: `${CE_PageBaseRoute.SignIn}?${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
                     },
                     {
-                        title: c_signUpTitle,
-                        href: CE_PageBaseRoute.SignUp,
+                        title: s_signUpTitle,
+                        href: `${CE_PageBaseRoute.SignUp}${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
                     },
                 ];
 

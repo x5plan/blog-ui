@@ -18,10 +18,67 @@
   description: A text for sign in page title and button.
   raw: Sign in
 
+- name: SIGN_IN_USERNAME_PLACEHOLDER
+  value: null
+  description: A label for username input.
+  raw: Username
+
+- name: SIGN_IN_USERNAME_ARIA_LABEL
+  value: null
+  description: Aria label for username input.
+  raw: Enter your username.
+
+- name: SIGN_IN_PASSWORD_PLACEHOLDER
+  value: null
+  description: A label for password input.
+  raw: Password
+
+- name: SIGN_IN_PASSWORD_ARIA_LABEL
+  value: null
+  description: Aria label for password input.
+  raw: Enter your password.
+
+- name: SIGN_IN_NO_SUCH_USER_ERROR
+  value: null
+  description: A error message for no such user.
+  raw: User not found.
+
+- name: SIGN_IN_WRONG_PASSWORD_ERROR
+  value: null
+  description: A error message for wrong password.
+  raw: Wrong password.
+
+- name: SIGN_IN_EMPTY_USERNAME_ERROR
+  value: null
+  description: A error message for empty username.
+  raw: Username cannot be empty.
+
+- name: SIGN_IN_EMPTY_PASSWORD_ERROR
+  value: null
+  description: A error message for empty password.
+  raw: Password cannot be empty.
+
+- name: SIGN_IN_WELCOME_MESSAGE
+  value: null
+  description: >-
+    A welcome message for sign in page. {0} is the nickname or username of the
+    user.
+  raw: Hi {0}, welcome back!
+
 - name: SIGN_UP_TITLE
   value: 注册
   description: A text for sign up page title and button.
   raw: Sign up
+
+- name: FORGOT_PASSWORD_LINK
+  value: null
+  description: A text for forgot password link.
+  raw: Forgot password?
+
+- name: RESET_PASSWORD_TITLE
+  value: null
+  description: A text for reset password page title.
+  raw: Reset password
 
 - name: ARTICLE_PAGE_TITLE
   value: 文章
@@ -49,9 +106,9 @@
   raw: Authentication failed.
 
 - name: APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION
-  value: 请重新登录。
+  value: null
   description: A error description for auth error.
-  raw: Please sign in again.
+  raw: Please sign in first.
 
 - name: USER_MENU_ARIA_LABEL
   value: null

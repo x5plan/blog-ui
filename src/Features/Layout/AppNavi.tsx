@@ -24,7 +24,7 @@ interface INavItem {
 export const AppNavi: React.FC<IAppNaviProps> = (props) => {
     const { isInSidebar, onItemClicked } = props;
 
-    const [c_homePageString, c_articlePageString, c_navigationSectionTitleString] =
+    const [s_homePageString, s_articlePageString, s_navigationSectionTitleString] =
         useLocalizedStrings(
             CE_Strings.HOME_PAGE_TITLE,
             CE_Strings.ARTICLE_PAGE_TITLE,
@@ -38,25 +38,25 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
     const navList = React.useMemo<INavItem[]>(
         () => [
             {
-                label: c_homePageString,
+                label: s_homePageString,
                 icon: <Home20Filled />,
                 type: CE_PageType.Home,
                 path: "/",
             },
             {
-                label: c_articlePageString,
+                label: s_articlePageString,
                 icon: <DocumentBulletList20Regular />,
                 type: CE_PageType.Article,
                 path: "/article",
             },
         ],
-        [c_homePageString, c_articlePageString],
+        [s_homePageString, s_articlePageString],
     );
 
     return (
         <div className={mergeClasses(styles.root, isInSidebar && styles.inSideBarRoot)}>
             <TabList
-                aria-label={c_navigationSectionTitleString}
+                aria-label={s_navigationSectionTitleString}
                 vertical={isInSidebar}
                 appearance={isInSidebar ? "subtle" : "transparent"}
                 className={styles.tabList}
