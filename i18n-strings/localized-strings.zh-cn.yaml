@@ -4,7 +4,7 @@
   raw: Close
 
 - name: COMMON_BACK_BUTTON
-  value: null
+  value: 返回
   description: A string for the label of back button.
   raw: Back
 
@@ -19,47 +19,47 @@
   raw: Sign in
 
 - name: SIGN_IN_USERNAME_PLACEHOLDER
-  value: null
+  value: 用户名
   description: A label for username input.
   raw: Username
 
 - name: SIGN_IN_USERNAME_ARIA_LABEL
-  value: null
+  value: 输入你的用户名。
   description: Aria label for username input.
   raw: Enter your username.
 
 - name: SIGN_IN_PASSWORD_PLACEHOLDER
-  value: null
+  value: 密码
   description: A label for password input.
   raw: Password
 
 - name: SIGN_IN_PASSWORD_ARIA_LABEL
-  value: null
+  value: 输入你的密码。
   description: Aria label for password input.
   raw: Enter your password.
 
 - name: SIGN_IN_NO_SUCH_USER_ERROR
-  value: null
+  value: 用户不存在。
   description: A error message for no such user.
   raw: User not found.
 
 - name: SIGN_IN_WRONG_PASSWORD_ERROR
-  value: null
+  value: 密码错误。
   description: A error message for wrong password.
   raw: Wrong password.
 
 - name: SIGN_IN_EMPTY_USERNAME_ERROR
-  value: null
+  value: 用户名不能为空。
   description: A error message for empty username.
   raw: Username cannot be empty.
 
 - name: SIGN_IN_EMPTY_PASSWORD_ERROR
-  value: null
+  value: 密码不能为空。
   description: A error message for empty password.
   raw: Password cannot be empty.
 
 - name: SIGN_IN_WELCOME_MESSAGE
-  value: null
+  value: 你好 {0}，欢迎回来！
   description: >-
     A welcome message for sign in page. {0} is the nickname or username of the
     user.
@@ -71,12 +71,12 @@
   raw: Sign up
 
 - name: FORGOT_PASSWORD_LINK
-  value: null
+  value: 忘记密码？
   description: A text for forgot password link.
   raw: Forgot password?
 
 - name: RESET_PASSWORD_TITLE
-  value: null
+  value: 重置密码
   description: A text for reset password page title.
   raw: Reset password
 
@@ -106,36 +106,58 @@
   raw: Authentication failed.
 
 - name: APP_ERROR_COMMON_AUTH_ERROR_DESCRIPTION
-  value: null
+  value: 请先登录。
   description: A error description for auth error.
   raw: Please sign in first.
 
 - name: USER_MENU_ARIA_LABEL
-  value: null
+  value: 打开用户菜单。
   description: A text for user menu aria label.
   raw: Open user menu.
 
 - name: USER_MENU_ITEM_PROFILE
-  value: null
+  value: 我的资料
   description: Menu item title.
   raw: My Profile
 
 - name: USER_MENU_ITEM_EDIT_PROFILE
-  value: null
+  value: 编辑资料
   description: Menu item title.
   raw: Edit profile
 
 - name: USER_MENU_ITEM_SETTING
-  value: null
+  value: 设置
   description: Menu item title.
   raw: Settings
 
 - name: USER_MENU_ITEM_INVITE
-  value: null
+  value: 邀请新用户
   description: Menu item title.
   raw: Invite new users
 
 - name: USER_MENU_ITEM_SIGN_OUT
-  value: null
+  value: 登出
   description: Menu item title.
   raw: Sign out
+
+- name: GOOGLE_RECAPTCHA_COPYRIGHT
+  value: 本网站受 reCAPTCHA 的保护，适用 Google {0}和{1}。
+  description: >-
+    A string for Google reCAPTCHA copyright. {0} is the privacy policy link, {1}
+    is the terms of service link.
+  raw: This site is protected by reCAPTCHA and the Google {0} and {1} apply.
+
+- name: GOOGLE_RECAPTCHA_PRIVACY_POLICY
+  value: 隐私政策
+  description: A string for Google reCAPTCHA privacy policy link.
+  raw: Privacy Policy
+
+- name: GOOGLE_RECAPTCHA_TERMS_OF_SERVICE
+  value: 服务条款
+  description: A string for Google reCAPTCHA terms of service link.
+  raw: Terms of Service
+
+- name: APP_COPYRIGHT_TEXT
+  value: 版权所有 © {0} X5Plan 小组。保留所有权利。
+  description: A string for app copyright text. {0} is the current year.
+  raw: Copyright © {0} X5Plan. All rights reserved.

@@ -139,3 +139,25 @@
   value: Sign out
   description: Menu item title.
   raw: Sign out
+
+- name: GOOGLE_RECAPTCHA_COPYRIGHT
+  value: This site is protected by reCAPTCHA and the Google {0} and {1} apply.
+  description: >-
+    A string for Google reCAPTCHA copyright. {0} is the privacy policy link, {1}
+    is the terms of service link.
+  raw: This site is protected by reCAPTCHA and the Google {0} and {1} apply.
+
+- name: GOOGLE_RECAPTCHA_PRIVACY_POLICY
+  value: Privacy Policy
+  description: A string for Google reCAPTCHA privacy policy link.
+  raw: Privacy Policy
+
+- name: GOOGLE_RECAPTCHA_TERMS_OF_SERVICE
+  value: Terms of Service
+  description: A string for Google reCAPTCHA terms of service link.
+  raw: Terms of Service
+
+- name: APP_COPYRIGHT_TEXT
+  value: Copyright © {0} X5Plan. All rights reserved.
+  description: A string for app copyright text. {0} is the current year.
+  raw: Copyright © {0} X5Plan. All rights reserved.

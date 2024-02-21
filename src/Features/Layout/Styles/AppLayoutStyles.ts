@@ -51,5 +51,19 @@ export const useAppLayoutStyles = makeStyles({
         width: "100%",
         height: "100%",
     },
-    footer: {},
+    footer: {
+        ...flex({
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+        }),
+        ...shorthands.gap("4px"),
+        color: tokens.colorNeutralForeground3,
+        marginTop: "20px",
+        marginBottom: "20px",
+    },
+    footerText: {
+        fontSize: "12px",
+        textAlign: "center",
+    },
 });
