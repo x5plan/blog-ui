@@ -37,9 +37,10 @@ export const useSignInPageStyles = makeStyles({
         }),
         ...shorthands.gap("24px"),
     },
-    field: {
+    links: {
+        width: "100%",
         ...flex({
-            flexDirection: "column",
+            justifyContent: "space-between",
         }),
     },
 });
