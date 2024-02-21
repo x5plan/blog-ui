@@ -20,3 +20,8 @@ export const rtlLanguages = [
     "ug", // Uyghur
     "ur", // Urdu
 ];
+
+export const recaptchaLanguageMap: { [k in CE_Language]: string } = {
+    [CE_Language.en]: "en",
+    [CE_Language.zh_cn]: "zh-CN",
+};
