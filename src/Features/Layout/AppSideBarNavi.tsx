@@ -23,7 +23,7 @@ export const AppSideBarNavi: React.FC<IAppSideBarNaviProps> = (props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
-    const [c_closeButtonString, c_navigationSectionTitleString] = useLocalizedStrings(
+    const [s_closeButtonString, s_navigationSectionTitleString] = useLocalizedStrings(
         CE_Strings.COMMON_CLOSE_BUTTON,
         CE_Strings.NAVIGATION_SECTION_TITLE,
     );
@@ -34,17 +34,17 @@ export const AppSideBarNavi: React.FC<IAppSideBarNaviProps> = (props) => {
                 <DrawerHeader>
                     <DrawerHeaderTitle
                         action={
-                            <Tooltip content={c_closeButtonString} relationship="label">
+                            <Tooltip content={s_closeButtonString} relationship="label">
                                 <Button
                                     appearance="subtle"
-                                    aria-label={c_closeButtonString}
+                                    aria-label={s_closeButtonString}
                                     icon={<Dismiss24Regular />}
                                     onClick={() => setIsOpen(false)}
                                 />
                             </Tooltip>
                         }
                     >
-                        {c_navigationSectionTitleString}
+                        {s_navigationSectionTitleString}
                     </DrawerHeaderTitle>
                 </DrawerHeader>
                 <DrawerBody>
@@ -52,10 +52,10 @@ export const AppSideBarNavi: React.FC<IAppSideBarNaviProps> = (props) => {
                     {showSignInLinks && <SignInLinks onLinkClicked={() => setIsOpen(false)} />}
                 </DrawerBody>
             </Drawer>
-            <Tooltip content={c_navigationSectionTitleString} relationship="label">
+            <Tooltip content={s_navigationSectionTitleString} relationship="label">
                 <Button
                     appearance="subtle"
-                    aria-label={c_navigationSectionTitleString}
+                    aria-label={s_navigationSectionTitleString}
                     onClick={() => setIsOpen(true)}
                     icon={<Navigation24Regular />}
                 />

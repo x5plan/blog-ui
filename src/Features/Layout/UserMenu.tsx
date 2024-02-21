@@ -38,12 +38,12 @@ export const UserMenu: React.FC = () => {
     const currentUser = useCurrentUser();
 
     const [
-        c_ariaLabel,
-        c_profileItemText,
-        c_settingItemText,
-        c_signOutItemText,
-        c_editProfileItemText,
-        c_inviteItemText,
+        s_ariaLabel,
+        s_profileItemText,
+        s_settingItemText,
+        s_signOutItemText,
+        s_editProfileItemText,
+        s_inviteItemText,
     ] = useLocalizedStrings(
         CE_Strings.USER_MENU_ARIA_LABEL,
         CE_Strings.USER_MENU_ITEM_PROFILE,
@@ -62,7 +62,7 @@ export const UserMenu: React.FC = () => {
     return (
         <Menu>
             <MenuTrigger>
-                <Button className={styles.button} appearance="transparent" aria-label={c_ariaLabel}>
+                <Button className={styles.button} appearance="transparent" aria-label={s_ariaLabel}>
                     {isMiniScreen ? (
                         <Tooltip content={currentUser.username} relationship="label">
                             <Avatar />
@@ -79,41 +79,41 @@ export const UserMenu: React.FC = () => {
                 <MenuList>
                     <MenuItem
                         icon={<PersonRegular />}
-                        aria-label={c_profileItemText}
+                        aria-label={s_profileItemText}
                         onClick={createNavigateOnClick(
                             `${CE_PageBaseRoute.User}/${currentUser.id}`,
                         )}
                     >
-                        {c_profileItemText}
+                        {s_profileItemText}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem
                         icon={<PeopleEditRegular />}
-                        aria-label={c_editProfileItemText}
+                        aria-label={s_editProfileItemText}
                         onClick={createNavigateOnClick(
                             `${CE_PageBaseRoute.User}/${currentUser.id}/edit`,
                         )}
                     >
-                        {c_editProfileItemText}
+                        {s_editProfileItemText}
                     </MenuItem>
-                    <MenuItem icon={<SettingsRegular />} aria-label={c_settingItemText}>
-                        {c_settingItemText}
+                    <MenuItem icon={<SettingsRegular />} aria-label={s_settingItemText}>
+                        {s_settingItemText}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem
                         icon={<PeopleAddRegular />}
-                        aria-label={c_inviteItemText}
+                        aria-label={s_inviteItemText}
                         onClick={createNavigateOnClick(`${CE_PageBaseRoute.Invite}`)}
                     >
-                        {c_inviteItemText}
+                        {s_inviteItemText}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem
                         icon={<SignOutRegular />}
-                        aria-label={c_signOutItemText}
+                        aria-label={s_signOutItemText}
                         onClick={onSignOutClick}
                     >
-                        {c_signOutItemText}
+                        {s_signOutItemText}
                     </MenuItem>
                 </MenuList>
             </MenuPopover>

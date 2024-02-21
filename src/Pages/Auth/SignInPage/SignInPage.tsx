@@ -34,17 +34,17 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     const passwordRef = React.useRef<HTMLInputElement>(null);
 
     const [
-        c_usernamePlaceholder,
-        c_passwordPlaceholder,
-        c_usernameAriaLabel,
-        c_passwordAriaLabel,
-        c_signUpTitle,
-        c_forgotPasswordLink,
-        c_noSuchUserError,
-        c_wrongPasswordError,
-        c_emptyUsernameError,
-        c_emptyPasswordError,
-        c_welcomeMessage,
+        s_usernamePlaceholder,
+        s_passwordPlaceholder,
+        s_usernameAriaLabel,
+        s_passwordAriaLabel,
+        s_signUpTitle,
+        s_forgotPasswordLink,
+        s_noSuchUserError,
+        s_wrongPasswordError,
+        s_emptyUsernameError,
+        s_emptyPasswordError,
+        s_welcomeMessage,
     ] = useLocalizedStrings(
         CE_Strings.SIGN_IN_USERNAME_PLACEHOLDER,
         CE_Strings.SIGN_IN_PASSWORD_PLACEHOLDER,
@@ -69,22 +69,22 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         let isSuccessful = true;
 
         if (!username) {
-            setUsernameError(c_emptyUsernameError);
+            setUsernameError(s_emptyUsernameError);
             isSuccessful = false;
         }
 
         if (username && !isUsername(username)) {
-            setUsernameError(c_noSuchUserError);
+            setUsernameError(s_noSuchUserError);
             isSuccessful = false;
         }
 
         if (!password) {
-            setPasswordError(c_emptyPasswordError);
+            setPasswordError(s_emptyPasswordError);
             isSuccessful = false;
         }
 
         return isSuccessful;
-    }, [c_emptyPasswordError, c_emptyUsernameError, c_noSuchUserError, password, username]);
+    }, [s_emptyPasswordError, s_emptyUsernameError, s_noSuchUserError, password, username]);
 
     const onSignInButtonClick = React.useCallback(() => {
         if (!validateForm()) {
@@ -100,9 +100,9 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
             .then(({ data, error }) => {
                 if (error) {
                     if (error.errCode === CE_ErrorCode.Auth_NoSuchUser) {
-                        setUsernameError(c_noSuchUserError);
+                        setUsernameError(s_noSuchUserError);
                     } else if (error.errCode === CE_ErrorCode.Auth_WrongPassword) {
-                        setPasswordError(c_wrongPasswordError);
+                        setPasswordError(s_wrongPasswordError);
                     }
                     return;
                 }
@@ -115,7 +115,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                     <Toast>
                         <ToastTitle>
                             {format(
-                                c_welcomeMessage,
+                                s_welcomeMessage,
                                 userBaseDetail.nickname || userBaseDetail.username,
                             )}
                         </ToastTitle>
@@ -143,9 +143,9 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                 setLoading(false);
             });
     }, [
-        c_noSuchUserError,
-        c_welcomeMessage,
-        c_wrongPasswordError,
+        s_noSuchUserError,
+        s_welcomeMessage,
+        s_wrongPasswordError,
         dispatch,
         dispatchToast,
         navigation,
@@ -163,8 +163,8 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                     <Field validationMessage={usernameError}>
                         <Input
                             contentBefore={<PersonFilled />}
-                            placeholder={c_usernamePlaceholder}
-                            aria-label={c_usernameAriaLabel}
+                            placeholder={s_usernamePlaceholder}
+                            aria-label={s_usernameAriaLabel}
                             type="text"
                             disabled={loading}
                             value={username}
@@ -180,8 +180,8 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                     <Field validationMessage={passwordError}>
                         <Input
                             contentBefore={<PasswordFilled />}
-                            placeholder={c_passwordPlaceholder}
-                            aria-label={c_passwordAriaLabel}
+                            placeholder={s_passwordPlaceholder}
+                            aria-label={s_passwordAriaLabel}
                             type="password"
                             disabled={loading}
                             value={password}
@@ -205,9 +205,9 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                     </Button>
                 </form>
                 <div className={styles.links}>
-                    <RouterLink href={CE_PageBaseRoute.SignUp}>{c_signUpTitle}</RouterLink>
+                    <RouterLink href={CE_PageBaseRoute.SignUp}>{s_signUpTitle}</RouterLink>
                     <RouterLink href={CE_PageBaseRoute.ResetPassword}>
-                        {c_forgotPasswordLink}
+                        {s_forgotPasswordLink}
                     </RouterLink>
                 </div>
             </div>
