@@ -1,3 +1,4 @@
+import type { IAppConfig } from "@/Common/ServerTypes/Config";
 import type { IUserBaseDetail } from "@/Common/ServerTypes/User";
 
 export interface IAuthState {
@@ -11,4 +12,5 @@ export interface IGetAccessTokenRequestQuery {
 
 export interface IGetAccessTokenResponse {
     userBaseDetail: IUserBaseDetail;
+    config: IAppConfig;
 }
