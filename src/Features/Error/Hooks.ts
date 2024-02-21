@@ -1,5 +1,8 @@
 import * as React from "react";
 
+import { toQueryString } from "@/Common/Utilities/QueryString";
+import { parseUrlToNavigate } from "@/Common/Utilities/SameOrigin";
+
 import { useLocalizedString, useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 import { CE_PageBaseRoute } from "../Page/Types";
@@ -46,11 +49,11 @@ export const useErrorPageLinks = (code: CE_ErrorCode) => {
                 return [
                     {
                         title: c_signInTitle,
-                        href: CE_PageBaseRoute.SignIn,
+                        href: `${CE_PageBaseRoute.SignIn}?${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
                     },
                     {
                         title: c_signUpTitle,
-                        href: CE_PageBaseRoute.SignUp,
+                        href: `${CE_PageBaseRoute.SignUp}${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
                     },
                 ];
 
