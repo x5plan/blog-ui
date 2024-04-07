@@ -18,15 +18,15 @@ export const App: React.FC = () => {
     const isRtl = useIsRtl();
 
     return (
-        <RecaptchaProvider>
-            <FluentProvider
-                theme={themeMap[theme]}
-                dir={isRtl ? "rtl" : "ltr"}
-                style={{
-                    height: "100%",
-                    width: "100%",
-                }}
-            >
+        <FluentProvider
+            theme={themeMap[theme]}
+            dir={isRtl ? "rtl" : "ltr"}
+            style={{
+                height: "100%",
+                width: "100%",
+            }}
+        >
+            <RecaptchaProvider>
                 <PageTitleProvider />
                 <IconProvider />
                 <AppToastProvider>
@@ -36,8 +36,8 @@ export const App: React.FC = () => {
                         </AppLayout>
                     </AppRouter>
                 </AppToastProvider>
-            </FluentProvider>
-        </RecaptchaProvider>
+            </RecaptchaProvider>
+        </FluentProvider>
     );
 };
 
