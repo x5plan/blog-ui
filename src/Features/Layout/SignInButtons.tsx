@@ -1,5 +1,5 @@
 import { Button } from "@fluentui/react-button";
-import React from "react";
+import * as React from "react";
 import { useNavigation } from "react-navi";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
