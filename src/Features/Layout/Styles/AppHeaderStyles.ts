@@ -39,5 +39,6 @@ export const useAppHeaderStyles = makeStyles({
         fontWeight: "600",
         ...shorthands.padding("0", "10px"),
         whiteSpace: "nowrap",
+        ...shorthands.borderRadius("0"),
     },
 });

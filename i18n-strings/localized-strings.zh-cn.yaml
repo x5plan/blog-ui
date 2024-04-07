@@ -90,6 +90,11 @@
   description: A string for navigation tabs section.
   raw: Navigation
 
+- name: NAVIGATION_ARIA_LABEL
+  value: 跳转到{0}。
+  description: Aria label for navigation tabs. {0} is the page title.
+  raw: Go to {0} page.
+
 - name: APP_ERROR_COMMON_UNKNOWN
   value: 未知错误。
   description: A error title for unknown error.

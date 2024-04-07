@@ -1,10 +1,16 @@
 import { Button } from "@fluentui/react-components";
 import { Navigation24Regular } from "@fluentui/react-icons";
 import * as React from "react";
+import { useNavigation } from "react-navi";
+
+import { format } from "@/Common/Utilities/Format";
 
 import { useIsSignedIn } from "../Auth/Hooks";
 import { getAppName } from "../Config/Selectors";
 import { useIsMiddleScreen, useIsSmallScreen } from "../Environment/Hooks";
+import { useLocalizedStrings } from "../LocalizedString/Hooks";
+import { CE_Strings } from "../LocalizedString/Types";
+import { CE_PageBaseRoute } from "../Page/Types";
 import { useAppSelector } from "../Store/Store";
 import { AppNavi } from "./AppNavi";
 import { loadAppSideBarNavi, loadUserMenu } from "./DynimicImports";
@@ -18,6 +24,11 @@ export const AppHeader: React.FC = () => {
     const isMiddleScreen = useIsMiddleScreen();
     const isSmallScreen = useIsSmallScreen();
     const isSignedIn = useIsSignedIn();
+    const navigation = useNavigation();
+    const [s_homePageString, s_navigationAriaLabelString] = useLocalizedStrings(
+        CE_Strings.HOME_PAGE_TITLE,
+        CE_Strings.NAVIGATION_ARIA_LABEL,
+    );
 
     const styles = useAppHeaderStyles();
 
@@ -26,7 +37,14 @@ export const AppHeader: React.FC = () => {
     return (
         <div className={styles.root}>
             <div className={styles.left}>
-                <div className={styles.title}>{appName}</div>
+                <Button
+                    className={styles.title}
+                    onClick={() => navigation.navigate(CE_PageBaseRoute.Home)}
+                    appearance="subtle"
+                    aria-label={format(s_navigationAriaLabelString, s_homePageString)}
+                >
+                    {appName}
+                </Button>
                 {!isMiddleScreen && <AppNavi isInSidebar={false} />}
             </div>
             <div className={styles.right}>

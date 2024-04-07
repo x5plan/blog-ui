@@ -3,6 +3,8 @@ import { DocumentBulletList20Regular, Home20Filled } from "@fluentui/react-icons
 import * as React from "react";
 import { useNavigation } from "react-navi";
 
+import { format } from "@/Common/Utilities/Format";
+
 import { useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 import { usePageType } from "../Page/Hooks";
@@ -24,12 +26,17 @@ interface INavItem {
 export const AppNavi: React.FC<IAppNaviProps> = (props) => {
     const { isInSidebar, onItemClicked } = props;
 
-    const [s_homePageString, s_articlePageString, s_navigationSectionTitleString] =
-        useLocalizedStrings(
-            CE_Strings.HOME_PAGE_TITLE,
-            CE_Strings.ARTICLE_PAGE_TITLE,
-            CE_Strings.NAVIGATION_SECTION_TITLE,
-        );
+    const [
+        s_homePageString,
+        s_articlePageString,
+        s_navigationSectionTitleString,
+        s_navigationAriaLabelString,
+    ] = useLocalizedStrings(
+        CE_Strings.HOME_PAGE_TITLE,
+        CE_Strings.ARTICLE_PAGE_TITLE,
+        CE_Strings.NAVIGATION_SECTION_TITLE,
+        CE_Strings.NAVIGATION_ARIA_LABEL,
+    );
 
     const styles = useAppNaviStyles();
     const pageType = usePageType();
@@ -59,20 +66,22 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
                 aria-label={s_navigationSectionTitleString}
                 vertical={isInSidebar}
                 appearance={isInSidebar ? "subtle" : "transparent"}
-                className={styles.tabList}
+                className={mergeClasses(styles.tabList, isInSidebar && styles.inSideBarTabList)}
                 selectedValue={pageType}
+                role="navigation"
             >
                 {navList.map((navItem) => (
                     <Tab
                         key={navItem.type}
                         value={navItem.type}
-                        aria-label={navItem.label}
+                        aria-label={format(s_navigationAriaLabelString, navItem.label)}
                         onClick={() => {
                             navigation.navigate(navItem.path);
                             onItemClicked?.();
                         }}
                         icon={navItem.icon}
                         className={mergeClasses(isInSidebar && styles.inSideBarItem)}
+                        role="link"
                     >
                         {navItem.label}
                     </Tab>
