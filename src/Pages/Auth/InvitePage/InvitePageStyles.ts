@@ -6,4 +6,10 @@ export const useInvitePageStyles = makeStyles({
     container: {},
     button: {},
     list: {},
+    statusColumn: {},
+    codeColumn: {},
+    expireColumn: {},
+    actionColumn: {
+        width: "40px",
+    },
 });

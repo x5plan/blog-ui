@@ -6,6 +6,22 @@
   value: Back
   description: A string for the label of back button. 
 
+- name: COMMON_DELETE_BUTTON
+  value: Delete
+  description: A string for the label of delete button.
+
+- name: COMMON_COPY_BUTTON
+  value: Copy
+  description: A string for the label of copy button.
+
+- name: COMMON_COPY_SUCCESS_MESSAGE
+  value: Copied to clipboard.
+  description: A message for successful copy.
+
+- name: COMMON_COPY_ERROR_MESSAGE
+  value: Copy failed.
+  description: A message for failed copy.
+
 - name: HOME_PAGE_TITLE
   value: Home
   description: A title for home page
@@ -61,6 +77,38 @@
 - name: RESET_PASSWORD_TITLE
   value: Reset password
   description: A text for reset password page title.
+
+- name: INVITATION_PAGE_TITLE
+  value: My invitation codes
+  description: A text for invitation codes page title.
+
+- name: INVITATION_CODE_CREATE_BUTTON
+  value: Create new code
+  description: A text for create new code button.
+
+- name: INVITATION_CODE_DELETE_BUTTON_LABEL
+  value: Delete code {0}.
+  description: A text for delete code button. {0} is the code.
+
+- name: INVITATION_CODE_COPY_BUTTON_LABEL
+  value: Copy code {0}.
+  description: A title for invitation code table.
+
+- name: INVITATION_CODE_TABLE_CODE_COL
+  value: Invitation code
+  description: A text for invitation code table column.
+
+- name: INVITATION_CODE_TABLE_STATUS_COL
+  value: Status
+  description: A text for status table column.
+
+- name: INVITATION_CODE_TABLE_EXPIRATION_COL
+  value: Expiration
+  description: A text for expiration table column.
+
+- name: INVITATION_CODE_TABLE_INVITED_USER_COL
+  value: Invited user
+  description: A text for invited user table column.
 
 - name: ARTICLE_PAGE_TITLE
   value: Articles
