@@ -14,13 +14,29 @@ export const useLocalizedString = <T extends CE_Strings>(key: T) => {
     return React.useMemo(() => getLocalizedString<T>(strings, key), [strings, key]);
 };
 
-export const useLocalizedStrings = <T extends CE_Strings[]>(...keys: T) => {
+export function useLocalizedStrings<T extends Record<string, CE_Strings>>(
+    keyMapObj: T,
+): {
+    [K in keyof T]: ReturnType<typeof getLocalizedString<T[K]>>;
+};
+export function useLocalizedStrings<T extends CE_Strings[]>(
+    ...keys: T
+): {
+    [K in keyof T]: ReturnType<typeof getLocalizedString<T[K]>>;
+};
+export function useLocalizedStrings(...args: unknown[]) {
     const strings = useAppSelector(getStrings);
 
-    return React.useMemo(
-        () => keys.map((key) => getLocalizedString(strings, key)),
-        [strings, keys],
-    ) as unknown as {
-        [K in keyof T]: ReturnType<typeof getLocalizedString<T[K]>>;
-    };
-};
+    return React.useMemo(() => {
+        if (args.length === 1 && typeof args[0] === "object") {
+            const keyMapObj = args[0] as Record<string, CE_Strings>;
+            return Object.entries(keyMapObj).reduce(
+                (acc, [key, value]) => ({ ...acc, [key]: getLocalizedString(strings, value) }),
+                {},
+            );
+        } else {
+            const keys = args as CE_Strings[];
+            return keys.map((key) => getLocalizedString(strings, key));
+        }
+    }, [strings, args]);
+}

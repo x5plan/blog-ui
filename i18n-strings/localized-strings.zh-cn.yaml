@@ -101,44 +101,74 @@
   raw: Reset password
 
 - name: INVITATION_PAGE_TITLE
-  value: null
+  value: 我的邀请码
   description: A text for invitation codes page title.
   raw: My invitation codes
 
 - name: INVITATION_CODE_CREATE_BUTTON
-  value: null
+  value: 创建新邀请码
   description: A text for create new code button.
   raw: Create new code
 
 - name: INVITATION_CODE_DELETE_BUTTON_LABEL
-  value: null
+  value: 删除邀请码 {0}
   description: A text for delete code button. {0} is the code.
   raw: Delete code {0}.
 
 - name: INVITATION_CODE_COPY_BUTTON_LABEL
-  value: null
+  value: 复制邀请码 {0}
   description: A title for invitation code table.
   raw: Copy code {0}.
 
 - name: INVITATION_CODE_TABLE_CODE_COL
-  value: null
+  value: 邀请码
   description: A text for invitation code table column.
   raw: Invitation code
 
 - name: INVITATION_CODE_TABLE_STATUS_COL
-  value: null
+  value: 状态
   description: A text for status table column.
   raw: Status
 
 - name: INVITATION_CODE_TABLE_EXPIRATION_COL
-  value: null
+  value: 过期时间
   description: A text for expiration table column.
   raw: Expiration
 
 - name: INVITATION_CODE_TABLE_INVITED_USER_COL
-  value: null
+  value: 被邀请用户
   description: A text for invited user table column.
   raw: Invited user
+
+- name: INVITATION_CODE_STATUS_ACTIVE
+  value: 活动
+  description: A text for active status.
+  raw: Active
+
+- name: INVITATION_CODE_STATUS_ACTIVE_LABEL
+  value: 邀请码 {0} 是活动的。
+  description: A text for active status label.
+  raw: Code {0} is active.
+
+- name: INVITATION_CODE_STATUS_EXPIRED
+  value: 过期
+  description: A text for expired status.
+  raw: Expired
+
+- name: INVITATION_CODE_STATUS_EXPIRED_LABEL
+  value: 邀请码 {0} 已过期。
+  description: A text for expired status label.
+  raw: Code {0} is expired.
+
+- name: INVITATION_CODE_STATUS_USED
+  value: 已使用
+  description: A text for used status.
+  raw: Used
+
+- name: INVITATION_CODE_STATUS_USED_LABEL
+  value: 邀请码 {0} 已被使用。
+  description: A text for used status label.
+  raw: Code {0} has been used.
 
 - name: ARTICLE_PAGE_TITLE
   value: 文章

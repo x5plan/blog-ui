@@ -1,3 +1,5 @@
+import "moment/dist/locale/zh-cn";
+
 export const enum CE_Language {
     en = "en",
     zh_cn = "zh-cn",

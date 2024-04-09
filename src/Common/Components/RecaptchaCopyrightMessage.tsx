@@ -1,4 +1,5 @@
 import { makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
+import DOMPurify from "dompurify";
 import * as React from "react";
 
 import { getRecaptchaEnabled } from "@/Features/Config/Selectors";
@@ -6,7 +7,6 @@ import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useAppSelector } from "@/Features/Store/Store";
 
-import { DOMPurify } from "../Utilities/DOMPurify";
 import { format } from "../Utilities/Format";
 
 export interface IRecaptchaCopyrightMessageProps {

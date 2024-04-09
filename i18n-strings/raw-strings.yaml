@@ -110,6 +110,30 @@
   value: Invited user
   description: A text for invited user table column.
 
+- name: INVITATION_CODE_STATUS_ACTIVE
+  value: Active
+  description: A text for active status.
+
+- name: INVITATION_CODE_STATUS_ACTIVE_LABEL
+  value: "Code {0} is active."
+  description: A text for active status label.
+
+- name: INVITATION_CODE_STATUS_EXPIRED
+  value: Expired
+  description: A text for expired status.
+
+- name: INVITATION_CODE_STATUS_EXPIRED_LABEL
+  value: "Code {0} is expired."
+  description: A text for expired status label.
+
+- name: INVITATION_CODE_STATUS_USED
+  value: Used
+  description: A text for used status.
+
+- name: INVITATION_CODE_STATUS_USED_LABEL
+  value: "Code {0} has been used."
+  description: A text for used status label.
+
 - name: ARTICLE_PAGE_TITLE
   value: Articles
   description: A title of the page, which is list all of the articles.
