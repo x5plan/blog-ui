@@ -1,5 +1,7 @@
 import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 
+import { flex } from "@/Common/Styles/Flex";
+
 export const useInvitationCodeTableStyles = makeStyles({
     statusColumn: {
         width: "120px",
@@ -32,4 +34,10 @@ export const useInvitationCodeTableStyles = makeStyles({
         color: tokens.colorStatusWarningForeground1,
     },
     usedStatus: {},
+    statusLayout: {
+        ...flex({
+            justifyContent: "center",
+            alignItems: "center",
+        }),
+    },
 });

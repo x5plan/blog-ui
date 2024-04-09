@@ -1,5 +1,6 @@
 import {
     Button,
+    mergeClasses,
     Persona,
     Spinner,
     Table,
@@ -16,8 +17,11 @@ import {
 import {
     CopyRegular,
     DeleteRegular,
+    PeopleCheckmark20Regular,
     PeopleCheckmarkRegular,
+    PeopleError20Regular,
     PeopleErrorRegular,
+    PeopleSync20Regular,
     PeopleSyncRegular,
 } from "@fluentui/react-icons";
 import * as React from "react";
@@ -73,7 +77,16 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
     const getStatusTableCellLayout = React.useCallback(
         (code: IRegistrationCode) => {
             if (code.assignedUser) {
-                return (
+                return isMiniScreen ? (
+                    <TableCellLayout
+                        className={mergeClasses(styles.usedStatus, styles.statusLayout)}
+                        aria-label={format(s.invitationCodeStatusUsedLabel, code.registrationCode)}
+                    >
+                        <Tooltip content={s.invitationCodeStatusUsed} relationship={"label"}>
+                            <PeopleCheckmark20Regular />
+                        </Tooltip>
+                    </TableCellLayout>
+                ) : (
                     <TableCellLayout
                         className={styles.usedStatus}
                         media={<PeopleCheckmarkRegular />}
@@ -88,7 +101,19 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
             const expire = new Date(code.expireDate);
 
             if (now > expire) {
-                return (
+                return isMiniScreen ? (
+                    <TableCellLayout
+                        className={mergeClasses(styles.expiredStatus, styles.statusLayout)}
+                        aria-label={format(
+                            s.invitationCodeStatusExpiredLabel,
+                            code.registrationCode,
+                        )}
+                    >
+                        <Tooltip content={s.invitationCodeStatusExpired} relationship={"label"}>
+                            <PeopleError20Regular />
+                        </Tooltip>
+                    </TableCellLayout>
+                ) : (
                     <TableCellLayout
                         className={styles.expiredStatus}
                         media={<PeopleErrorRegular />}
@@ -102,13 +127,22 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                 );
             }
 
-            return (
+            return isMiniScreen ? (
+                <TableCellLayout
+                    className={mergeClasses(styles.activeStatus, styles.statusLayout)}
+                    aria-label={format(s.invitationCodeStatusActiveLabel, code.registrationCode)}
+                >
+                    <Tooltip content={s.invitationCodeStatusActive} relationship={"label"}>
+                        <PeopleSync20Regular />
+                    </Tooltip>
+                </TableCellLayout>
+            ) : (
                 <TableCellLayout
                     className={styles.activeStatus}
                     media={<PeopleSyncRegular />}
                     aria-label={format(s.invitationCodeStatusActiveLabel, code.registrationCode)}
                 >
-                    {isMiniScreen ? null : s.invitationCodeStatusActive}
+                    {s.invitationCodeStatusActive}
                 </TableCellLayout>
             );
         },
