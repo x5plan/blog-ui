@@ -31,7 +31,7 @@ import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { CE_PageBaseRoute } from "@/Features/Page/Types";
 
-import { useInvitationCodeTableStyles } from "./InvitationCodeTableStyles";
+import { useInvitationCodeTableStyles } from "./Styles/InvitationCodeTableStyles";
 
 export interface IInvitationCodeTableProps {
     readonly codeList: IRegistrationCode[];
@@ -39,6 +39,7 @@ export interface IInvitationCodeTableProps {
     readonly deletingCode: string | null;
     readonly onDeleteCode: (code: string) => void;
     readonly onCopyCode: (code: string) => void;
+    readonly onItemClicked: (codeItem: IRegistrationCode) => void;
 }
 
 export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) => {
@@ -107,18 +108,22 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                     media={<PeopleSyncRegular />}
                     aria-label={format(s.invitationCodeStatusActiveLabel, code.registrationCode)}
                 >
-                    {s.invitationCodeStatusActive}
+                    {isMiniScreen ? null : s.invitationCodeStatusActive}
                 </TableCellLayout>
             );
         },
-        [s, styles],
+        [isMiniScreen, s, styles],
     );
 
     return (
         <Table {...keyboardNavAttr}>
             <TableHeader>
                 <TableRow>
-                    <TableHeaderCell className={styles.statusColumn}>
+                    <TableHeaderCell
+                        className={
+                            isMiniScreen ? styles.statusSingleIconColumn : styles.statusColumn
+                        }
+                    >
                         {s.invitationCodeTableStatusCol}
                     </TableHeaderCell>
                     <TableHeaderCell className={styles.codeColumn}>
@@ -140,7 +145,7 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                     <TableRow key={code.registrationCode}>
                         <TableCell>{getStatusTableCellLayout(code)}</TableCell>
                         <TableCell>
-                            <TableCellLayout truncate={allowedToCopy}>
+                            <TableCellLayout appearance="primary" truncate={allowedToCopy}>
                                 {code.registrationCode}
                             </TableCellLayout>
                             {allowedToCopy && (

@@ -10,8 +10,8 @@ import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
 
 import { InvitationCodeTable } from "./InvitationCodeTable";
-import { useInvitePageStyles } from "./InvitePageStyles";
 import { deleteRegistrationCodeRequestAsync, postRegistrationCodeRequestAsync } from "./Request";
+import { useInvitePageStyles } from "./Styles/InvitePageStyles";
 
 export interface IInvitePageProps {
     readonly registrationCodeList: IRegistrationCode[];
@@ -127,6 +127,9 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                             deletingCode={deletingCode}
                             onDeleteCode={onDeleteCode}
                             onCopyCode={onCopyCode}
+                            onItemClicked={(code) => {
+                                alert(code);
+                            }}
                         />
                     </div>
                 )}

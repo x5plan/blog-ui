@@ -4,6 +4,9 @@ export const useInvitationCodeTableStyles = makeStyles({
     statusColumn: {
         width: "120px",
     },
+    statusSingleIconColumn: {
+        width: "48px",
+    },
     codeColumn: {},
     expireColumn: {
         width: "180px",
