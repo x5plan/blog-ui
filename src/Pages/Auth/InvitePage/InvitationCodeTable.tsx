@@ -41,13 +41,14 @@ export interface IInvitationCodeTableProps {
     readonly codeList: IRegistrationCode[];
     readonly creatingCode: boolean;
     readonly deletingCode: string | null;
+    readonly allowedToCopy: boolean;
     readonly onDeleteCode: (code: string) => void;
     readonly onCopyCode: (code: string) => void;
     readonly onItemClicked: (codeItem: IRegistrationCode) => void;
 }
 
 export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) => {
-    const { codeList, deletingCode, creatingCode, onDeleteCode, onCopyCode } = props;
+    const { codeList, deletingCode, creatingCode, allowedToCopy, onDeleteCode, onCopyCode } = props;
 
     const s = useLocalizedStrings({
         deleteButton: CE_Strings.COMMON_DELETE_BUTTON,
@@ -71,8 +72,6 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
     const isSmallScreen = useIsSmallScreen();
     const isMiniScreen = useIsMiniScreen();
     const keyboardNavAttr = useArrowNavigationGroup({ axis: "grid" });
-
-    const allowedToCopy = !!window?.navigator?.clipboard.writeText;
 
     const getStatusTableCellLayout = React.useCallback(
         (code: IRegistrationCode) => {
@@ -184,7 +183,7 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                             </TableCellLayout>
                             {allowedToCopy && (
                                 <TableCellActions>
-                                    <Tooltip content={s.copyButton} relationship="label">
+                                    <Tooltip content={s.copyButton} relationship="inaccessible">
                                         <Button
                                             aria-label={format(
                                                 s.invitationCodeCopyButtonLabel,

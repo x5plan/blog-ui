@@ -9,6 +9,7 @@ import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
 
+import { InvitationCodeDialog } from "./InvitationCodeDialog";
 import { InvitationCodeTable } from "./InvitationCodeTable";
 import { deleteRegistrationCodeRequestAsync, postRegistrationCodeRequestAsync } from "./Request";
 import { useInvitePageStyles } from "./Styles/InvitePageStyles";
@@ -38,11 +39,14 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
 
     const allowedToCopy = !!window?.navigator?.clipboard.writeText;
 
+    const [dialogCode, setDialogCode] = React.useState<IRegistrationCode | null>(null);
+
     const onCreateCode = React.useCallback(() => {
         setCreatingCode(true);
         postRegistrationCodeRequestAsync(recaptchaAsync)
             .then((resp) => {
                 setCodeList([resp.data, ...codeList]);
+                setDialogCode(resp.data);
             })
             .catch(() => {
                 // TODO: Handle error
@@ -125,6 +129,7 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                             codeList={codeList}
                             creatingCode={creatingCode}
                             deletingCode={deletingCode}
+                            allowedToCopy={allowedToCopy}
                             onDeleteCode={onDeleteCode}
                             onCopyCode={onCopyCode}
                             onItemClicked={(code) => {
@@ -134,6 +139,12 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                     </div>
                 )}
             </div>
+            <InvitationCodeDialog
+                code={dialogCode}
+                onClose={() => {
+                    setDialogCode(null);
+                }}
+            />
         </div>
     );
 };

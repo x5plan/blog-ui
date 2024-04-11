@@ -105,6 +105,11 @@
   description: A text for invitation codes page title.
   raw: My invitation codes
 
+- name: INVITATION_DIALOG_TITLE
+  value: null
+  description: A text for invitation code dialog title.
+  raw: Invitation code detail
+
 - name: INVITATION_CODE_CREATE_BUTTON
   value: 创建新邀请码
   description: A text for create new code button.

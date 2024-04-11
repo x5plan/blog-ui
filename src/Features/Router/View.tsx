@@ -1,3 +1,4 @@
+import { Spinner } from "@fluentui/react-components";
 import * as React from "react";
 import { NotFoundBoundary, View } from "react-navi";
 
@@ -9,7 +10,7 @@ export const AppView: React.FC = () => {
     const notFoundErrorMessage = useLocalizedString(CE_Strings.APP_ERROR_COMMON_INVALID_URL);
 
     return (
-        <React.Suspense fallback={null}>
+        <React.Suspense fallback={<Spinner style={{ height: "100%" }} />}>
             <NotFoundBoundary
                 render={() => <ErrorPage message={notFoundErrorMessage} showBackButton={true} />}
             >

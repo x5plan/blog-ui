@@ -64,7 +64,7 @@ export const AppHeader: React.FC = () => {
                             />
                         }
                     >
-                        <AppSideBarNaviLazy showSignInLinks={isSmallScreen} />
+                        <AppSideBarNaviLazy showSignInLinks={isSmallScreen && !isSignedIn} />
                     </React.Suspense>
                 )}
             </div>
