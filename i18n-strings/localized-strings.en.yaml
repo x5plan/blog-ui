@@ -13,6 +13,31 @@
   description: A string for the label of delete button.
   raw: Delete
 
+- name: COMMOM_CANCEL_BUTTON
+  value: Cancel
+  description: A string for the label of cancel button.
+  raw: Cancel
+
+- name: COMMON_SAVE_BUTTON
+  value: Save
+  description: A string for the label of save button.
+  raw: Save
+
+- name: COMMON_EDIT_BUTTON
+  value: Edit
+  description: A string for the label of edit button.
+  raw: Edit
+
+- name: COMMON_DISMISS_BUTTON
+  value: Dismiss
+  description: A string for the label of dismiss button.
+  raw: Dismiss
+
+- name: COMMON_OK_BUTTON
+  value: OK
+  description: A string for the label of OK button.
+  raw: OK
+
 - name: COMMON_COPY_BUTTON
   value: Copy
   description: A string for the label of copy button.
@@ -27,6 +52,11 @@
   value: Copy failed.
   description: A message for failed copy.
   raw: Copy failed.
+
+- name: COMMON_DELETE_CONFIRMAION_TITLE
+  value: Delete confirmation
+  description: A title for delete confirmation dialog.
+  raw: Delete confirmation
 
 - name: HOME_PAGE_TITLE
   value: Home
@@ -119,6 +149,11 @@
   value: Delete code {0}.
   description: A text for delete code button. {0} is the code.
   raw: Delete code {0}.
+
+- name: INVITATION_CODE_DELETE_CONFIRM_MESSAGE
+  value: Are you sure to delete code {0}?
+  description: A text for delete code confirm message. {0} is the code.
+  raw: Are you sure to delete code {0}?
 
 - name: INVITATION_CODE_COPY_BUTTON_LABEL
   value: Copy code {0}.

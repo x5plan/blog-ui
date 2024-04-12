@@ -33,11 +33,29 @@ export const useInvitationCodeTableStyles = makeStyles({
     expiredStatus: {
         color: tokens.colorStatusWarningForeground1,
     },
-    usedStatus: {},
+    usedStatus: {
+        color: tokens.colorBrandForeground1,
+    },
     statusLayout: {
         ...flex({
             justifyContent: "center",
             alignItems: "center",
         }),
+    },
+    deleteConfirmation: {
+        ...flex({
+            flexDirection: "column",
+        }),
+        ...shorthands.gap(tokens.spacingVerticalS),
+        maxWidth: "320px",
+    },
+    deleteConfirmationLabel: {
+        fontWeight: tokens.fontWeightSemibold,
+    },
+    deleteConfirmationButtons: {
+        ...flex({
+            flexDirection: "row-reverse",
+        }),
+        ...shorthands.gap(tokens.spacingHorizontalS),
     },
 });

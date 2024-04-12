@@ -1,5 +1,4 @@
-import type { Navigation } from "navi";
-import { createBrowserNavigation } from "navi";
+import { createBrowserNavigation, type Navigation } from "navi";
 import * as React from "react";
 import { Router } from "react-navi";
 
@@ -20,10 +19,10 @@ export interface IAppRouterContext {
     readonly getNavigation: () => Navigation;
 }
 
-const navigation = createBrowserNavigation({ routes });
-
 export const AppRouter: React.FC<IAppRouterProps> = (props) => {
     const recaptchaAsync = useRecaptchaAsync();
+
+    const navigation = createBrowserNavigation({ routes });
 
     const context: IAppRouterContext = {
         recaptchaAsync,

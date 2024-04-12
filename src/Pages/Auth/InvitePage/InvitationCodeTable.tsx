@@ -6,7 +6,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableCellActions,
     TableCellLayout,
     TableHeader,
     TableHeaderCell,
@@ -15,7 +14,6 @@ import {
     useArrowNavigationGroup,
 } from "@fluentui/react-components";
 import {
-    CopyRegular,
     DeleteRegular,
     PeopleCheckmark20Regular,
     PeopleCheckmarkRegular,
@@ -26,6 +24,7 @@ import {
 } from "@fluentui/react-icons";
 import * as React from "react";
 
+import { DeleteConfirmationDialog } from "@/Common/Components/DeleteConfirmationDIalog";
 import { RouterButton } from "@/Common/Components/RouterButton";
 import { useMomentFormatter } from "@/Common/Hooks/Moment";
 import type { IRegistrationCode } from "@/Common/ServerTypes/RegistrationCode";
@@ -41,24 +40,23 @@ export interface IInvitationCodeTableProps {
     readonly codeList: IRegistrationCode[];
     readonly creatingCode: boolean;
     readonly deletingCode: string | null;
-    readonly allowedToCopy: boolean;
     readonly onDeleteCode: (code: string) => void;
-    readonly onCopyCode: (code: string) => void;
     readonly onItemClicked: (codeItem: IRegistrationCode) => void;
 }
 
 export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) => {
-    const { codeList, deletingCode, creatingCode, allowedToCopy, onDeleteCode, onCopyCode } = props;
+    const { codeList, deletingCode, creatingCode, onDeleteCode, onItemClicked } = props;
 
     const s = useLocalizedStrings({
         deleteButton: CE_Strings.COMMON_DELETE_BUTTON,
+        cancelButton: CE_Strings.COMMOM_CANCEL_BUTTON,
         copyButton: CE_Strings.COMMON_COPY_BUTTON,
         invitationCodeTableCodeCol: CE_Strings.INVITATION_CODE_TABLE_CODE_COL,
         invitationCodeTableStatusCol: CE_Strings.INVITATION_CODE_TABLE_STATUS_COL,
         invitationCodeTableExpirationCol: CE_Strings.INVITATION_CODE_TABLE_EXPIRATION_COL,
         invitationCodeTableInvitedUserCol: CE_Strings.INVITATION_CODE_TABLE_INVITED_USER_COL,
-        invitationCodeCopyButtonLabel: CE_Strings.INVITATION_CODE_COPY_BUTTON_LABEL,
         invitationCodeDeleteButtonLabel: CE_Strings.INVITATION_CODE_DELETE_BUTTON_LABEL,
+        invitationCodeDeleteConfirmTitle: CE_Strings.INVITATION_CODE_DELETE_CONFIRM_MESSAGE,
         invitationCodeStatusActive: CE_Strings.INVITATION_CODE_STATUS_ACTIVE,
         invitationCodeStatusExpired: CE_Strings.INVITATION_CODE_STATUS_EXPIRED,
         invitationCodeStatusUsed: CE_Strings.INVITATION_CODE_STATUS_USED,
@@ -72,6 +70,17 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
     const isSmallScreen = useIsSmallScreen();
     const isMiniScreen = useIsMiniScreen();
     const keyboardNavAttr = useArrowNavigationGroup({ axis: "grid" });
+
+    const onTableCellKeyDown = React.useCallback(
+        (e: React.KeyboardEvent, code: IRegistrationCode) => {
+            if (e.code === "Enter" || e.code === "Space") {
+                e.preventDefault();
+                e.stopPropagation();
+                onItemClicked(code);
+            }
+        },
+        [onItemClicked],
+    );
 
     const getStatusTableCellLayout = React.useCallback(
         (code: IRegistrationCode) => {
@@ -96,10 +105,7 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                 );
             }
 
-            const now = new Date();
-            const expire = new Date(code.expireDate);
-
-            if (now > expire) {
+            if (new Date() > new Date(code.expireDate)) {
                 return isMiniScreen ? (
                     <TableCellLayout
                         className={mergeClasses(styles.expiredStatus, styles.statusLayout)}
@@ -149,7 +155,7 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
     );
 
     return (
-        <Table {...keyboardNavAttr}>
+        <Table {...keyboardNavAttr} role="grid">
             <TableHeader>
                 <TableRow>
                     <TableHeaderCell
@@ -175,35 +181,34 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
             </TableHeader>
             <TableBody>
                 {codeList.map((code) => (
-                    <TableRow key={code.registrationCode}>
-                        <TableCell>{getStatusTableCellLayout(code)}</TableCell>
-                        <TableCell>
-                            <TableCellLayout appearance="primary" truncate={allowedToCopy}>
+                    <TableRow key={code.registrationCode} onClick={() => onItemClicked(code)}>
+                        <TableCell
+                            tabIndex={0}
+                            role="gridcell"
+                            onKeyDown={(e: React.KeyboardEvent) => onTableCellKeyDown(e, code)}
+                        >
+                            {getStatusTableCellLayout(code)}
+                        </TableCell>
+                        <TableCell
+                            tabIndex={0}
+                            role="gridcell"
+                            onKeyDown={(e: React.KeyboardEvent) => onTableCellKeyDown(e, code)}
+                        >
+                            <TableCellLayout appearance="primary" truncate={true}>
                                 {code.registrationCode}
                             </TableCellLayout>
-                            {allowedToCopy && (
-                                <TableCellActions>
-                                    <Tooltip content={s.copyButton} relationship="inaccessible">
-                                        <Button
-                                            aria-label={format(
-                                                s.invitationCodeCopyButtonLabel,
-                                                code.registrationCode,
-                                            )}
-                                            onClick={() => onCopyCode(code.registrationCode)}
-                                            icon={<CopyRegular />}
-                                            appearance="subtle"
-                                        />
-                                    </Tooltip>
-                                </TableCellActions>
-                            )}
                         </TableCell>
-                        <TableCell>
+                        <TableCell
+                            tabIndex={0}
+                            role="gridcell"
+                            onKeyDown={(e: React.KeyboardEvent) => onTableCellKeyDown(e, code)}
+                        >
                             <TableCellLayout>
                                 {momentFormatter(code.expireDate, "lll")}
                             </TableCellLayout>
                         </TableCell>
                         {!isSmallScreen && (
-                            <TableCell>
+                            <TableCell role="gridcell">
                                 <TableCellLayout truncate={true}>
                                     {code.assignedUser && (
                                         <RouterButton
@@ -224,29 +229,37 @@ export const InvitationCodeTable: React.FC<IInvitationCodeTableProps> = (props) 
                             </TableCell>
                         )}
                         {!isMiniScreen && (
-                            <TableCell>
+                            <TableCell role="gridcell">
                                 <TableCellLayout>
-                                    <Tooltip content={s.deleteButton} relationship="label">
-                                        <Button
-                                            aria-label={format(
-                                                s.invitationCodeDeleteButtonLabel,
-                                                code.registrationCode,
-                                            )}
-                                            onClick={() => onDeleteCode(code.registrationCode)}
-                                            disabled={
-                                                !!deletingCode ||
-                                                creatingCode ||
-                                                !!code.assignedUser
-                                            }
-                                            icon={
-                                                deletingCode === code.registrationCode ? (
-                                                    <Spinner size="tiny" />
-                                                ) : (
-                                                    <DeleteRegular />
-                                                )
-                                            }
-                                        />
-                                    </Tooltip>
+                                    <DeleteConfirmationDialog
+                                        content={format(
+                                            s.invitationCodeDeleteConfirmTitle,
+                                            code.registrationCode,
+                                        )}
+                                        onConfirm={() => onDeleteCode(code.registrationCode)}
+                                    >
+                                        <Tooltip content={s.deleteButton} relationship="label">
+                                            <Button
+                                                aria-label={format(
+                                                    s.invitationCodeDeleteButtonLabel,
+                                                    code.registrationCode,
+                                                )}
+                                                disabled={
+                                                    !!deletingCode ||
+                                                    creatingCode ||
+                                                    !!code.assignedUser
+                                                }
+                                                icon={
+                                                    deletingCode === code.registrationCode ? (
+                                                        <Spinner size="tiny" />
+                                                    ) : (
+                                                        <DeleteRegular />
+                                                    )
+                                                }
+                                                tabIndex={0}
+                                            />
+                                        </Tooltip>
+                                    </DeleteConfirmationDialog>
                                 </TableCellLayout>
                             </TableCell>
                         )}

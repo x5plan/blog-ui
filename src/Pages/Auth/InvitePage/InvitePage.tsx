@@ -37,8 +37,9 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
     const [creatingCode, setCreatingCode] = React.useState<boolean>(false);
     const [deletingCode, setDeletingCode] = React.useState<string | null>(null);
 
-    const allowedToCopy = !!window?.navigator?.clipboard.writeText;
+    const allowedToCopy = !!window?.navigator?.clipboard?.writeText;
 
+    const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [dialogCode, setDialogCode] = React.useState<IRegistrationCode | null>(null);
 
     const onCreateCode = React.useCallback(() => {
@@ -47,6 +48,7 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
             .then((resp) => {
                 setCodeList([resp.data, ...codeList]);
                 setDialogCode(resp.data);
+                setDialogOpen(true);
             })
             .catch(() => {
                 // TODO: Handle error
@@ -68,6 +70,7 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                 })
                 .finally(() => {
                     setDeletingCode(null);
+                    setDialogOpen(false);
                 });
         },
         [codeList, recaptchaAsync],
@@ -110,7 +113,7 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
 
     return (
         <div className={styles.root}>
-            <div className={styles.title}></div>
+            <div className={styles.title}>{s.invitationPageTitle}</div>
             <div className={styles.container}>
                 <div className={styles.buttonContainer}>
                     <Button
@@ -129,20 +132,25 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                             codeList={codeList}
                             creatingCode={creatingCode}
                             deletingCode={deletingCode}
-                            allowedToCopy={allowedToCopy}
                             onDeleteCode={onDeleteCode}
-                            onCopyCode={onCopyCode}
                             onItemClicked={(code) => {
-                                alert(code);
+                                setDialogCode(code);
+                                setDialogOpen(true);
                             }}
                         />
                     </div>
                 )}
             </div>
             <InvitationCodeDialog
+                open={dialogOpen}
                 code={dialogCode}
+                creatingCode={creatingCode}
+                deletingCode={deletingCode}
+                allowedToCopy={allowedToCopy}
+                onCopyCode={onCopyCode}
+                onDeleteCode={onDeleteCode}
                 onClose={() => {
-                    setDialogCode(null);
+                    setDialogOpen(false);
                 }}
             />
         </div>

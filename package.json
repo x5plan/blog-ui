@@ -13,7 +13,7 @@
     "i18n": "node dist-scripts/localized-string.js && eslint --fix src/Features/LocalizedString/locale.{d,strings}.ts"
   },
   "devDependencies": {
-    "@fluentui/react-components": "^9.46.0",
+    "@fluentui/react-components": "^9.47.5",
     "@fluentui/react-icons": "^2.0.226",
     "@reduxjs/toolkit": "^2.1.0",
     "@types/dompurify": "^3.0.5",
