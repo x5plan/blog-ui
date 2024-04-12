@@ -111,15 +111,15 @@ function writeFeature(typeContent: string, enumContent: string) {
 
 function writeLocale(lang: string, strings: ILocalizedString[], idMap: IStringIdMap) {
     fs.mkdirSync(staticDir, { recursive: true });
-    const filePath = pathResolve(staticDir, `strings.${lang}.json`);
-    const content = strings.reduce<Record<number, string>>(
-        (pre, cur) => ({
-            ...pre,
-            [idMap[cur.name]]: cur.value ?? cur.raw ?? "BAD STRING",
-        }),
-        {},
-    );
-    fs.writeFileSync(filePath, JSON.stringify(content));
+    const filePath = pathResolve(staticDir, `strings.${lang}.js`);
+
+    let js = `export default {`;
+    for (const item of strings) {
+        js += `${idMap[item.name]}: ${JSON.stringify(item.value ?? item.raw ?? "BAD STRING")},`;
+    }
+    js += `};`;
+
+    fs.writeFileSync(filePath, js);
 }
 
 function convertRawToLocalizedString(
