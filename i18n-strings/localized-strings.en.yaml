@@ -8,6 +8,56 @@
   description: A string for the label of back button.
   raw: Back
 
+- name: COMMON_DELETE_BUTTON
+  value: Delete
+  description: A string for the label of delete button.
+  raw: Delete
+
+- name: COMMOM_CANCEL_BUTTON
+  value: Cancel
+  description: A string for the label of cancel button.
+  raw: Cancel
+
+- name: COMMON_SAVE_BUTTON
+  value: Save
+  description: A string for the label of save button.
+  raw: Save
+
+- name: COMMON_EDIT_BUTTON
+  value: Edit
+  description: A string for the label of edit button.
+  raw: Edit
+
+- name: COMMON_DISMISS_BUTTON
+  value: Dismiss
+  description: A string for the label of dismiss button.
+  raw: Dismiss
+
+- name: COMMON_OK_BUTTON
+  value: OK
+  description: A string for the label of OK button.
+  raw: OK
+
+- name: COMMON_COPY_BUTTON
+  value: Copy
+  description: A string for the label of copy button.
+  raw: Copy
+
+- name: COMMON_COPY_SUCCESS_MESSAGE
+  value: Copied to clipboard.
+  description: A message for successful copy.
+  raw: Copied to clipboard.
+
+- name: COMMON_COPY_ERROR_MESSAGE
+  value: Copy failed.
+  description: A message for failed copy.
+  raw: Copy failed.
+
+- name: COMMON_DELETE_CONFIRMAION_TITLE
+  value: Delete confirmation
+  description: A title for delete confirmation dialog.
+  raw: Delete confirmation
+
 - name: HOME_PAGE_TITLE
   value: Home
   description: A title for home page
@@ -80,6 +130,86 @@
   description: A text for reset password page title.
   raw: Reset password
 
+- name: INVITATION_PAGE_TITLE
+  value: My invitation codes
+  description: A text for invitation codes page title.
+  raw: My invitation codes
+
+- name: INVITATION_DIALOG_TITLE
+  value: Invitation code detail
+  description: A text for invitation code dialog title.
+  raw: Invitation code detail
+
+- name: INVITATION_CODE_CREATE_BUTTON
+  value: Create new code
+  description: A text for create new code button.
+  raw: Create new code
+
+- name: INVITATION_CODE_DELETE_BUTTON_LABEL
+  value: Delete code {0}.
+  description: A text for delete code button. {0} is the code.
+  raw: Delete code {0}.
+
+- name: INVITATION_CODE_DELETE_CONFIRM_MESSAGE
+  value: Are you sure to delete code {0}?
+  description: A text for delete code confirm message. {0} is the code.
+  raw: Are you sure to delete code {0}?
+
+- name: INVITATION_CODE_COPY_BUTTON_LABEL
+  value: Copy code {0}.
+  description: A title for invitation code table.
+  raw: Copy code {0}.
+
+- name: INVITATION_CODE_TABLE_CODE_COL
+  value: Invitation code
+  description: A text for invitation code table column.
+  raw: Invitation code
+
+- name: INVITATION_CODE_TABLE_STATUS_COL
+  value: Status
+  description: A text for status table column.
+  raw: Status
+
+- name: INVITATION_CODE_TABLE_EXPIRATION_COL
+  value: Expiration
+  description: A text for expiration table column.
+  raw: Expiration
+
+- name: INVITATION_CODE_TABLE_INVITED_USER_COL
+  value: Invited user
+  description: A text for invited user table column.
+  raw: Invited user
+
+- name: INVITATION_CODE_STATUS_ACTIVE
+  value: Active
+  description: A text for active status.
+  raw: Active
+
+- name: INVITATION_CODE_STATUS_ACTIVE_LABEL
+  value: Code {0} is active.
+  description: A text for active status label.
+  raw: Code {0} is active.
+
+- name: INVITATION_CODE_STATUS_EXPIRED
+  value: Expired
+  description: A text for expired status.
+  raw: Expired
+
+- name: INVITATION_CODE_STATUS_EXPIRED_LABEL
+  value: Code {0} is expired.
+  description: A text for expired status label.
+  raw: Code {0} is expired.
+
+- name: INVITATION_CODE_STATUS_USED
+  value: Used
+  description: A text for used status.
+  raw: Used
+
+- name: INVITATION_CODE_STATUS_USED_LABEL
+  value: Code {0} has been used.
+  description: A text for used status label.
+  raw: Code {0} has been used.
+
 - name: ARTICLE_PAGE_TITLE
   value: Articles
   description: A title of the page, which is list all of the articles.
@@ -89,6 +219,11 @@
   value: Navigation
   description: A string for navigation tabs section.
   raw: Navigation
+
+- name: NAVIGATION_ARIA_LABEL
+  value: Go to {0} page.
+  description: Aria label for navigation tabs. {0} is the page title.
+  raw: Go to {0} page.
 
 - name: APP_ERROR_COMMON_UNKNOWN
   value: Unknown error.

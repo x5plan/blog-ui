@@ -9,3 +9,9 @@ export function loadSignUpPageRoute() {
         default: signUpPageRoute,
     }));
 }
+
+export function loadInvitePageRoute() {
+    return import("./InvitePage").then(({ invitePageRoute }) => ({
+        default: invitePageRoute,
+    }));
+}

@@ -105,6 +105,12 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
                                         e.preventDefault();
                                         navigation.goBack();
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.code === "Enter" || e.code === "Space") {
+                                            e.preventDefault();
+                                            navigation.goBack();
+                                        }
+                                    }}
                                 >
                                     {backButtonString}
                                 </Link>
