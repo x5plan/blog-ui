@@ -1,5 +1,5 @@
 export function getIsProd() {
-    return import.meta.env.PROD;
+    return import.meta.env.MODE === "production";
 }
 
 export function getApiUrl() {

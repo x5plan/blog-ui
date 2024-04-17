@@ -73,16 +73,18 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         if (!username) {
             setUsernameError(s_emptyUsernameError);
             isSuccessful = false;
-        }
-
-        if (username && !isUsername(username)) {
+        } else if (!isUsername(username)) {
             setUsernameError(s_noSuchUserError);
             isSuccessful = false;
+        } else {
+            setUsernameError(null);
         }
 
         if (!password) {
             setPasswordError(s_emptyPasswordError);
             isSuccessful = false;
+        } else {
+            setPasswordError(null);
         }
 
         return isSuccessful;
@@ -94,9 +96,6 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         }
 
         setLoading(true);
-
-        setUsernameError(null);
-        setPasswordError(null);
 
         postSignInRequestAsync({ username, password }, recaptchaAsync)
             .then(({ data, error }) => {

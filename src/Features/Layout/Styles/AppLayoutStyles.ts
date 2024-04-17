@@ -10,7 +10,7 @@ export const useAppLayoutStyles = makeStyles({
         width: "100%",
         height: "100%",
         minWidth: "320px",
-        backgroundColor: tokens.colorNeutralBackground2,
+        backgroundColor: tokens.colorNeutralBackground1,
     },
     header: {
         ...flex({
