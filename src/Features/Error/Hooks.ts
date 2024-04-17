@@ -53,7 +53,7 @@ export const useErrorPageLinks = (code: CE_ErrorCode) => {
                     },
                     {
                         title: s_signUpTitle,
-                        href: `${CE_PageBaseRoute.SignUp}${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
+                        href: `${CE_PageBaseRoute.SignUp}?${toQueryString({ redirect: parseUrlToNavigate(new URL(window.location.href)) })}`,
                     },
                 ];
 

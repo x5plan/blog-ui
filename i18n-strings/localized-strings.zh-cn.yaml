@@ -43,6 +43,11 @@
   description: A string for the label of copy button.
   raw: Copy
 
+- name: COMMON_SEND_BUTTON
+  value: null
+  description: A string for the label of send button.
+  raw: Send
+
 - name: COMMON_COPY_SUCCESS_MESSAGE
   value: null
   description: A message for successful copy.
@@ -119,6 +124,26 @@
   value: 注册
   description: A text for sign up page title and button.
   raw: Sign up
+
+- name: SIGN_UP_EMAIL_LABEL
+  value: null
+  description: A label for email input.
+  raw: Email
+
+- name: SIGN_UP_EMAIL_VERIFICATION_LABEL
+  value: null
+  description: A label for email verification code input.
+  raw: Email verification code
+
+- name: SIGN_UP_EMAIL_VERIFICATION_CODE_SEND_BUTTON_ARIA_LABEL
+  value: null
+  description: Aria label for send email verification code button.
+  raw: Send email verification code.
+
+- name: SIGN_UP_PASSWORD_CONFIRM_LABEL
+  value: null
+  description: A label for confirm password input.
+  raw: Confirm password
 
 - name: FORGOT_PASSWORD_LINK
   value: 忘记密码？
