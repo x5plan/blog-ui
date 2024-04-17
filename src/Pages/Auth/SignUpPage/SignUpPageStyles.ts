@@ -40,6 +40,7 @@ export const useSignUpPageStypes = makeStyles({
     fieldsRow: {
         ...flex({
             justifyContent: "space-between",
+            alignItems: "flex-start",
         }),
         ...shorthands.gap("24px"),
     },
@@ -52,7 +53,7 @@ export const useSignUpPageStypes = makeStyles({
     fieldContainer: {
         ...flex({
             justifyContent: "space-between",
-            alignItems: "flex-end",
+            alignItems: "flex-start",
         }),
         ...shorthands.gap("12px"),
         flexGrow: 1,
@@ -62,6 +63,7 @@ export const useSignUpPageStypes = makeStyles({
         flexGrow: 1,
     },
     sendButton: {
+        marginTop: "26px",
         minWidth: "unset",
     },
 });
