@@ -1,35 +1,19 @@
-import type { NaviRequest } from "navi";
-import { route } from "navi";
 import * as React from "react";
+import type { LazyRouteFunction, RouteObject } from "react-router-dom";
 
-import { AppError } from "../Error/AppError";
-import { AppErrorPage } from "../Error/AppErrorPage";
-import { CE_ErrorCode } from "../Error/ErrorCode";
-import type { IAppRouterContext } from "./Router";
+import { RouteWithErrorHandler } from "./Components/RouteWithErrorHandler";
+import type { IGetViewFunction, IRouteObjectWithElement } from "./Types";
 
 export function createRouteWithErrorHandler(
-    getViewAsync: (
-        req: NaviRequest<IAppRouterContext>,
-        ctx: IAppRouterContext,
-    ) => Promise<React.ReactElement>,
-) {
-    return route({
-        getView: async (req, ctx: IAppRouterContext) => {
-            try {
-                return await getViewAsync(req, ctx);
-            } catch (error) {
-                if (error instanceof AppError) {
-                    return <AppErrorPage error={error} showBackButton={true} />;
-                } else if (error instanceof Error) {
-                    return (
-                        <AppErrorPage error={new AppError(CE_ErrorCode.Unknown, error.message)} />
-                    );
-                } else {
-                    return (
-                        <AppErrorPage error={new AppError(CE_ErrorCode.Unknown, "Unknown error")} />
-                    );
-                }
-            }
-        },
-    });
+    getViewAsync: IGetViewFunction,
+): IRouteObjectWithElement {
+    return {
+        element: <RouteWithErrorHandler getViewAsync={getViewAsync} />,
+    };
+}
+
+export function routeLazy(
+    loader: () => Promise<{ default: IRouteObjectWithElement } | IRouteObjectWithElement>,
+): LazyRouteFunction<RouteObject> {
+    return () => loader().then((module) => ("default" in module ? module.default : module));
 }

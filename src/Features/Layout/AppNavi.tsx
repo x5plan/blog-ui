@@ -1,7 +1,6 @@
 import { mergeClasses, Tab, TabList } from "@fluentui/react-components";
 import { DocumentBulletList20Regular, Home20Filled } from "@fluentui/react-icons";
 import * as React from "react";
-import { useNavigation } from "react-navi";
 
 import { format } from "@/Common/Utilities/Format";
 
@@ -9,6 +8,7 @@ import { useLocalizedStrings } from "../LocalizedString/Hooks";
 import { CE_Strings } from "../LocalizedString/Types";
 import { usePageType } from "../Page/Hooks";
 import { CE_PageType } from "../Page/Types";
+import { useCreateNavigateOnClick } from "../Router/Hooks";
 import { useAppNaviStyles } from "./Styles/AppNaviStyles";
 
 export interface IAppNaviProps {
@@ -40,7 +40,7 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
 
     const styles = useAppNaviStyles();
     const pageType = usePageType();
-    const navigation = useNavigation();
+    const createNavigateOnClick = useCreateNavigateOnClick();
 
     const navList = React.useMemo<INavItem[]>(
         () => [
@@ -75,10 +75,9 @@ export const AppNavi: React.FC<IAppNaviProps> = (props) => {
                         key={navItem.type}
                         value={navItem.type}
                         aria-label={format(s_navigationAriaLabelString, navItem.label)}
-                        onClick={() => {
-                            navigation.navigate(navItem.path);
+                        onClick={createNavigateOnClick(navItem.path, false, false, () => {
                             onItemClicked?.();
-                        }}
+                        })}
                         icon={navItem.icon}
                         className={mergeClasses(isInSidebar && styles.inSideBarItem)}
                         role="link"

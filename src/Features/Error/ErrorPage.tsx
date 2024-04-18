@@ -9,7 +9,7 @@ import {
 } from "@fluentui/react-components";
 import { ErrorCircle48Filled } from "@fluentui/react-icons";
 import * as React from "react";
-import { useNavigation } from "react-navi";
+import { useNavigate } from "react-router-dom";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
 import { flex } from "@/Common/Styles/Flex";
@@ -67,7 +67,7 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
 
     const styles = useStyle();
     const backButtonString = useLocalizedString(CE_Strings.COMMON_BACK_BUTTON);
-    const navigation = useNavigation();
+    const navigate = useNavigate();
 
     const showLinks = (links && links.length > 0) || showBackButton;
 
@@ -103,12 +103,12 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
                                     as={"a"}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        navigation.goBack();
+                                        navigate(-1);
                                     }}
                                     onKeyDown={(e) => {
                                         if (e.code === "Enter" || e.code === "Space") {
                                             e.preventDefault();
-                                            navigation.goBack();
+                                            navigate(-1);
                                         }
                                     }}
                                 >

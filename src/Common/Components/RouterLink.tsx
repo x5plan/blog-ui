@@ -1,13 +1,13 @@
 import type { LinkProps } from "@fluentui/react-components";
 import { Link } from "@fluentui/react-components";
 import * as React from "react";
-import { useNavigation } from "react-navi";
+import { useNavigate } from "react-router-dom";
 
 import { parseUrlIfSameOrigin, parseUrlToNavigate } from "../Utilities/SameOrigin";
 
 export const RouterLink: React.FC<LinkProps & { as?: "a" }> = (props) => {
     const { href, onClick, onKeyDown } = props;
-    const navigation = useNavigation();
+    const navigate = useNavigate();
     const url = parseUrlIfSameOrigin(href);
 
     return (
@@ -18,7 +18,7 @@ export const RouterLink: React.FC<LinkProps & { as?: "a" }> = (props) => {
                 url
                     ? (e) => {
                           e.preventDefault();
-                          navigation.navigate(parseUrlToNavigate(url));
+                          navigate(parseUrlToNavigate(url));
                           onClick?.(e);
                       }
                     : onClick
@@ -28,7 +28,7 @@ export const RouterLink: React.FC<LinkProps & { as?: "a" }> = (props) => {
                     ? (e) => {
                           if (e.code === "Enter" || e.code === "Space") {
                               e.preventDefault();
-                              navigation.navigate(parseUrlToNavigate(url));
+                              navigate(parseUrlToNavigate(url));
                               onKeyDown?.(e);
                           }
                       }

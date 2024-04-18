@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from "@fluentui/react-components";
 import * as React from "react";
-import { useNavigation } from "react-navi";
+import { useNavigate } from "react-router-dom";
 
 import { parseUrlIfSameOrigin } from "../Utilities/SameOrigin";
 
@@ -11,7 +11,7 @@ export type IRouterButtonProps = ButtonProps & {
 
 export const RouterButton: React.FC<IRouterButtonProps> = (props) => {
     const { to, onClick, ...rest } = props;
-    const navigation = useNavigation();
+    const navigate = useNavigate();
     const url = parseUrlIfSameOrigin(to);
 
     return (
@@ -19,7 +19,7 @@ export const RouterButton: React.FC<IRouterButtonProps> = (props) => {
             {...rest}
             onClick={() => {
                 if (url) {
-                    navigation.navigate(url);
+                    navigate(url);
                 }
                 onClick?.();
             }}

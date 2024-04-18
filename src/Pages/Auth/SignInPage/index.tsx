@@ -1,17 +1,20 @@
 import * as React from "react";
+import { Navigate } from "react-router-dom";
 
 import { getCurrentUser } from "@/Features/Auth/Selectors";
+import { CE_PageBaseRoute } from "@/Features/Page/Types";
 import { createRouteWithErrorHandler } from "@/Features/Router/Utils";
 
 import { SignInPage } from "./SignInPage";
 
-export const signInPageRoute = createRouteWithErrorHandler(async (req, ctx) => {
-    const currentUser = getCurrentUser(ctx.getRootState());
+export const signInPageRoute = createRouteWithErrorHandler(async ({ getState, searchParams }) => {
+    const currentUser = getCurrentUser(getState());
+
+    const redirect = searchParams.get("redirect");
 
     if (currentUser) {
-        ctx.getNavigation().navigate(req.query.redirect || "/");
-        return null;
+        return <Navigate to={redirect || CE_PageBaseRoute.Home} replace={true} />;
     }
 
-    return <SignInPage redirectPath={req.query.redirect} />;
+    return <SignInPage redirectPath={redirect} />;
 });

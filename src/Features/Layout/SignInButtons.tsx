@@ -1,6 +1,6 @@
 import { Button } from "@fluentui/react-button";
 import * as React from "react";
-import { useNavigation } from "react-navi";
+import { useNavigate } from "react-router-dom";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
 
@@ -16,7 +16,7 @@ export const SignInButtons: React.FC = () => {
     );
 
     const styles = useSignInButtonsStyles();
-    const navigation = useNavigation();
+    const navigate = useNavigate();
 
     return (
         <div className={styles.root}>
@@ -24,7 +24,7 @@ export const SignInButtons: React.FC = () => {
                 appearance="primary"
                 className={styles.button}
                 onClick={() => {
-                    navigation.navigate(CE_PageBaseRoute.SignIn);
+                    navigate(CE_PageBaseRoute.SignIn);
                 }}
             >
                 {s_signInTitle}
@@ -32,7 +32,7 @@ export const SignInButtons: React.FC = () => {
             <Button
                 className={styles.button}
                 onClick={() => {
-                    navigation.navigate(CE_PageBaseRoute.SignUp);
+                    navigate(CE_PageBaseRoute.SignUp);
                 }}
             >
                 {s_signUpTitle}
