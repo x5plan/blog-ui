@@ -1,7 +1,7 @@
 import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
 import { PasswordFilled, PersonFilled } from "@fluentui/react-icons";
 import * as React from "react";
-import { useNavigation } from "react-navi";
+import { useNavigate } from "react-router-dom";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
@@ -28,7 +28,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     useSetPageMeta(pageTitle, null);
 
     const dispatch = useAppDispatch();
-    const navigation = useNavigation();
+    const navigate = useNavigate();
     const styles = useSignInPageStyles();
     const { dispatchToast } = useAppToastController();
     const recaptchaAsync = useRecaptchaAsync();
@@ -127,7 +127,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
                         timeout: 2000,
                     },
                 );
-                navigation.navigate(props.redirectPath || CE_PageBaseRoute.Home);
+                navigate(props.redirectPath || CE_PageBaseRoute.Home);
             })
             .catch((error: Error) => {
                 dispatchToast(
@@ -146,7 +146,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     }, [
         dispatch,
         dispatchToast,
-        navigation,
+        navigate,
         password,
         props.redirectPath,
         recaptchaAsync,

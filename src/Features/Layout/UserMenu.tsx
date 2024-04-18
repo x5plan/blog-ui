@@ -18,6 +18,7 @@ import {
     SignOutRegular,
 } from "@fluentui/react-icons";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useCurrentUser } from "../Auth/Hooks";
 import { signOutUserRequestAction } from "../Auth/RequestActions";
@@ -36,6 +37,7 @@ export const UserMenu: React.FC = () => {
     const isMiniScreen = useIsMiniScreen();
     const styles = userUserMenuStyles();
     const currentUser = useCurrentUser();
+    const navigate = useNavigate();
 
     const [
         s_ariaLabel,
@@ -55,7 +57,8 @@ export const UserMenu: React.FC = () => {
 
     const onSignOutClick = React.useCallback(() => {
         dispatch(signOutUserRequestAction);
-    }, [dispatch]);
+        navigate(CE_PageBaseRoute.Home);
+    }, [dispatch, navigate]);
 
     // TODO: Add user header image after server side implementation.
 

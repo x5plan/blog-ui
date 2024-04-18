@@ -1,38 +1,29 @@
-import { createBrowserNavigation, type Navigation } from "navi";
+import { Spinner } from "@fluentui/react-components";
 import * as React from "react";
-import { Router } from "react-navi";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
-import type { IRecaptchaAsync } from "@/Common/Types/Recaptcha";
-
-import { getState } from "../Store/Store";
-import type { IRootState } from "../Store/Types";
+import { ErrorPage } from "../Error/ErrorPage";
+import { useLocalizedString } from "../LocalizedString/Hooks";
+import { CE_Strings } from "../LocalizedString/Types";
 import { routes } from "./Routes";
 
-export interface IAppRouterProps {
-    children: React.ReactElement;
-}
+export const AppRouter: React.FC<React.PropsWithChildren> = (props) => {
+    const notFoundErrorMessage = useLocalizedString(CE_Strings.APP_ERROR_COMMON_INVALID_URL);
 
-export interface IAppRouterContext {
-    readonly recaptchaAsync: IRecaptchaAsync;
-    readonly getRootState: () => IRootState;
-    readonly getNavigation: () => Navigation;
-}
-
-export const AppRouter: React.FC<IAppRouterProps> = (props) => {
-    const recaptchaAsync = useRecaptchaAsync();
-
-    const navigation = createBrowserNavigation({ routes });
-
-    const context: IAppRouterContext = {
-        recaptchaAsync,
-        getRootState: getState,
-        getNavigation: () => navigation,
-    };
+    const router = createBrowserRouter([
+        {
+            element: props.children,
+            children: [
+                ...routes,
+                {
+                    path: "*",
+                    element: <ErrorPage message={notFoundErrorMessage} showBackButton={true} />,
+                },
+            ],
+        },
+    ]);
 
     return (
-        <Router navigation={navigation} context={context}>
-            {props.children}
-        </Router>
+        <RouterProvider router={router} fallbackElement={<Spinner style={{ height: "100%" }} />} />
     );
 };
