@@ -85,19 +85,23 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
                     {description && <div className={styles.description}>{description}</div>}
                     {showLinks && (
                         <div className={styles.linkContainer}>
-                            {links.map((link, index) => (
-                                <>
+                            {links
+                                .map((link, index) => (
                                     <RouterLink key={"link" + index} href={link.href.toString()}>
                                         {link.title}
                                     </RouterLink>
-                                    {(index !== links.length || showBackButton) && (
+                                ))
+                                .reduce(
+                                    (pre, cur, index) => [
+                                        ...pre,
+                                        cur,
                                         <span
                                             className={styles.linkDivider}
                                             key={"divider" + index}
-                                        />
-                                    )}
-                                </>
-                            ))}
+                                        />,
+                                    ],
+                                    [],
+                                )}
                             {showBackButton && (
                                 <Link
                                     as={"a"}
