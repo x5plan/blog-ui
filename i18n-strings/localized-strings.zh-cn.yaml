@@ -145,6 +145,87 @@
   description: A label for confirm password input.
   raw: Confirm password
 
+- name: SIGN_UP_USERNAME_HINT
+  value: null
+  description: A hint for username input.
+  raw: >-
+    The username must be 3 to 24 characters and can be letters, numbers, or any
+    of "-_.#$".
+
+- name: SIGN_UP_PASSWORD_HINT
+  value: null
+  description: A hint for password input.
+  raw: The password must be 6 to 32 characters.
+
+- name: SIGN_UP_INVALID_USERNAME_ERROR
+  value: null
+  description: A error message for invalid username.
+  raw: Invalid username.
+
+- name: SIGN_UP_DUPLICATE_USERNAME_ERROR
+  value: null
+  description: A error message for duplicate username.
+  raw: Username already exists.
+
+- name: SIGN_UP_INVALID_EMAIL_ERROR
+  value: null
+  description: A error message for invalid email.
+  raw: Invalid email.
+
+- name: SIGN_UP_DUPLICATE_EMAIL_ERROR
+  value: null
+  description: A error message for duplicate email.
+  raw: Email already exists.
+
+- name: SIGN_UP_INVALID_PASSWORD_ERROR
+  value: null
+  description: A error message for invalid password.
+  raw: Invalid password.
+
+- name: SIGN_UP_PASSWORD_MISMATCH_ERROR
+  value: null
+  description: A error message for password mismatch.
+  raw: Passwords do not match.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS
+  value: null
+  description: A message for successful send email verification code.
+  raw: Email verification code sent successfully.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION
+  value: null
+  description: A message for successful send email verification code.
+  raw: >-
+    An email with verification code has been sent to {0}. Please check your
+    inbox or spam folder.
+
+- name: SIGN_UP_SEND_EMAIL_RATE_LIMIT_ERROR
+  value: null
+  description: A error message for send email rate limit.
+  raw: Please wait a moment before sending another email.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_ERROR
+  value: null
+  description: A error message for failed send email verification code.
+  raw: Failed to send email verification code.
+
+- name: SIGN_UP_INVALID_EMAIL_VERIFICATION_CODE_ERROR
+  value: null
+  description: A error message for invalid email verification code.
+  raw: Invalid email verification code.
+
+- name: SIGN_UP_INVALID_INVITATION_CODE_ERROR
+  value: null
+  description: A error message for invalid invitation code.
+  raw: Invalid invitation code.
+
+- name: SIGN_UP_WELCOME_MESSAGE
+  value: null
+  description: >-
+    A welcome message for sign up page. {0} is the username of the user, {1} is
+    the app name.
+  raw: Hello {0}, welcome to {1}!
+
 - name: FORGOT_PASSWORD_LINK
   value: 忘记密码？
   description: A text for forgot password link.

@@ -114,6 +114,66 @@
   value: Confirm password
   description: A label for confirm password input.
 
+- name: SIGN_UP_USERNAME_HINT
+  value: The username must be 3 to 24 characters and can be letters, numbers, or any of "-_.#$".
+  description: A hint for username input.
+
+- name: SIGN_UP_PASSWORD_HINT
+  value: The password must be 6 to 32 characters.
+  description: A hint for password input.
+
+- name: SIGN_UP_INVALID_USERNAME_ERROR
+  value: Invalid username.
+  description: A error message for invalid username.
+
+- name: SIGN_UP_DUPLICATE_USERNAME_ERROR
+  value: Username already exists.
+  description: A error message for duplicate username.
+
+- name: SIGN_UP_INVALID_EMAIL_ERROR
+  value: Invalid email.
+  description: A error message for invalid email.
+
+- name: SIGN_UP_DUPLICATE_EMAIL_ERROR
+  value: Email already exists.
+  description: A error message for duplicate email.
+
+- name: SIGN_UP_INVALID_PASSWORD_ERROR
+  value: Invalid password.
+  description: A error message for invalid password.
+
+- name: SIGN_UP_PASSWORD_MISMATCH_ERROR
+  value: Passwords do not match.
+  description: A error message for password mismatch.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS
+  value: Email verification code sent successfully.
+  description: A message for successful send email verification code.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION
+  value: An email with verification code has been sent to {0}. Please check your inbox or spam folder.
+  description: A message for successful send email verification code.
+
+- name: SIGN_UP_SEND_EMAIL_RATE_LIMIT_ERROR
+  value: Please wait a moment before sending another email.
+  description: A error message for send email rate limit.
+
+- name: SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_ERROR
+  value: Failed to send email verification code.
+  description: A error message for failed send email verification code.
+
+- name: SIGN_UP_INVALID_EMAIL_VERIFICATION_CODE_ERROR
+  value: Invalid email verification code.
+  description: A error message for invalid email verification code.
+
+- name: SIGN_UP_INVALID_INVITATION_CODE_ERROR
+  value: Invalid invitation code.
+  description: A error message for invalid invitation code.
+
+- name: SIGN_UP_WELCOME_MESSAGE
+  value: Hello {0}, welcome to {1}!
+  description: A welcome message for sign up page. {0} is the username of the user, {1} is the app name.
+
 - name: FORGOT_PASSWORD_LINK
   value: Forgot password?
   description: A text for forgot password link.

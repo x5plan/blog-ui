@@ -1,32 +1,61 @@
-import { Button, Field, Input, Spinner } from "@fluentui/react-components";
+import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
 import * as React from "react";
-import { isEmail } from "validator";
+import { useNavigate } from "react-router-dom";
+import { isEmail, isUUID } from "validator";
 
+import { useAppToastController } from "@/Common/Hooks/AppToast";
+import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
+import { format } from "@/Common/Utilities/Format";
+import { isPassword } from "@/Common/Validators/Password";
 import { isUsername } from "@/Common/Validators/Username";
+import { setAuthAction, updateBearerTokenAction } from "@/Features/Auth/Actions";
+import { getAppName } from "@/Features/Config/Selectors";
 import { useIsSmallScreen } from "@/Features/Environment/Hooks";
+import { CE_ErrorCode } from "@/Features/Error/ErrorCode";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
+import { CE_PageBaseRoute } from "@/Features/Page/Types";
+import { useAppDispatch, useAppSelector } from "@/Features/Store/Store";
 
+import { postSignUpRequestAsync } from "./Request";
 import { useSignUpPageStypes } from "./SignUpPageStyles";
 
-export const SignUpPage: React.FC = () => {
+export interface ISignUpPageProps {
+    redirectPath?: string;
+}
+
+export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     const s = useLocalizedStrings({
         pageTitle: CE_Strings.SIGN_UP_TITLE,
         username: CE_Strings.SIGN_IN_USERNAME_PLACEHOLDER,
+        usernameHint: CE_Strings.SIGN_UP_USERNAME_HINT,
         invitationCode: CE_Strings.INVITATION_CODE_TABLE_CODE_COL,
         email: CE_Strings.SIGN_UP_EMAIL_LABEL,
         emailVerificationCode: CE_Strings.SIGN_UP_EMAIL_VERIFICATION_LABEL,
         sendButton: CE_Strings.COMMON_SEND_BUTTON,
         sendButtonLabel: CE_Strings.SIGN_UP_EMAIL_VERIFICATION_CODE_SEND_BUTTON_ARIA_LABEL,
         password: CE_Strings.SIGN_IN_PASSWORD_PLACEHOLDER,
+        passwordHint: CE_Strings.SIGN_UP_PASSWORD_HINT,
         confirmPassword: CE_Strings.SIGN_UP_PASSWORD_CONFIRM_LABEL,
-        emptyUsernameError: CE_Strings.SIGN_IN_EMPTY_USERNAME_ERROR,
-        emptyPasswordError: CE_Strings.SIGN_IN_EMPTY_PASSWORD_ERROR,
+        invalidUsernameError: CE_Strings.SIGN_UP_INVALID_USERNAME_ERROR,
+        invalidEmailError: CE_Strings.SIGN_UP_INVALID_EMAIL_ERROR,
+        invalidEmailVerificationCodeError: CE_Strings.SIGN_UP_INVALID_EMAIL_VERIFICATION_CODE_ERROR,
+        invalidInvitationCodeError: CE_Strings.SIGN_UP_INVALID_INVITATION_CODE_ERROR,
+        invalidPasswordError: CE_Strings.SIGN_UP_INVALID_PASSWORD_ERROR,
+        passwordMismatchError: CE_Strings.SIGN_UP_PASSWORD_MISMATCH_ERROR,
+        duplicateUsernameError: CE_Strings.SIGN_UP_DUPLICATE_USERNAME_ERROR,
+        duplicateEmailError: CE_Strings.SIGN_UP_DUPLICATE_EMAIL_ERROR,
+        welcomMessage: CE_Strings.SIGN_UP_WELCOME_MESSAGE,
     });
 
     useSetPageMeta(s.pageTitle, null);
 
+    const dispatch = useAppDispatch();
+    const recaptchaAsync = useRecaptchaAsync();
+    const navigate = useNavigate();
+    const { dispatchToast } = useAppToastController();
+    const appName = useAppSelector(getAppName);
     const isSmallScreen = useIsSmallScreen();
     const styles = useSignUpPageStypes();
     const fieldsCls = isSmallScreen ? styles.fieldsColumn : styles.fieldsRow;
@@ -49,32 +78,26 @@ export const SignUpPage: React.FC = () => {
     const [submitting, setSubmitting] = React.useState(false);
 
     const validateEmail = React.useCallback(() => {
-        if (!email) {
-            setEmailError(""); // TODO: Add error message string
-            return false;
-        } else if (!isEmail(email)) {
-            setEmailError(""); // TODO: Add error message string
+        if (!isEmail(email)) {
+            setEmailError(s.invalidEmailError);
             return false;
         }
 
         setEmailError(null);
         return true;
-    }, [email]);
+    }, [email, s]);
 
     const validateForm = React.useCallback(() => {
         let isSuccessful = true;
-        if (!username) {
-            setUsernameError(s.emptyUsernameError);
-            isSuccessful = false;
-        } else if (!isUsername(username)) {
-            setUsernameError(""); // TODO: Add error message string
+        if (!isUsername(username)) {
+            setUsernameError(s.invalidUsernameError);
             isSuccessful = false;
         } else {
             setUsernameError(null);
         }
 
-        if (!invitationCode) {
-            setInvitationCodeError(""); // TODO: Add error message string
+        if (!isUUID(invitationCode)) {
+            setInvitationCodeError(s.invalidInvitationCodeError);
             isSuccessful = false;
         } else {
             setInvitationCodeError(null);
@@ -85,21 +108,21 @@ export const SignUpPage: React.FC = () => {
         }
 
         if (!emailVerificationCode) {
-            setEmailVerificationCodeError(""); // TODO: Add error message string
+            setEmailVerificationCodeError(s.invalidEmailVerificationCodeError);
             isSuccessful = false;
         } else {
             setEmailVerificationCodeError(null);
         }
 
-        if (!password) {
-            setPasswordError(s.emptyPasswordError);
+        if (!isPassword(password)) {
+            setPasswordError(s.invalidPasswordError);
             isSuccessful = false;
         } else {
             setPasswordError(null);
         }
 
         if (password !== confirmPassword) {
-            setConfirmPasswordError(""); // TODO: Add error message string
+            setConfirmPasswordError(s.passwordMismatchError);
             isSuccessful = false;
         } else {
             setConfirmPasswordError(null);
@@ -133,8 +156,85 @@ export const SignUpPage: React.FC = () => {
 
         setSubmitting(true);
 
-        // TODO: Implement form submission
-    }, [validateForm]);
+        postSignUpRequestAsync(
+            {
+                username,
+                email,
+                password,
+                emailVerificationCode,
+                registrationCode: invitationCode,
+            },
+            recaptchaAsync,
+        )
+            .then(({ data, error }) => {
+                if (error) {
+                    const { errCode } = error;
+                    switch (errCode) {
+                        case CE_ErrorCode.Auth_DuplicateUsername:
+                            setUsernameError(s.duplicateUsernameError);
+                            break;
+                        case CE_ErrorCode.Auth_DuplicateEmail:
+                            setEmailError(s.duplicateEmailError);
+                            break;
+                        case CE_ErrorCode.Auth_InvalidEmailVerificationCode:
+                            setEmailVerificationCodeError(s.invalidEmailVerificationCodeError);
+                            break;
+                        case CE_ErrorCode.Auth_InvalidateRegistrationCode:
+                            setInvitationCodeError(s.invalidInvitationCodeError);
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    const { token, userBaseDetail } = data;
+                    dispatch(updateBearerTokenAction(token));
+                    dispatch(setAuthAction({ currentUser: userBaseDetail }));
+
+                    dispatchToast(
+                        <Toast>
+                            <ToastTitle>
+                                {format(s.welcomMessage, userBaseDetail.username, appName)}
+                            </ToastTitle>
+                        </Toast>,
+                        {
+                            position: "top-end",
+                            intent: "success",
+                            timeout: 2000,
+                        },
+                    );
+
+                    navigate(redirectPath || CE_PageBaseRoute.Home);
+                }
+            })
+            .catch((error: Error) => {
+                dispatchToast(
+                    <Toast>
+                        <ToastTitle>{error.message}</ToastTitle>
+                    </Toast>,
+                    {
+                        position: "top-end",
+                        intent: "error",
+                    },
+                );
+            })
+            .finally(() => {
+                setSubmitting(false);
+            });
+    }, [
+        appName,
+        dispatch,
+        dispatchToast,
+        email,
+        emailVerificationCode,
+        invitationCode,
+        navigate,
+        password,
+        recaptchaAsync,
+        redirectPath,
+        s,
+        username,
+        validateForm,
+    ]);
 
     return (
         <div className={styles.root}>
@@ -147,6 +247,7 @@ export const SignUpPage: React.FC = () => {
                                 className={styles.field}
                                 label={s.username}
                                 validationMessage={usernameError}
+                                hint={s.usernameHint}
                             >
                                 <Input
                                     value={username}
@@ -212,6 +313,7 @@ export const SignUpPage: React.FC = () => {
                                 className={styles.field}
                                 label={s.password}
                                 validationMessage={passwordError}
+                                hint={s.passwordHint}
                             >
                                 <Input
                                     type="password"
