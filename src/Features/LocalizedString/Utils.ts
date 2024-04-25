@@ -14,13 +14,9 @@ export function selectLanguage(languages: string | string[]): CE_Language {
 
     // Strict match
     for (const language of languages) {
-        const lang = supportedLanguages.find((value) => value === language);
-        if (lang) return lang;
-    }
-
-    // Match prefix
-    for (const language of languages) {
-        const lang = supportedLanguages.find((value) => value === language.split("-")[0]);
+        const lang = supportedLanguages.find(
+            (value) => value === language || value === language.split("-")[0],
+        );
         if (lang) return lang;
     }
 

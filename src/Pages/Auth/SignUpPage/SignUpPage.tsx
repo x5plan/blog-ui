@@ -1,4 +1,12 @@
-import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
+import {
+    Button,
+    Field,
+    Input,
+    Spinner,
+    Toast,
+    ToastBody,
+    ToastTitle,
+} from "@fluentui/react-components";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isUUID } from "validator";
@@ -13,12 +21,16 @@ import { getAppName } from "@/Features/Config/Selectors";
 import { useIsSmallScreen } from "@/Features/Environment/Hooks";
 import { CE_ErrorCode } from "@/Features/Error/ErrorCode";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
+import { getLanguage } from "@/Features/LocalizedString/Selectors";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
 import { CE_PageBaseRoute } from "@/Features/Page/Types";
 import { useAppDispatch, useAppSelector } from "@/Features/Store/Store";
 
-import { postSignUpRequestAsync } from "./Request";
+import {
+    postSendEmailVerificationCodeForRegistrationRequestAsync,
+    postSignUpRequestAsync,
+} from "./Request";
 import { useSignUpPageStypes } from "./SignUpPageStyles";
 
 export interface ISignUpPageProps {
@@ -46,6 +58,11 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
         passwordMismatchError: CE_Strings.SIGN_UP_PASSWORD_MISMATCH_ERROR,
         duplicateUsernameError: CE_Strings.SIGN_UP_DUPLICATE_USERNAME_ERROR,
         duplicateEmailError: CE_Strings.SIGN_UP_DUPLICATE_EMAIL_ERROR,
+        sendRateLimitErrorMessage: CE_Strings.SIGN_UP_SEND_EMAIL_RATE_LIMIT_ERROR,
+        sendCodeErrorMessage: CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_ERROR,
+        sendCodeSuccessMessage: CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS,
+        sendCodeSuccessDescription:
+            CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION,
         welcomMessage: CE_Strings.SIGN_UP_WELCOME_MESSAGE,
     });
 
@@ -56,6 +73,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     const navigate = useNavigate();
     const { dispatchToast } = useAppToastController();
     const appName = useAppSelector(getAppName);
+    const lang = useAppSelector(getLanguage);
     const isSmallScreen = useIsSmallScreen();
     const styles = useSignUpPageStypes();
     const fieldsCls = isSmallScreen ? styles.fieldsColumn : styles.fieldsRow;
@@ -146,8 +164,54 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
 
         setSendingCode(true);
 
-        // TODO: Implement email verification code sending
-    }, [validateEmail]);
+        postSendEmailVerificationCodeForRegistrationRequestAsync({ email, lang }, recaptchaAsync)
+            .then(({ error }) => {
+                if (error) {
+                    if (error.errCode === CE_ErrorCode.Auth_DuplicateEmail) {
+                        setEmailError(s.duplicateEmailError);
+                        return;
+                    }
+
+                    dispatchToast(
+                        <Toast>
+                            <ToastTitle>{s.sendRateLimitErrorMessage}</ToastTitle>
+                        </Toast>,
+                        {
+                            position: "top-end",
+                            intent: "info",
+                        },
+                    );
+                } else {
+                    dispatchToast(
+                        <Toast>
+                            <ToastTitle>{s.sendCodeSuccessMessage}</ToastTitle>
+                            <ToastBody>{format(s.sendCodeSuccessDescription, email)}</ToastBody>
+                        </Toast>,
+                        {
+                            position: "top-end",
+                            intent: "success",
+                            pauseOnHover: true,
+                            pauseOnWindowBlur: true,
+                        },
+                    );
+                }
+            })
+            .catch((error: Error) => {
+                dispatchToast(
+                    <Toast>
+                        <ToastTitle>{s.sendCodeErrorMessage}</ToastTitle>
+                        <ToastTitle>{error.message}</ToastTitle>
+                    </Toast>,
+                    {
+                        position: "top-end",
+                        intent: "error",
+                    },
+                );
+            })
+            .finally(() => {
+                setSendingCode(false);
+            });
+    }, [dispatchToast, email, lang, recaptchaAsync, s, validateEmail]);
 
     const onSignUpButtonClick = React.useCallback(() => {
         if (!validateForm()) {
