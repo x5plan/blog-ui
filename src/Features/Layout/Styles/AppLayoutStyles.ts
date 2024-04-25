@@ -1,7 +1,7 @@
 import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 
+import { MAX_MIDDLE_SCREEN_WIDTH } from "@/Common/Constants/ScreenWidth";
 import { flex } from "@/Common/Styles/Flex";
-import { MAX_MIDDLE_SCREEN_WIDTH } from "@/Features/Environment/Settings/Screen";
 
 const headerHeight = "50px";
 

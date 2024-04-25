@@ -16,5 +16,5 @@ export const signUpPageRoute = createRouteWithErrorHandler(async ({ getState, se
         return <Navigate to={redirect || CE_PageBaseRoute.Home} replace={true} />;
     }
 
-    return <SignUpPage />;
+    return <SignUpPage redirectPath={redirect} />;
 });

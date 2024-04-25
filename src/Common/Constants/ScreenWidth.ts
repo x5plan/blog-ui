@@ -1,0 +1,3 @@
+export const MAX_MINI_SCREEN_WIDTH = 480;
+export const MAX_SMALL_SCREEN_WIDTH = 720;
+export const MAX_MIDDLE_SCREEN_WIDTH = 1024;
