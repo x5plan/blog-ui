@@ -6,7 +6,9 @@ import type { IGetViewFunction, IRouteObjectWithElement } from "./Types";
 
 export function createRouteWithErrorHandler(
     getViewAsync: IGetViewFunction,
+    onRouting?: () => void,
 ): IRouteObjectWithElement {
+    onRouting?.();
     return {
         element: <RouteWithErrorHandler getViewAsync={getViewAsync} />,
     };

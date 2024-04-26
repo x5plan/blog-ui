@@ -1,3 +1,5 @@
+import type { ISignUpPageState } from "@/Pages/Auth/SignUpPage/Types";
+
 import type { IAuthState } from "../Auth/Types";
 import type { IConfigState } from "../Config/Types";
 import type { IEnvState } from "../Environment/Types";
@@ -13,7 +15,9 @@ export interface IStaticReducerMap {
     config: IConfigState;
 }
 
-export interface IDynamicReducerMap {}
+export interface IDynamicReducerMap {
+    signUpPage: ISignUpPageState;
+}
 
 export type IReducerMap = IDynamicReducerMap & IStaticReducerMap;
 

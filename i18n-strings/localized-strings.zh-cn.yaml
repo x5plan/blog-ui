@@ -209,6 +209,11 @@
   description: A error message for failed send email verification code.
   raw: Failed to send email verification code.
 
+- name: SIGN_UP_SEND_EMAIL_WATIING_LABEL
+  value: null
+  description: Aria label for waiting time before send email.
+  raw: Please wait for {0} seconds before sending another email.
+
 - name: SIGN_UP_INVALID_EMAIL_VERIFICATION_CODE_ERROR
   value: null
   description: A error message for invalid email verification code.

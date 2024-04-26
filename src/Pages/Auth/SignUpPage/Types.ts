@@ -1,6 +1,10 @@
 import type { IUserBaseDetail } from "@/Common/ServerTypes/User";
 import type { CE_Language } from "@/Features/LocalizedString/Locales";
 
+export interface ISignUpPageState {
+    lastSendEmailVerificationCodeTime: number;
+}
+
 export interface IPostSignUpRequestBody {
     username: string;
     email: string;

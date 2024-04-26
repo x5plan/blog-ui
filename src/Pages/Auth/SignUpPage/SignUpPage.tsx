@@ -11,6 +11,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isUUID } from "validator";
 
+import { c_VERIFICATION_CODE_RATE_LIMIT } from "@/Common/Constants/RateLimits";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import { format } from "@/Common/Utilities/Format";
@@ -27,6 +28,7 @@ import { useSetPageMeta } from "@/Features/Page/Hooks";
 import { CE_PageBaseRoute } from "@/Features/Page/Types";
 import { useAppDispatch, useAppSelector } from "@/Features/Store/Store";
 
+import { updateLastSendEmailVerificationCodeTime } from "./Actions";
 import {
     postSendEmailVerificationCodeForRegistrationRequestAsync,
     postSignUpRequestAsync,
@@ -63,6 +65,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
         sendCodeSuccessMessage: CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS,
         sendCodeSuccessDescription:
             CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION,
+        sendWaitingLabel: CE_Strings.SIGN_UP_SEND_EMAIL_WATIING_LABEL,
         welcomMessage: CE_Strings.SIGN_UP_WELCOME_MESSAGE,
     });
 
@@ -94,6 +97,38 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
 
     const [sendingCode, setSendingCode] = React.useState(false);
     const [submitting, setSubmitting] = React.useState(false);
+
+    const waitingIntervalRef = React.useRef<number>(null);
+    const [waitingTime, setWaitingTime] = React.useState(0);
+    const lastSentTime = useAppSelector(
+        (state) => state.signUpPage.lastSendEmailVerificationCodeTime,
+    );
+
+    const checkWaitingTimeOut = React.useCallback(() => {
+        const timeDiff = lastSentTime + c_VERIFICATION_CODE_RATE_LIMIT - Date.now();
+        if (timeDiff > 0) {
+            setWaitingTime(Math.ceil(timeDiff / 1000));
+        } else if (waitingTime > 0) {
+            setWaitingTime(0);
+        }
+    }, [lastSentTime, waitingTime]);
+
+    React.useEffect(() => {
+        checkWaitingTimeOut();
+
+        waitingIntervalRef.current = window.setInterval(() => {
+            checkWaitingTimeOut();
+        }, 1000);
+
+        return () => {
+            window.clearInterval(waitingIntervalRef.current);
+        };
+    }, [checkWaitingTimeOut, waitingTime]);
+
+    const setWaitingTimeOut = React.useCallback(() => {
+        dispatch(updateLastSendEmailVerificationCodeTime(Date.now()));
+        checkWaitingTimeOut();
+    }, [checkWaitingTimeOut, dispatch]);
 
     const validateEmail = React.useCallback(() => {
         if (!isEmail(email)) {
@@ -195,6 +230,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                         },
                     );
                 }
+                setWaitingTimeOut();
             })
             .catch((error: Error) => {
                 dispatchToast(
@@ -211,7 +247,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
             .finally(() => {
                 setSendingCode(false);
             });
-    }, [dispatchToast, email, lang, recaptchaAsync, s, validateEmail]);
+    }, [dispatchToast, email, lang, recaptchaAsync, s, setWaitingTimeOut, validateEmail]);
 
     const onSignUpButtonClick = React.useCallback(() => {
         if (!validateForm()) {
@@ -304,7 +340,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
         <div className={styles.root}>
             <div className={styles.container}>
                 <div className={styles.title}>{s.pageTitle}</div>
-                <form className={styles.form}>
+                <form className={styles.form} autoComplete="off">
                     <div className={fieldsCls}>
                         <div className={styles.fieldContainer}>
                             <Field
@@ -314,6 +350,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 hint={s.usernameHint}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={username}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setUsername(value)}
@@ -327,6 +365,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 validationMessage={invitationCodeError}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={invitationCode}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setInvitationCode(value)}
@@ -343,6 +383,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="email"
+                                    autoComplete="off"
                                     value={email}
                                     disabled={sendingCode || submitting}
                                     onChange={(e, { value }) => setEmail(value)}
@@ -356,6 +397,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 validationMessage={emailVerificationCodeError}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={emailVerificationCode}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setEmailVerificationCode(value)}
@@ -363,11 +406,21 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             </Field>
                             <Button
                                 className={styles.sendButton}
-                                aria-label={s.sendButtonLabel}
-                                disabled={sendingCode || submitting}
+                                aria-label={
+                                    waitingTime > 0
+                                        ? format(s.sendWaitingLabel, waitingTime)
+                                        : s.sendButtonLabel
+                                }
+                                disabled={sendingCode || submitting || waitingTime > 0}
                                 onClick={onSendEmailVerificationCodeButtonClick}
                             >
-                                {sendingCode ? <Spinner size="tiny" /> : s.sendButton}
+                                {sendingCode ? (
+                                    <Spinner size="tiny" />
+                                ) : waitingTime > 0 ? (
+                                    waitingTime
+                                ) : (
+                                    s.sendButton
+                                )}
                             </Button>
                         </div>
                     </div>
@@ -381,6 +434,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="password"
+                                    autoComplete="off"
                                     value={password}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setPassword(value)}
@@ -395,6 +449,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="password"
+                                    autoComplete="off"
                                     value={confirmPassword}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setConfirmPassword(value)}
