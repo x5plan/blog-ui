@@ -3,7 +3,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isUUID } from "validator";
 
-import { c_VERIFICATION_CODE_RATE_LIMIT } from "@/Common/Constants/RateLimits";
+import { VERIFICATION_CODE_RATE_LIMIT } from "@/Common/Constants/Limits";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
 import {
     useCommonErrorNotification,
@@ -104,7 +104,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     );
 
     const checkWaitingTimeOut = React.useCallback(() => {
-        const timeDiff = lastSentTime + c_VERIFICATION_CODE_RATE_LIMIT - Date.now();
+        const timeDiff = lastSentTime + VERIFICATION_CODE_RATE_LIMIT - Date.now();
         if (timeDiff > 0) {
             setWaitingTime(Math.ceil(timeDiff / 1000));
         } else if (waitingTime > 0) {

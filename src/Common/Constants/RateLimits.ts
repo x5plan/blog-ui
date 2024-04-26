@@ -1,1 +1,0 @@
-export const c_VERIFICATION_CODE_RATE_LIMIT = 60 * 1000; // 60s

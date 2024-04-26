@@ -2,6 +2,7 @@ import { Button, Spinner } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 import * as React from "react";
 
+import { INVITATION_CODE_LIMIT } from "@/Common/Constants/Limits";
 import {
     useCommonErrorNotification,
     useCommonSuccessNotification,
@@ -9,6 +10,7 @@ import {
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import type { IRegistrationCode } from "@/Common/ServerTypes/RegistrationCode";
 import { format } from "@/Common/Utilities/Format";
+import { useCurrentUser } from "@/Features/Auth/Hooks";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
@@ -49,6 +51,11 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
 
     const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
     const [dialogCode, setDialogCode] = React.useState<IRegistrationCode | null>(null);
+
+    const currentUser = useCurrentUser();
+    const allowedToCreate =
+        currentUser?.isAdmin ||
+        codeList.filter((code) => !code.assignedUser).length < INVITATION_CODE_LIMIT;
 
     const onCreateCode = React.useCallback(() => {
         setCreatingCode(true);
@@ -109,7 +116,7 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                     <Button
                         className={styles.button}
                         appearance="primary"
-                        disabled={!!deletingCode || creatingCode}
+                        disabled={!!deletingCode || creatingCode || !allowedToCreate}
                         onClick={onCreateCode}
                         icon={creatingCode ? null : <AddRegular />}
                     >
