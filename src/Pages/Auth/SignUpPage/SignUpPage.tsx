@@ -1,18 +1,14 @@
-import {
-    Button,
-    Field,
-    Input,
-    Spinner,
-    Toast,
-    ToastBody,
-    ToastTitle,
-} from "@fluentui/react-components";
+import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isUUID } from "validator";
 
 import { c_VERIFICATION_CODE_RATE_LIMIT } from "@/Common/Constants/RateLimits";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
+import {
+    useCommonErrorNotification,
+    useCommonSuccessNotification,
+} from "@/Common/Hooks/Notification";
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import { format } from "@/Common/Utilities/Format";
 import { isPassword } from "@/Common/Validators/Password";
@@ -67,6 +63,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
             CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION,
         sendWaitingLabel: CE_Strings.SIGN_UP_SEND_EMAIL_WATIING_LABEL,
         welcomMessage: CE_Strings.SIGN_UP_WELCOME_MESSAGE,
+        failedToSignUp: CE_Strings.SIGN_UP_FAILED_TO_SIGN_UP_ERROR,
     });
 
     useSetPageMeta(s.pageTitle, null);
@@ -75,6 +72,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     const recaptchaAsync = useRecaptchaAsync();
     const navigate = useNavigate();
     const { dispatchToast } = useAppToastController();
+    const successNotifacation = useCommonSuccessNotification();
+    const errorNotifacation = useCommonErrorNotification();
     const appName = useAppSelector(getAppName);
     const lang = useAppSelector(getLanguage);
     const isSmallScreen = useIsSmallScreen();
@@ -217,37 +216,33 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                         },
                     );
                 } else {
-                    dispatchToast(
-                        <Toast>
-                            <ToastTitle>{s.sendCodeSuccessMessage}</ToastTitle>
-                            <ToastBody>{format(s.sendCodeSuccessDescription, email)}</ToastBody>
-                        </Toast>,
+                    successNotifacation(
+                        s.sendCodeSuccessMessage,
+                        format(s.sendCodeSuccessDescription, email),
                         {
-                            position: "top-end",
-                            intent: "success",
                             pauseOnHover: true,
-                            pauseOnWindowBlur: true,
                         },
                     );
                 }
                 setWaitingTimeOut();
             })
             .catch((error: Error) => {
-                dispatchToast(
-                    <Toast>
-                        <ToastTitle>{s.sendCodeErrorMessage}</ToastTitle>
-                        <ToastTitle>{error.message}</ToastTitle>
-                    </Toast>,
-                    {
-                        position: "top-end",
-                        intent: "error",
-                    },
-                );
+                errorNotifacation(s.sendCodeErrorMessage, error);
             })
             .finally(() => {
                 setSendingCode(false);
             });
-    }, [dispatchToast, email, lang, recaptchaAsync, s, setWaitingTimeOut, validateEmail]);
+    }, [
+        dispatchToast,
+        email,
+        errorNotifacation,
+        lang,
+        recaptchaAsync,
+        s,
+        successNotifacation,
+        setWaitingTimeOut,
+        validateEmail,
+    ]);
 
     const onSignUpButtonClick = React.useCallback(() => {
         if (!validateForm()) {
@@ -291,32 +286,13 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                     dispatch(updateBearerTokenAction(token));
                     dispatch(setAuthAction({ currentUser: userBaseDetail }));
 
-                    dispatchToast(
-                        <Toast>
-                            <ToastTitle>
-                                {format(s.welcomMessage, userBaseDetail.username, appName)}
-                            </ToastTitle>
-                        </Toast>,
-                        {
-                            position: "top-end",
-                            intent: "success",
-                            timeout: 2000,
-                        },
-                    );
+                    successNotifacation(format(s.welcomMessage, userBaseDetail.username, appName));
 
                     navigate(redirectPath || CE_PageBaseRoute.Home);
                 }
             })
             .catch((error: Error) => {
-                dispatchToast(
-                    <Toast>
-                        <ToastTitle>{error.message}</ToastTitle>
-                    </Toast>,
-                    {
-                        position: "top-end",
-                        intent: "error",
-                    },
-                );
+                errorNotifacation(s.failedToSignUp, error);
             })
             .finally(() => {
                 setSubmitting(false);
@@ -324,15 +300,16 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     }, [
         appName,
         dispatch,
-        dispatchToast,
         email,
         emailVerificationCode,
+        errorNotifacation,
         invitationCode,
         navigate,
         password,
         recaptchaAsync,
         redirectPath,
         s,
+        successNotifacation,
         username,
         validateForm,
     ]);

@@ -1,10 +1,14 @@
-import { Button, Spinner, Toast, ToastBody, ToastTitle } from "@fluentui/react-components";
+import { Button, Spinner } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 import * as React from "react";
 
-import { useAppToastController } from "@/Common/Hooks/AppToast";
+import {
+    useCommonErrorNotification,
+    useCommonSuccessNotification,
+} from "@/Common/Hooks/Notification";
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import type { IRegistrationCode } from "@/Common/ServerTypes/RegistrationCode";
+import { format } from "@/Common/Utilities/Format";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
@@ -26,12 +30,16 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
         copyErrorMessage: CE_Strings.COMMON_COPY_ERROR_MESSAGE,
         invitationPageTitle: CE_Strings.INVITATION_PAGE_TITLE,
         invitationCodeCreateButton: CE_Strings.INVITATION_CODE_CREATE_BUTTON,
+        createErrorMessage: CE_Strings.INVITATION_CODE_CREATE_ERROR_MESSAGE,
+        deleteErrorMessage: CE_Strings.INVITATION_CODE_DELETE_ERROR_MESSAGE,
+        deleteSuccessMessage: CE_Strings.INVITATION_CODE_DELETE_SUCCESS_MESSAGE,
     });
 
     useSetPageMeta(s.invitationPageTitle, null);
 
     const styles = useInvitePageStyles();
-    const { dispatchToast } = useAppToastController();
+    const successNotifacation = useCommonSuccessNotification();
+    const errorNotifacation = useCommonErrorNotification();
     const recaptchaAsync = useRecaptchaAsync();
     const [codeList, setCodeList] = React.useState<IRegistrationCode[]>(registrationCodeList);
     const [creatingCode, setCreatingCode] = React.useState<boolean>(false);
@@ -63,17 +71,18 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
             setDeletingCode(code);
             deleteRegistrationCodeRequestAsync(code, recaptchaAsync)
                 .then(() => {
+                    successNotifacation(format(s.deleteSuccessMessage, code));
                     setCodeList(codeList.filter((c) => c.registrationCode !== code));
                 })
-                .catch(() => {
-                    // TODO: Handle error
+                .catch((e) => {
+                    errorNotifacation(format(s.deleteErrorMessage, code), e);
                 })
                 .finally(() => {
                     setDeletingCode(null);
                     setDialogOpen(false);
                 });
         },
-        [codeList, recaptchaAsync],
+        [codeList, errorNotifacation, recaptchaAsync, s, successNotifacation],
     );
 
     const onCopyCode = React.useCallback(
@@ -82,33 +91,14 @@ export const InvitePage: React.FC<IInvitePageProps> = (props) => {
                 window.navigator.clipboard
                     .writeText(code)
                     .then(() => {
-                        dispatchToast(
-                            <Toast>
-                                <ToastTitle>{s.copySuccessMessage}</ToastTitle>
-                            </Toast>,
-                            {
-                                position: "top",
-                                intent: "success",
-                                timeout: 800,
-                            },
-                        );
+                        successNotifacation(s.copySuccessMessage, null, { timeout: 800 });
                     })
-                    .catch((e) => {
-                        dispatchToast(
-                            <Toast>
-                                <ToastTitle>{s.copyErrorMessage}</ToastTitle>
-                                <ToastBody>{e.message}</ToastBody>
-                            </Toast>,
-                            {
-                                position: "top",
-                                intent: "error",
-                                timeout: 800,
-                            },
-                        );
+                    .catch((e: Error) => {
+                        errorNotifacation(s.copyErrorMessage, e, { timeout: 800 });
                     });
             }
         },
-        [allowedToCopy, dispatchToast, s],
+        [allowedToCopy, errorNotifacation, s, successNotifacation],
     );
 
     return (

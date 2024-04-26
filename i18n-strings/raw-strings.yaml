@@ -98,6 +98,10 @@
   value: Hi {0}, welcome back!
   description: A welcome message for sign in page. {0} is the nickname or username of the user.
 
+- name: SIGN_IN_FAILED_TO_SIGN_IN_ERROR
+  value: Failed to sign in.
+  description: A error message for failed sign in.
+
 - name: SIGN_UP_TITLE
   value: Sign up
   description: A text for sign up page title and button.
@@ -178,6 +182,10 @@
   value: Invalid invitation code.
   description: A error message for invalid invitation code.
 
+- name: SIGN_UP_FAILED_TO_SIGN_UP_ERROR
+  value: Failed to sign up.
+  description: A error message for failed sign up.
+
 - name: SIGN_UP_WELCOME_MESSAGE
   value: Hello {0}, welcome to {1}!
   description: A welcome message for sign up page. {0} is the username of the user, {1} is the app name.
@@ -202,6 +210,10 @@
   value: Create new code
   description: A text for create new code button.
 
+- name: INVITATION_CODE_CREATE_ERROR_MESSAGE
+  value: Failed to create code.
+  description: A text for create code error message.
+
 - name: INVITATION_CODE_DELETE_BUTTON_LABEL
   value: Delete code {0}.
   description: A text for delete code button. {0} is the code.
@@ -209,6 +221,14 @@
 - name: INVITATION_CODE_DELETE_CONFIRM_MESSAGE
   value: Are you sure to delete code {0}?
   description: A text for delete code confirm message. {0} is the code.
+
+- name: INVITATION_CODE_DELETE_SUCCESS_MESSAGE
+  value: Code {0} has been deleted.
+  description: A text for delete code success message. {0} is the code.
+
+- name: INVITATION_CODE_DELETE_ERROR_MESSAGE
+  value: Failed to delete code {0}.
+  description: A text for delete code error message. {0} is the code.
 
 - name: INVITATION_CODE_COPY_BUTTON_LABEL
   value: Copy code {0}.
