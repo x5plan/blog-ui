@@ -48,6 +48,11 @@
   description: A string for the label of send button.
   raw: Send
 
+- name: COMMON_REFRESH_BUTTON
+  value: null
+  description: A string for the label of refresh button.
+  raw: Refresh
+
 - name: COMMON_COPY_SUCCESS_MESSAGE
   value: null
   description: A message for successful copy.
@@ -119,6 +124,11 @@
     A welcome message for sign in page. {0} is the nickname or username of the
     user.
   raw: Hi {0}, welcome back!
+
+- name: SIGN_IN_FAILED_TO_SIGN_IN_ERROR
+  value: null
+  description: A error message for failed sign in.
+  raw: Failed to sign in.
 
 - name: SIGN_UP_TITLE
   value: 注册
@@ -209,6 +219,11 @@
   description: A error message for failed send email verification code.
   raw: Failed to send email verification code.
 
+- name: SIGN_UP_SEND_EMAIL_WATIING_LABEL
+  value: null
+  description: Aria label for waiting time before send email.
+  raw: Please wait for {0} seconds before sending another email.
+
 - name: SIGN_UP_INVALID_EMAIL_VERIFICATION_CODE_ERROR
   value: null
   description: A error message for invalid email verification code.
@@ -218,6 +233,11 @@
   value: null
   description: A error message for invalid invitation code.
   raw: Invalid invitation code.
+
+- name: SIGN_UP_FAILED_TO_SIGN_UP_ERROR
+  value: null
+  description: A error message for failed sign up.
+  raw: Failed to sign up.
 
 - name: SIGN_UP_WELCOME_MESSAGE
   value: null
@@ -251,6 +271,11 @@
   description: A text for create new code button.
   raw: Create new code
 
+- name: INVITATION_CODE_CREATE_ERROR_MESSAGE
+  value: null
+  description: A text for create code error message.
+  raw: Failed to create code.
+
 - name: INVITATION_CODE_DELETE_BUTTON_LABEL
   value: 删除邀请码 {0}
   description: A text for delete code button. {0} is the code.
@@ -260,6 +285,16 @@
   value: null
   description: A text for delete code confirm message. {0} is the code.
   raw: Are you sure to delete code {0}?
+
+- name: INVITATION_CODE_DELETE_SUCCESS_MESSAGE
+  value: null
+  description: A text for delete code success message. {0} is the code.
+  raw: Code {0} has been deleted.
+
+- name: INVITATION_CODE_DELETE_ERROR_MESSAGE
+  value: null
+  description: A text for delete code error message. {0} is the code.
+  raw: Failed to delete code {0}.
 
 - name: INVITATION_CODE_COPY_BUTTON_LABEL
   value: 复制邀请码 {0}

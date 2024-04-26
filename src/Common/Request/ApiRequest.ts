@@ -57,7 +57,7 @@ export async function apiRequestAsync<TResponse, TQuery = undefined, TBody = und
             return { data };
 
         case HttpStatusCode.Unauthorized:
-            error = { errCode: CE_ErrorCode.AuthRequired };
+            error = { errCode: CE_ErrorCode.AuthRequired, msg: data?.msg };
             break;
 
         case HttpStatusCode.InternalServerError:

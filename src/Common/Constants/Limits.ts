@@ -1,0 +1,3 @@
+export const VERIFICATION_CODE_RATE_LIMIT = 60 * 1000; // 60s
+
+export const INVITATION_CODE_LIMIT = 5;

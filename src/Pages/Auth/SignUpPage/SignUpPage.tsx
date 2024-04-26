@@ -3,7 +3,12 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isUUID } from "validator";
 
+import { VERIFICATION_CODE_RATE_LIMIT } from "@/Common/Constants/Limits";
 import { useAppToastController } from "@/Common/Hooks/AppToast";
+import {
+    useCommonErrorNotification,
+    useCommonSuccessNotification,
+} from "@/Common/Hooks/Notification";
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import { format } from "@/Common/Utilities/Format";
 import { isPassword } from "@/Common/Validators/Password";
@@ -13,12 +18,17 @@ import { getAppName } from "@/Features/Config/Selectors";
 import { useIsSmallScreen } from "@/Features/Environment/Hooks";
 import { CE_ErrorCode } from "@/Features/Error/ErrorCode";
 import { useLocalizedStrings } from "@/Features/LocalizedString/Hooks";
+import { getLanguage } from "@/Features/LocalizedString/Selectors";
 import { CE_Strings } from "@/Features/LocalizedString/Types";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
 import { CE_PageBaseRoute } from "@/Features/Page/Types";
 import { useAppDispatch, useAppSelector } from "@/Features/Store/Store";
 
-import { postSignUpRequestAsync } from "./Request";
+import { updateLastSendEmailVerificationCodeTime } from "./Actions";
+import {
+    postSendEmailVerificationCodeForRegistrationRequestAsync,
+    postSignUpRequestAsync,
+} from "./Request";
 import { useSignUpPageStypes } from "./SignUpPageStyles";
 
 export interface ISignUpPageProps {
@@ -46,7 +56,14 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
         passwordMismatchError: CE_Strings.SIGN_UP_PASSWORD_MISMATCH_ERROR,
         duplicateUsernameError: CE_Strings.SIGN_UP_DUPLICATE_USERNAME_ERROR,
         duplicateEmailError: CE_Strings.SIGN_UP_DUPLICATE_EMAIL_ERROR,
+        sendRateLimitErrorMessage: CE_Strings.SIGN_UP_SEND_EMAIL_RATE_LIMIT_ERROR,
+        sendCodeErrorMessage: CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_ERROR,
+        sendCodeSuccessMessage: CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS,
+        sendCodeSuccessDescription:
+            CE_Strings.SIGN_UP_SEND_EMAIL_VERIFICATION_CODE_SUCCESS_DESCRIPTION,
+        sendWaitingLabel: CE_Strings.SIGN_UP_SEND_EMAIL_WATIING_LABEL,
         welcomMessage: CE_Strings.SIGN_UP_WELCOME_MESSAGE,
+        failedToSignUp: CE_Strings.SIGN_UP_FAILED_TO_SIGN_UP_ERROR,
     });
 
     useSetPageMeta(s.pageTitle, null);
@@ -55,7 +72,10 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     const recaptchaAsync = useRecaptchaAsync();
     const navigate = useNavigate();
     const { dispatchToast } = useAppToastController();
+    const successNotifacation = useCommonSuccessNotification();
+    const errorNotifacation = useCommonErrorNotification();
     const appName = useAppSelector(getAppName);
+    const lang = useAppSelector(getLanguage);
     const isSmallScreen = useIsSmallScreen();
     const styles = useSignUpPageStypes();
     const fieldsCls = isSmallScreen ? styles.fieldsColumn : styles.fieldsRow;
@@ -76,6 +96,38 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
 
     const [sendingCode, setSendingCode] = React.useState(false);
     const [submitting, setSubmitting] = React.useState(false);
+
+    const waitingIntervalRef = React.useRef<number>(null);
+    const [waitingTime, setWaitingTime] = React.useState(0);
+    const lastSentTime = useAppSelector(
+        (state) => state.signUpPage.lastSendEmailVerificationCodeTime,
+    );
+
+    const checkWaitingTimeOut = React.useCallback(() => {
+        const timeDiff = lastSentTime + VERIFICATION_CODE_RATE_LIMIT - Date.now();
+        if (timeDiff > 0) {
+            setWaitingTime(Math.ceil(timeDiff / 1000));
+        } else if (waitingTime > 0) {
+            setWaitingTime(0);
+        }
+    }, [lastSentTime, waitingTime]);
+
+    React.useEffect(() => {
+        checkWaitingTimeOut();
+
+        waitingIntervalRef.current = window.setInterval(() => {
+            checkWaitingTimeOut();
+        }, 1000);
+
+        return () => {
+            window.clearInterval(waitingIntervalRef.current);
+        };
+    }, [checkWaitingTimeOut, waitingTime]);
+
+    const setWaitingTimeOut = React.useCallback(() => {
+        dispatch(updateLastSendEmailVerificationCodeTime(Date.now()));
+        checkWaitingTimeOut();
+    }, [checkWaitingTimeOut, dispatch]);
 
     const validateEmail = React.useCallback(() => {
         if (!isEmail(email)) {
@@ -146,8 +198,51 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
 
         setSendingCode(true);
 
-        // TODO: Implement email verification code sending
-    }, [validateEmail]);
+        postSendEmailVerificationCodeForRegistrationRequestAsync({ email, lang }, recaptchaAsync)
+            .then(({ error }) => {
+                if (error) {
+                    if (error.errCode === CE_ErrorCode.Auth_DuplicateEmail) {
+                        setEmailError(s.duplicateEmailError);
+                        return;
+                    }
+
+                    dispatchToast(
+                        <Toast>
+                            <ToastTitle>{s.sendRateLimitErrorMessage}</ToastTitle>
+                        </Toast>,
+                        {
+                            position: "top-end",
+                            intent: "info",
+                        },
+                    );
+                } else {
+                    successNotifacation(
+                        s.sendCodeSuccessMessage,
+                        format(s.sendCodeSuccessDescription, email),
+                        {
+                            pauseOnHover: true,
+                        },
+                    );
+                }
+                setWaitingTimeOut();
+            })
+            .catch((error: Error) => {
+                errorNotifacation(s.sendCodeErrorMessage, error);
+            })
+            .finally(() => {
+                setSendingCode(false);
+            });
+    }, [
+        dispatchToast,
+        email,
+        errorNotifacation,
+        lang,
+        recaptchaAsync,
+        s,
+        successNotifacation,
+        setWaitingTimeOut,
+        validateEmail,
+    ]);
 
     const onSignUpButtonClick = React.useCallback(() => {
         if (!validateForm()) {
@@ -180,6 +275,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             setEmailVerificationCodeError(s.invalidEmailVerificationCodeError);
                             break;
                         case CE_ErrorCode.Auth_InvalidateRegistrationCode:
+                        case CE_ErrorCode.Auth_RegistrationCodeAlreadyUsed:
                             setInvitationCodeError(s.invalidInvitationCodeError);
                             break;
                         default:
@@ -190,32 +286,13 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                     dispatch(updateBearerTokenAction(token));
                     dispatch(setAuthAction({ currentUser: userBaseDetail }));
 
-                    dispatchToast(
-                        <Toast>
-                            <ToastTitle>
-                                {format(s.welcomMessage, userBaseDetail.username, appName)}
-                            </ToastTitle>
-                        </Toast>,
-                        {
-                            position: "top-end",
-                            intent: "success",
-                            timeout: 2000,
-                        },
-                    );
+                    successNotifacation(format(s.welcomMessage, userBaseDetail.username, appName));
 
                     navigate(redirectPath || CE_PageBaseRoute.Home);
                 }
             })
             .catch((error: Error) => {
-                dispatchToast(
-                    <Toast>
-                        <ToastTitle>{error.message}</ToastTitle>
-                    </Toast>,
-                    {
-                        position: "top-end",
-                        intent: "error",
-                    },
-                );
+                errorNotifacation(s.failedToSignUp, error);
             })
             .finally(() => {
                 setSubmitting(false);
@@ -223,15 +300,16 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
     }, [
         appName,
         dispatch,
-        dispatchToast,
         email,
         emailVerificationCode,
+        errorNotifacation,
         invitationCode,
         navigate,
         password,
         recaptchaAsync,
         redirectPath,
         s,
+        successNotifacation,
         username,
         validateForm,
     ]);
@@ -240,7 +318,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
         <div className={styles.root}>
             <div className={styles.container}>
                 <div className={styles.title}>{s.pageTitle}</div>
-                <form className={styles.form}>
+                <form className={styles.form} autoComplete="off">
                     <div className={fieldsCls}>
                         <div className={styles.fieldContainer}>
                             <Field
@@ -250,6 +328,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 hint={s.usernameHint}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={username}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setUsername(value)}
@@ -263,6 +343,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 validationMessage={invitationCodeError}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={invitationCode}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setInvitationCode(value)}
@@ -279,6 +361,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="email"
+                                    autoComplete="off"
                                     value={email}
                                     disabled={sendingCode || submitting}
                                     onChange={(e, { value }) => setEmail(value)}
@@ -292,6 +375,8 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                                 validationMessage={emailVerificationCodeError}
                             >
                                 <Input
+                                    type="text"
+                                    autoComplete="off"
                                     value={emailVerificationCode}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setEmailVerificationCode(value)}
@@ -299,11 +384,21 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             </Field>
                             <Button
                                 className={styles.sendButton}
-                                aria-label={s.sendButtonLabel}
-                                disabled={sendingCode || submitting}
+                                aria-label={
+                                    waitingTime > 0
+                                        ? format(s.sendWaitingLabel, waitingTime)
+                                        : s.sendButtonLabel
+                                }
+                                disabled={sendingCode || submitting || waitingTime > 0}
                                 onClick={onSendEmailVerificationCodeButtonClick}
                             >
-                                {sendingCode ? <Spinner size="tiny" /> : s.sendButton}
+                                {sendingCode ? (
+                                    <Spinner size="tiny" />
+                                ) : waitingTime > 0 ? (
+                                    waitingTime
+                                ) : (
+                                    s.sendButton
+                                )}
                             </Button>
                         </div>
                     </div>
@@ -317,6 +412,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="password"
+                                    autoComplete="off"
                                     value={password}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setPassword(value)}
@@ -331,6 +427,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             >
                                 <Input
                                     type="password"
+                                    autoComplete="off"
                                     value={confirmPassword}
                                     disabled={submitting}
                                     onChange={(e, { value }) => setConfirmPassword(value)}

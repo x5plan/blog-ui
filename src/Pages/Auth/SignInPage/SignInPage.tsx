@@ -1,10 +1,13 @@
-import { Button, Field, Input, Spinner, Toast, ToastTitle } from "@fluentui/react-components";
+import { Button, Field, Input, Spinner } from "@fluentui/react-components";
 import { PasswordFilled, PersonFilled } from "@fluentui/react-icons";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { RouterLink } from "@/Common/Components/RouterLink";
-import { useAppToastController } from "@/Common/Hooks/AppToast";
+import {
+    useCommonErrorNotification,
+    useCommonSuccessNotification,
+} from "@/Common/Hooks/Notification";
 import { useRecaptchaAsync } from "@/Common/Hooks/Recaptcha";
 import { format } from "@/Common/Utilities/Format";
 import { isUsername } from "@/Common/Validators/Username";
@@ -30,7 +33,8 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const styles = useSignInPageStyles();
-    const { dispatchToast } = useAppToastController();
+    const successNotifacation = useCommonSuccessNotification();
+    const errorNotifacation = useCommonErrorNotification();
     const recaptchaAsync = useRecaptchaAsync();
 
     const passwordRef = React.useRef<HTMLInputElement>(null);
@@ -47,6 +51,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         s_emptyUsernameError,
         s_emptyPasswordError,
         s_welcomeMessage,
+        s_failedToSignInError,
     ] = useLocalizedStrings(
         CE_Strings.SIGN_IN_USERNAME_PLACEHOLDER,
         CE_Strings.SIGN_IN_PASSWORD_PLACEHOLDER,
@@ -59,6 +64,7 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
         CE_Strings.SIGN_IN_EMPTY_USERNAME_ERROR,
         CE_Strings.SIGN_IN_EMPTY_PASSWORD_ERROR,
         CE_Strings.SIGN_IN_WELCOME_MESSAGE,
+        CE_Strings.SIGN_IN_FAILED_TO_SIGN_IN_ERROR,
     );
 
     const [username, setUsername] = React.useState("");
@@ -112,47 +118,31 @@ export const SignInPage: React.FC<ISignInPageProps> = (props) => {
 
                 dispatch(updateBearerTokenAction(token));
                 dispatch(setAuthAction({ currentUser: userBaseDetail }));
-                dispatchToast(
-                    <Toast>
-                        <ToastTitle>
-                            {format(
-                                s_welcomeMessage,
-                                userBaseDetail.nickname || userBaseDetail.username,
-                            )}
-                        </ToastTitle>
-                    </Toast>,
-                    {
-                        position: "top-end",
-                        intent: "success",
-                        timeout: 2000,
-                    },
+
+                successNotifacation(
+                    format(s_welcomeMessage, userBaseDetail.nickname || userBaseDetail.username),
                 );
+
                 navigate(props.redirectPath || CE_PageBaseRoute.Home);
             })
             .catch((error: Error) => {
-                dispatchToast(
-                    <Toast>
-                        <ToastTitle>{error.message}</ToastTitle>
-                    </Toast>,
-                    {
-                        position: "top-end",
-                        intent: "error",
-                    },
-                );
+                errorNotifacation(s_failedToSignInError, error);
             })
             .finally(() => {
                 setLoading(false);
             });
     }, [
         dispatch,
-        dispatchToast,
+        errorNotifacation,
         navigate,
         password,
         props.redirectPath,
         recaptchaAsync,
+        s_failedToSignInError,
         s_noSuchUserError,
         s_welcomeMessage,
         s_wrongPasswordError,
+        successNotifacation,
         username,
         validateForm,
     ]);

@@ -2,7 +2,7 @@ import { Button, type ButtonProps } from "@fluentui/react-components";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { parseUrlIfSameOrigin } from "../Utilities/SameOrigin";
+import { parseUrlIfSameOrigin, parseUrlToNavigate } from "../Utilities/SameOrigin";
 
 export type IRouterButtonProps = ButtonProps & {
     to: string;
@@ -19,7 +19,7 @@ export const RouterButton: React.FC<IRouterButtonProps> = (props) => {
             {...rest}
             onClick={() => {
                 if (url) {
-                    navigate(url);
+                    navigate(parseUrlToNavigate(url));
                 }
                 onClick?.();
             }}

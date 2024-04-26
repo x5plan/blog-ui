@@ -13,6 +13,7 @@ export const enum CE_ErrorCode {
     // Global Error Code (1000 ~ 1199)
     ValidationError = 1000,
     RecaptchaError = 1001,
+    MailSendError = 1002,
 
     // Auth Module Error Code (1200 ~ 1299)
     Auth_NoSuchUser = 1200,
@@ -22,6 +23,8 @@ export const enum CE_ErrorCode {
     Auth_InvalidEmailVerificationCode = 1204,
     Auth_InvalidateRegistrationCode = 1205,
     Auth_EmailVerificationCodeRateLimited = 1206,
+    Auth_RegistrationCodeAlreadyUsed = 1207,
+    Auth_RegistrationCodeLimitExceeded = 1208,
 
     // User Module Error Code (1300 ~ 1399)
 }
