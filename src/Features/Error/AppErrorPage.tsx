@@ -11,10 +11,11 @@ import {
 export interface IAppErrorPageProps {
     error: AppError;
     showBackButton?: boolean;
+    showRefreshButton?: boolean;
 }
 
 export const AppErrorPage: React.FC<IAppErrorPageProps> = (props) => {
-    const { error, showBackButton } = props;
+    const { error, showBackButton, showRefreshButton } = props;
 
     const title = useErrorLocalizedTitle(error.code);
     const description =
@@ -27,6 +28,7 @@ export const AppErrorPage: React.FC<IAppErrorPageProps> = (props) => {
             description={description}
             links={links}
             showBackButton={showBackButton}
+            showRefreshButton={showRefreshButton}
         />
     );
 };

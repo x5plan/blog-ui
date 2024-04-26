@@ -48,6 +48,11 @@
   description: A string for the label of send button.
   raw: Send
 
+- name: COMMON_REFRESH_BUTTON
+  value: null
+  description: A string for the label of refresh button.
+  raw: Refresh
+
 - name: COMMON_COPY_SUCCESS_MESSAGE
   value: null
   description: A message for successful copy.

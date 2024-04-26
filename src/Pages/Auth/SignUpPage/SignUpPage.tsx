@@ -280,6 +280,7 @@ export const SignUpPage: React.FC<ISignUpPageProps> = ({ redirectPath }) => {
                             setEmailVerificationCodeError(s.invalidEmailVerificationCodeError);
                             break;
                         case CE_ErrorCode.Auth_InvalidateRegistrationCode:
+                        case CE_ErrorCode.Auth_RegistrationCodeAlreadyUsed:
                             setInvitationCodeError(s.invalidInvitationCodeError);
                             break;
                         default:

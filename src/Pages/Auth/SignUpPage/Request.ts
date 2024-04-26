@@ -25,6 +25,7 @@ export async function postSignUpRequestAsync(
             CE_ErrorCode.Auth_DuplicateEmail,
             CE_ErrorCode.Auth_InvalidEmailVerificationCode,
             CE_ErrorCode.Auth_InvalidateRegistrationCode,
+            CE_ErrorCode.Auth_RegistrationCodeAlreadyUsed,
         ],
     );
 }

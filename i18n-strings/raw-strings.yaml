@@ -38,6 +38,10 @@
   value: Send
   description: A string for the label of send button.
 
+- name: COMMON_REFRESH_BUTTON
+  value: Refresh
+  description: A string for the label of refresh button.
+
 - name: COMMON_COPY_SUCCESS_MESSAGE
   value: Copied to clipboard.
   description: A message for successful copy.

@@ -35,6 +35,12 @@ export interface IErrorPageProps {
      * @default false
      */
     showBackButton?: boolean;
+
+    /**
+     * Whether to show a refresh button to reload the page.
+     * @default false
+     */
+    showRefreshButton?: boolean;
 }
 
 export const useStyle = makeStyles({
@@ -63,13 +69,72 @@ export const useStyle = makeStyles({
 });
 
 export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
-    const { message, description, links = [], showBackButton = false } = props;
+    const {
+        message,
+        description,
+        links = [],
+        showBackButton = false,
+        showRefreshButton = false,
+    } = props;
 
     const styles = useStyle();
     const backButtonString = useLocalizedString(CE_Strings.COMMON_BACK_BUTTON);
+    const refreshButtonString = useLocalizedString(CE_Strings.COMMON_REFRESH_BUTTON);
     const navigate = useNavigate();
 
     const showLinks = (links && links.length > 0) || showBackButton;
+
+    const linkElements = React.useMemo(() => {
+        const elements = links.map((link, index) => (
+            <RouterLink key={"link" + index} href={link.href.toString()}>
+                {link.title}
+            </RouterLink>
+        ));
+
+        if (showRefreshButton) {
+            elements.push(
+                <Link
+                    key={"link-refresh"}
+                    as={"a"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        window.location.reload();
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter" || e.code === "Space") {
+                            e.preventDefault();
+                            window.location.reload();
+                        }
+                    }}
+                >
+                    {refreshButtonString}
+                </Link>,
+            );
+        }
+
+        if (showBackButton) {
+            elements.push(
+                <Link
+                    key={"link-back"}
+                    as={"a"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate(-1);
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter" || e.code === "Space") {
+                            e.preventDefault();
+                            navigate(-1);
+                        }
+                    }}
+                >
+                    {backButtonString}
+                </Link>,
+            );
+        }
+
+        return elements;
+    }, [backButtonString, links, navigate, refreshButtonString, showBackButton, showRefreshButton]);
 
     return (
         <div>
@@ -85,39 +150,18 @@ export const ErrorPage: React.FC<IErrorPageProps> = (props) => {
                     {description && <div className={styles.description}>{description}</div>}
                     {showLinks && (
                         <div className={styles.linkContainer}>
-                            {links
-                                .map((link, index) => (
-                                    <RouterLink key={"link" + index} href={link.href.toString()}>
-                                        {link.title}
-                                    </RouterLink>
-                                ))
-                                .reduce(
-                                    (pre, cur, index) => [
-                                        ...pre,
-                                        cur,
+                            {linkElements.reduce(
+                                (pre, cur, index) => [
+                                    ...pre,
+                                    cur,
+                                    index < linkElements.length - 1 && (
                                         <span
                                             className={styles.linkDivider}
                                             key={"divider" + index}
-                                        />,
-                                    ],
-                                    [],
-                                )}
-                            {showBackButton && (
-                                <Link
-                                    as={"a"}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        navigate(-1);
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if (e.code === "Enter" || e.code === "Space") {
-                                            e.preventDefault();
-                                            navigate(-1);
-                                        }
-                                    }}
-                                >
-                                    {backButtonString}
-                                </Link>
+                                        />
+                                    ),
+                                ],
+                                [],
                             )}
                         </div>
                     )}
