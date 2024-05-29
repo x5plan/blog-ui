@@ -9,57 +9,42 @@ export const RenderingPlaceholder: React.FC<IRenderingPlaceholderProps> = (props
     const { content } = props;
 
     const lines = React.useMemo(
-        () => content.split("\n").filter((line) => line.trim() !== ""),
+        () =>
+            content
+                .split("\n")
+                .map((line) => line.trim())
+                .filter((line, index) => line.length > 10 || index < 3),
         [content],
+    );
+    const maxLength = React.useMemo(
+        () => Math.min(Math.max(...lines.map((line) => line.length)), 100),
+        [lines],
     );
 
     const keyPrefix = useId("RenderingPlaceholder");
 
     return (
-        <Skeleton>{lines.map((line, index) => generateLines(line, keyPrefix + index))}</Skeleton>
+        <Skeleton>
+            {lines.map((line, index) => (
+                <SkeletonItem
+                    key={keyPrefix + index}
+                    style={{
+                        width: calcLinePercent(line.length, maxLength),
+                        marginBottom: 7,
+                    }}
+                />
+            ))}
+        </Skeleton>
     );
 };
 
-function generateLines(line: string, keyPrefix: string) {
-    const count = Math.max(Math.ceil(line.length / 10), 3);
-    const lines: React.ReactElement[] = [];
-    for (let i = 0; i < count; i++) {
-        lines.push(<SkeletonItem key={keyPrefix + i} />);
+function calcLinePercent(length: number, maxLength: number): `${number}%` {
+    if (length > maxLength) {
+        return "100%";
     }
 
-    const gridTemplateColumns = randomSplitNumber(100, count)
-        .map((value) => `${value}%`)
-        .join(" ");
+    const percent = (length / maxLength) * 100;
+    const betterPercent = Math.max(Math.sqrt(percent) * 10, 10);
 
-    return (
-        <div
-            key={keyPrefix}
-            style={{
-                gridTemplateColumns,
-                width: `calc(100% - ${(count - 1) * 10}px)`,
-                alignItems: "center",
-                display: "grid",
-                position: "relative",
-                columnGap: "10px",
-                marginBottom: "7px",
-            }}
-        >
-            {lines}
-        </div>
-    );
-}
-
-function randomSplitNumber(sum: number, count: number): number[] {
-    const result: number[] = [];
-    const base = Math.floor(sum / count);
-    const range = Math.floor(base / 10);
-
-    for (let i = 0; i < count - 1; i++) {
-        const randomValue = base - range + Math.floor(Math.random() * range * 2);
-        result.push(randomValue);
-        sum -= randomValue;
-    }
-    result.push(sum);
-
-    return result;
+    return `${Math.floor(betterPercent)}%`;
 }
