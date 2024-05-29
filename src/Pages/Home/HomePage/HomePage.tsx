@@ -6,6 +6,7 @@ import { MarkdownRender } from "@/Features/Markdown/MarkdownRender";
 import { useSetPageMeta } from "@/Features/Page/Hooks";
 import { CE_PageType } from "@/Features/Page/Types";
 
+// TODO: Remove this test markdown content
 const testMarkdown = `
 # Hello, World!
 
@@ -36,5 +37,6 @@ export const HomePage: React.FC = () => {
 
     // TODO: Implement HomePage
 
+    // TODO: Remove this test markdown render
     return <MarkdownRender content={testMarkdown} />;
 };
