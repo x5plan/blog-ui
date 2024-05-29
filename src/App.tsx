@@ -5,6 +5,7 @@ import { AppToastProvider } from "./Common/Providers/AppToastProvider";
 import { IconProvider } from "./Common/Providers/IconProvider";
 import { PageTitleProvider } from "./Common/Providers/PageTitleProvider";
 import { RecaptchaProvider } from "./Common/Providers/RecaptchaProvider";
+import { StylesProvider } from "./Common/Providers/StylesProvider";
 import { getTheme } from "./Features/Environment/Selectors";
 import { AppLayout } from "./Features/Layout/AppLayout";
 import { useIsRtl } from "./Features/LocalizedString/Hooks";
@@ -29,6 +30,7 @@ export const App: React.FC = () => {
             <RecaptchaProvider>
                 <PageTitleProvider />
                 <IconProvider />
+                <StylesProvider />
                 <AppToastProvider>
                     <AppRouter>
                         <AppLayout>

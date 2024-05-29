@@ -3,7 +3,9 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { viteVConsole } from "vite-plugin-vconsole";
+import { prismjsPlugin } from "vite-plugin-prismjs";
 import * as path from "path";
+import * as fs from "fs";
 
 interface IAppEnv {
     readonly X5PLAN_CDN_URL: string;
@@ -40,6 +42,13 @@ export default defineConfig(({ mode }) => {
                 config: {
                     maxLogNumber: 1000,
                 },
+            }),
+            prismjsPlugin({
+                languages: fs
+                    .readFileSync(path.resolve(".prism-languages"), "utf-8")
+                    .trim()
+                    .split("\n"),
+                css: false,
             }),
         ],
         server: {
