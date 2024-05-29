@@ -6,6 +6,7 @@ import { parseUrlIfSameOrigin } from "@/Common/Utilities/SameOrigin";
 
 import { loadMath } from "./DynimicImport";
 import { loadHighlight, loadMarkdown } from "./DynimicImport";
+import { RenderingPlaceholder } from "./RenderingPlaceholder";
 import { sanitize } from "./Utils/Sanitize";
 
 export interface IMarkdownRenderProps {
@@ -45,7 +46,7 @@ export const MarkdownRender: React.FC<IMarkdownRenderProps> = (props) => {
     }, [navigate, wrapperElement]);
 
     return (
-        <React.Suspense fallback={null}>
+        <React.Suspense fallback={<RenderingPlaceholder content={content} />}>
             <Await errorElement={null} resolve={renderPromise}>
                 {(html: string) => (
                     <div dangerouslySetInnerHTML={{ __html: html }} ref={setWrapperElement} />

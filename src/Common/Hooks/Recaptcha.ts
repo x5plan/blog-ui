@@ -1,4 +1,4 @@
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3-safe";
 
 import { getRecaptchaEnabled } from "@/Features/Config/Selectors";
 import { useAppSelector } from "@/Features/Store/Store";
