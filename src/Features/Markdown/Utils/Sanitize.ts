@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 
 export function sanitize(html: string): string {
-    return DOMPurify.sanitize(html, {
+    const result = DOMPurify.sanitize(html, {
         ALLOWED_TAGS: [
             "a",
             "b",
@@ -38,28 +38,8 @@ export function sanitize(html: string): string {
             "caption",
             "img",
         ],
-        ALLOWED_ATTR: [
-            "href",
-            "title",
-            "alt",
-            "src",
-            "width",
-            "height",
-            "style",
-            "class",
-            "id",
-            "name",
-            "target",
-            "rel",
-            "type",
-            "value",
-            "disabled",
-            "checked",
-            "placeholder",
-            "aria-*",
-            "role",
-            "data-*",
-        ],
-        ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|ftp|data):|[^a-z]|[a-z+.-]+(?:[^a-z+.-]|$))/i,
+        ALLOWED_ATTR: ["href", "title", "alt", "src", "width", "height", "target", "data-id"],
     });
+
+    return result;
 }

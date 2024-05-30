@@ -20,5 +20,5 @@ export function highlight(code: string, lang: string) {
             console.error(`Failed to highlight, language = ${lang}`, e);
         }
     }
-    return escapeHtml(code).split("\n").join("<br>");
+    return escapeHtml(code).replace(/\n/g, "<br>");
 }

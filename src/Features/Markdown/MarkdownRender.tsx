@@ -4,9 +4,9 @@ import { Await, useNavigate } from "react-router-dom";
 import type { PromiseInnerType } from "@/Common/Types/PromiseInnerType";
 import { parseUrlIfSameOrigin } from "@/Common/Utilities/SameOrigin";
 
-import { loadMath } from "./DynimicImport";
-import { loadHighlight, loadMarkdown } from "./DynimicImport";
+import { loadHighlight, loadMarkdown, loadMath } from "./DynimicImport";
 import { RenderingPlaceholder } from "./RenderingPlaceholder";
+import { useMarkdownRenderStyles } from "./Styles/MarkdownRenderStyles";
 import { sanitize } from "./Utils/Sanitize";
 
 export interface IMarkdownRenderProps {
@@ -19,6 +19,7 @@ export const MarkdownRender: React.FC<IMarkdownRenderProps> = (props) => {
 
     const renderPromise = React.useMemo(() => renderAsync(content), [content]);
     const navigate = useNavigate();
+    const styles = useMarkdownRenderStyles();
 
     React.useEffect(() => {
         if (!wrapperElement) return;
@@ -47,9 +48,14 @@ export const MarkdownRender: React.FC<IMarkdownRenderProps> = (props) => {
 
     return (
         <React.Suspense fallback={<RenderingPlaceholder content={content} />}>
+            {/* TODO: Implement an error element. */}
             <Await errorElement={null} resolve={renderPromise}>
                 {(html: string) => (
-                    <div dangerouslySetInnerHTML={{ __html: html }} ref={setWrapperElement} />
+                    <div
+                        className={styles.root}
+                        dangerouslySetInnerHTML={{ __html: html }}
+                        ref={setWrapperElement}
+                    />
                 )}
             </Await>
         </React.Suspense>
@@ -65,7 +71,6 @@ async function renderAsync(content: string) {
         markdownModule ?? (markdownModule = await loadMarkdown());
 
     const { html, highlightPlaceholders, mathPlaceholders } = renderMarkdown(content);
-    // const htmlString = content;
     const wrapper = document.createElement("div");
     wrapper.innerHTML = sanitize(html);
 
@@ -74,6 +79,10 @@ async function renderAsync(content: string) {
 
         for (const placeholder of highlightPlaceholders) {
             const element = getPlaceholderElement(wrapper, placeholder.id);
+            if (!element) continue;
+            const cls = `language-${placeholder.lang}`;
+            element.parentElement.parentElement.className = cls; // <pre>
+            element.parentElement.className = cls; // <code>
             element.outerHTML = highlight(placeholder.code, placeholder.lang);
         }
     }
@@ -83,6 +92,7 @@ async function renderAsync(content: string) {
 
         for (const placeholder of mathPlaceholders) {
             const element = getPlaceholderElement(wrapper, placeholder.id);
+            if (!element) continue;
             element.outerHTML = renderMath(placeholder.math, placeholder.display);
         }
     }

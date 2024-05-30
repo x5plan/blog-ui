@@ -50,9 +50,8 @@ export function renderMarkdown(
                 code,
                 lang,
             });
-            const cls = `language-${lang}`;
 
-            return `<pre class="${cls}"><code class="${cls}">${generatePlaceholder(id)}</code></pre>`;
+            return `<pre><code>${generatePlaceholder(id)}</code></pre>`;
         },
     });
 
