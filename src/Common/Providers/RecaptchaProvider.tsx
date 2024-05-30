@@ -1,9 +1,7 @@
 import "@/assets/styles/recaptcha.css";
 
-import { Spinner } from "@fluentui/react-components";
 import * as React from "react";
-import type { IGoogleReCaptchaConsumerProps } from "react-google-recaptcha-v3";
-import { GoogleReCaptchaConsumer, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3-safe";
 
 import { getRecaptchaEnabled } from "@/Features/Config/Selectors";
 
@@ -23,15 +21,7 @@ export const RecaptchaProvider: React.FC<React.PropsWithChildren> = ({ children 
             useRecaptchaNet={useRecaptchaNet}
             language={recaptchaLanguageMap[language]}
         >
-            <GoogleReCaptchaConsumer>
-                {({ executeRecaptcha }: IGoogleReCaptchaConsumerProps) =>
-                    executeRecaptcha ? (
-                        children
-                    ) : (
-                        <Spinner size={"large"} style={{ height: "100%" }} />
-                    )
-                }
-            </GoogleReCaptchaConsumer>
+            {children}
         </GoogleReCaptchaProvider>
     ) : (
         children
