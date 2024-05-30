@@ -10,6 +10,12 @@ export const useMarkdownRenderStyles = makeStyles({
         "& a": {
             ...shorthands.textDecoration("none"),
             color: tokens.colorBrandForegroundLink,
+            cursor: "pointer",
+
+            "&:visited, &:link": {
+                ...shorthands.textDecoration("none"),
+                color: tokens.colorBrandForegroundLink,
+            },
 
             "&:active": {
                 ...shorthands.textDecoration("underline"),
